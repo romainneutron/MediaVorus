@@ -3,7 +3,6 @@
     "type": "library",
     "description": "MediaVorus",
     "keywords": ["metadata"],
-    "version": "master",
     "license": "MIT",
     "authors": [
         {
@@ -15,12 +14,13 @@
     "repositories": [
         {
             "type": "vcs",
-            "url": "http://github.com/romaineutron/PHPExiftool"
+            "url": "https://romainneutron@github.com/romainneutron/PHPExiftool.git"
         }
     ],
     "require": {
         "php": ">=5.3.6",
-        "symfony/http-foundation": "2.0.*"
+        "symfony/http-foundation": "2.1.*",
+        "phpexiftool/phpexiftool": ""
     },
     "autoload": {
         "psr-0": {

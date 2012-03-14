@@ -8,6 +8,7 @@ multimedia files
 
 ex :
 
+```php
 <?php
 
 $Media = \MediaVorus\Media::guess('myRawFile.cr2');
@@ -15,4 +16,6 @@ $Media = \MediaVorus\Media::guess('myRawFile.cr2');
 assert($Media instanceof '\MediaVorus\Media\Image');
 assert($Media->getMediaType() === \MediaVorus\Media::ImageType);
 assert($Media->isRaw());
+
+``` 
 

@@ -1,5 +1,5 @@
 {
-    "name": "neutron/mediavorus",
+    "name": "mediavorus/mediavorus",
     "type": "library",
     "description": "MediaVorus",
     "keywords": ["metadata"],
@@ -24,7 +24,7 @@
     },
     "autoload": {
         "psr-0": {
-            "Neutron": "src"
+            "MediaVorus": "src"
         }
     }
 }

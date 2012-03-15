@@ -20,7 +20,7 @@
     "require": {
         "php": ">=5.3.6",
         "symfony/http-foundation": "2.1.*",
-        "phpexiftool/phpexiftool": ""
+        "phpexiftool/phpexiftool": "master"
     },
     "autoload": {
         "psr-0": {

@@ -14,24 +14,24 @@ ex :
 ```php
 <?php
 
-$Media = \MediaVorus\Media::guess('myRawFile.cr2');
+$Media = \MediaVorus\Media::guess(new \SplFileInfo('tests/files/ExifTool.jpg'));
 
-if($Media instanceof '\MediaVorus\Media\Image')
+if($Media instanceof \MediaVorus\Media\Image)
 {
 
-  echo $media->getWidth();
+  echo $Media->getWidth();
 
-  echo $media->getHeight();
+  echo $Media->getHeight();
 
-  echo $media->getChannels();
+  echo $Media->getChannels();
 
-  echo $media->getFocalLength();
+  echo $Media->getFocalLength();
 
-  echo $media->getColorDepth();
+  echo $Media->getColorDepth();
 
-  echo $media->getCameraModel();
+  echo $Media->getCameraModel();
 
-  echo $media->getFlashFired();
+  echo $Media->getFlashFired();
 
 }
 

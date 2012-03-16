@@ -18,7 +18,7 @@ class DefaultMediaTest extends \PHPUnit_Framework_TestCase
 
   protected function setUp()
   {
-    $this->object = new DefaultMedia(new \SplFileInfo(__DIR__ . '/../../../files/ExifTool.jpg'));
+    $this->object = new DefaultMedia(new \SplFileInfo(__DIR__ . '/../../../files/ExifTool.jpg'), new \PHPExiftool\Exiftool());
   }
 
 

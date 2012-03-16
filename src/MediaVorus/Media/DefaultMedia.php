@@ -70,7 +70,7 @@ class DefaultMedia
    */
   protected function getMetadatas()
   {
-    return $this->exiftool->read($this->file);
+    return $this->exiftool->read($this->file)->getMetadatas();
   }
 
 }

@@ -12,8 +12,6 @@ multimedia files
 ex :
 
 ```php
-<?php
-
 $Media = \MediaVorus\Media::guess(new \SplFileInfo('tests/files/ExifTool.jpg'));
 
 if($Media instanceof \MediaVorus\Media\Image)
@@ -34,6 +32,5 @@ if($Media instanceof \MediaVorus\Media\Image)
   echo $Media->getFlashFired();
 
 }
-
 ```
 

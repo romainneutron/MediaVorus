@@ -33,7 +33,6 @@ if($Media instanceof '\MediaVorus\Media\Image')
 
   echo $media->getFlashFired();
 
-  assert($Media->isRaw());
 }
 
 ```

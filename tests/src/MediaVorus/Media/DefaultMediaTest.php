@@ -23,7 +23,7 @@ class DefaultMediaTest extends \PHPUnit_Framework_TestCase
 
 
   /**
-   * @covers {\MediaVorus\Media\DefaultMedia}::{getFile}
+   * @covers \MediaVorus\Media\DefaultMedia::getFile
    */
   public function testGetFile()
   {

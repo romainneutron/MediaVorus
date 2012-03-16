@@ -42,6 +42,8 @@ class DefaultMedia
    */
   protected $exiftool;
 
+  protected $entity;
+
   public function __construct(\SplFileInfo $file, \PHPExiftool\Exiftool $exiftool)
   {
     if (!$file instanceof SymfonyFile)
@@ -70,7 +72,12 @@ class DefaultMedia
    */
   protected function getMetadatas()
   {
-    return $this->exiftool->read($this->file)->getMetadatas();
-  }
 
+    if(!$this->entity)
+    {
+      $this->entity = $this->exiftool->read($this->file);
+    }
+
+    return $this->entity->getMetadatas();
+  }
 }

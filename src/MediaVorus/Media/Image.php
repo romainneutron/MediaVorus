@@ -29,9 +29,21 @@ namespace MediaVorus\Media;
 class Image extends DefaultMedia
 {
 
+  /**
+   * Orientation constant Horizontal (normal)
+   */
   const ORIENTATION_0 = 'Horizontal';
+  /**
+   * Orientation constant Vertical (90 CW)
+   */
   const ORIENTATION_90 = 'Vertical 90 CW';
+  /**
+   * Orientation constant Vertical (270 CW)
+   */
   const ORIENTATION_270 = 'Vertical 270 CW';
+  /**
+   * Orientation constant Horizontal (reversed)
+   */
   const ORIENTATION_180 = 'Reversed';
 
   /**
@@ -273,7 +285,7 @@ class Image extends DefaultMedia
   /**
    * Returns one one the ORIENTATION_* constants
    *
-   * @return int
+   * @return string
    */
   public function getOrientation()
   {

@@ -29,6 +29,11 @@ namespace MediaVorus\Media;
 class Image extends DefaultMedia
 {
 
+  const ORIENTATION_0 = 'Horizontal';
+  const ORIENTATION_90 = 'Vertical 90 CW';
+  const ORIENTATION_270 = 'Vertical 270 CW';
+  const ORIENTATION_180 = 'Reversed';
+
   /**
    * Return the width, null on error
    *
@@ -234,6 +239,136 @@ class Image extends DefaultMedia
 
     return null;
   }
+
+  /**
+   * Get Aperture value
+   *
+   * @return float
+   */
+  public function getAperture()
+  {
+    if ($this->getMetadatas()->containsKey('Composite:Aperture'))
+    {
+      return $this->getMetadatas()->get('Composite:Aperture')->getValue();
+    }
+
+    return null;
+  }
+
+  /**
+   * Get ShutterSpeed value
+   *
+   * @return string
+   */
+  public function getShutterSpeed()
+  {
+    if ($this->getMetadatas()->containsKey('Composite:ShutterSpeed'))
+    {
+      return $this->getMetadatas()->get('Composite:ShutterSpeed')->getValue();
+    }
+
+    return null;
+  }
+
+  /**
+   * Returns one one the ORIENTATION_* constants
+   *
+   * @return int
+   */
+  public function getOrientation()
+  {
+    if ($this->getMetadatas()->containsKey('IFD0:Orientation'))
+    {
+      $orientation = strtolower($this->getMetadatas()->get('IFD0:Orientation')->getValue());
+
+      switch(true)
+      {
+        case strpos($orientation, '90 cw') !== false:
+          return self::ORIENTATION_90;
+          break;
+        case strpos($orientation, '270 cw') !== false:
+          return self::ORIENTATION_270;
+          break;
+        case strpos($orientation, 'horizontal (normal)') !== false:
+          return self::ORIENTATION_0;
+          break;
+        case strpos($orientation, '180') !== false:
+          return self::ORIENTATION_180;
+          break;
+      }
+    }
+
+    return null;
+  }
+
+  /**
+   * Returns the Creation Date
+   *
+   * @return string
+   */
+  public function getCreationDate()
+  {
+    if ($this->getMetadatas()->containsKey('IPTC:DateCreated'))
+    {
+      return $this->getMetadatas()->get('IPTC:DateCreated')->getValue();
+    }
+    if ($this->getMetadatas()->containsKey('ExifIFD:DateTimeOriginal'))
+    {
+      return $this->getMetadatas()->get('ExifIFD:DateTimeOriginal')->getValue();
+    }
+
+    return null;
+  }
+
+  /**
+   * Return the Hyperfocal Distance
+   *
+   * @return string
+   */
+  public function getHyperfocalDistance()
+  {
+    if ($this->getMetadatas()->containsKey('Composite:HyperfocalDistance'))
+    {
+      return $this->getMetadatas()->get('Composite:HyperfocalDistance')->getValue();
+    }
+
+    return null;
+  }
+
+  /**
+   * Return the ISO value
+   *
+   * @return int
+   */
+  public function getISO()
+  {
+    if ($this->getMetadatas()->containsKey('ExifIFD:ISO'))
+    {
+      return $this->getMetadatas()->get('ExifIFD:ISO')->getValue();
+    }
+    if ($this->getMetadatas()->containsKey('IFD0:ISO'))
+    {
+      return $this->getMetadatas()->get('IFD0:ISO')->getValue();
+    }
+
+    return null;
+  }
+
+  /**
+   * Return the Light Value
+   *
+   * @return float
+   */
+  public function getLightValue()
+  {
+    if ($this->getMetadatas()->containsKey('Composite:LightValue'))
+    {
+      return $this->getMetadatas()->get('Composite:LightValue')->getValue();
+    }
+
+    return null;
+  }
+
 
   /**
    * Extract the width and height from a widthXheight serialized value

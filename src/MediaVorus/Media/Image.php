@@ -194,6 +194,48 @@ class Image extends DefaultMedia
   }
 
   /**
+   * Return true if the Flash has been fired, false if it has not been
+   * fired, null if does not know
+   *
+   * @return boolean
+   */
+  public function getFlashFired()
+  {
+    if ($this->getMetadatas()->containsKey('ExifIFD:Flash'))
+    {
+      $value = strtolower($this->getMetadatas()->get('ExifIFD:Flash')->getValue());
+      switch (true)
+      {
+        case strpos($value, 'not fire') !== false:
+        case strpos($value, 'no flash') !== false:
+        case strpos($value, 'off,') === 0:
+          return false;
+          break;
+        case strpos($value, 'fired') !== false:
+        case strpos($value, 'on,') === 0:
+          return true;
+          break;
+      }
+    }
+
+    if ($this->getMetadatas()->containsKey('XMP-exif:FlashFired'))
+    {
+      $value = strtolower($this->getMetadatas()->get('XMP-exif:FlashFired')->getValue());
+      switch (true)
+      {
+        case $value === 'true':
+          return true;
+          break;
+        case $value === 'false':
+          return false;
+          break;
+      }
+    }
+
+    return null;
+  }
+
+  /**
    * Extract the width and height from a widthXheight serialized value
    * Returns an array with width and height keys, null on error
    *

@@ -16,9 +16,25 @@ ex :
 
 $Media = \MediaVorus\Media::guess('myRawFile.cr2');
 
-assert($Media instanceof '\MediaVorus\Media\Image');
-assert($Media->getMediaType() === \MediaVorus\Media::ImageType);
-assert($Media->isRaw());
+if($Media instanceof '\MediaVorus\Media\Image')
+{
 
-``` 
+  echo $media->getWidth();
+
+  echo $media->getHeight();
+
+  echo $media->getChannels();
+
+  echo $media->getFocalLength();
+
+  echo $media->getColorDepth();
+
+  echo $media->getCameraModel();
+
+  echo $media->getFlashFired();
+
+  assert($Media->isRaw());
+}
+
+```
 

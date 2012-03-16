@@ -36,13 +36,21 @@ class DefaultMedia
    * @var \Symfony\Component\HttpFoundation\File\File
    */
   protected $file;
+  /**
+   *
+   * @var \PHPExiftool\Exiftool
+   */
+  protected $exiftool;
 
-  public function __construct(\SplFileInfo $file)
+  public function __construct(\SplFileInfo $file, \PHPExiftool\Exiftool $exiftool)
   {
     if (!$file instanceof SymfonyFile)
     {
-      $this->file = new SymfonyFile($file->getPathname());
+      $file = new SymfonyFile($file->getPathname());
     }
+
+    $this->file = $file;
+    $this->exiftool = $exiftool;
 
     return $this;
   }
@@ -54,6 +62,15 @@ class DefaultMedia
   public function getFile()
   {
     return $this->file;
+  }
+
+  /**
+   *
+   * @return \PHPExiftool\Driver\Metadata\MetadataBag
+   */
+  protected function getMetadatas()
+  {
+    return $this->exiftool->read($this->file);
   }
 
 }

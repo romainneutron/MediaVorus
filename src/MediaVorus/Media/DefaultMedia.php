@@ -238,12 +238,17 @@ class DefaultMedia
   protected function getMetadatas()
   {
 
+    return $this->getEntity()->getMetadatas();
+  }
+
+  protected function getEntity()
+  {
     if (!$this->entity)
     {
       $this->entity = $this->exiftool->read($this->file);
     }
 
-    return $this->entity->getMetadatas();
+    return $this->entity;
   }
 
 }

@@ -117,7 +117,7 @@ class DefaultMedia
   {
     if ($this->getMetadatas()->containsKey('GPS:GPSLongitudeRef'))
     {
-      switch (strtolower($this->getMetadatas()->get('GPS:GPSLongitudeRef')))
+      switch (strtolower($this->getMetadatas()->get('GPS:GPSLongitudeRef')->getValue()))
       {
         case 'west':
           return self::GPSREF_LONGITUDE_WEST;
@@ -177,13 +177,13 @@ class DefaultMedia
   {
     if ($this->getMetadatas()->containsKey('GPS:GPSLatitudeRef'))
     {
-      switch (strtolower($this->getMetadatas()->get('GPS:GPSLatitudeRef')))
+      switch (strtolower($this->getMetadatas()->get('GPS:GPSLatitudeRef')->getValue()))
       {
         case 'north':
-          return self::LATITUDE_NORTH;
+          return self::GPSREF_LATITUDE_NORTH;
           break;
         case 'south':
-          return self::LATITUDE_SOUTH;
+          return self::GPSREF_LATITUDE_SOUTH;
           break;
       }
     }

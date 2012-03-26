@@ -15,10 +15,12 @@ class DefaultMediaTest extends \PHPUnit_Framework_TestCase
    * @var DefaultMedia
    */
   protected $object;
+  protected $GPSobject;
 
   protected function setUp()
   {
     $this->object = new DefaultMedia(new \SplFileInfo(__DIR__ . '/../../../files/ExifTool.jpg'), new \PHPExiftool\Exiftool());
+    $this->GPSobject = new DefaultMedia(new \SplFileInfo(__DIR__ . '/../../../files/GPS.jpg'), new \PHPExiftool\Exiftool());
   }
 
 
@@ -27,8 +29,40 @@ class DefaultMediaTest extends \PHPUnit_Framework_TestCase
    */
   public function testGetFile()
   {
-    $this->assertInstanceOf('\Symfony\Component\HttpFoundation\File\File', $this->object->getFile());
+    $this->assertInstanceOf('\MediaVorus\File', $this->object->getFile());
     $this->assertEquals('ExifTool.jpg', $this->object->getFile()->getFilename());
+  }
+
+  /**
+   * @covers \MediaVorus\Media\DefaultMedia::getLongitude
+   */
+  public function testGetLongitude()
+  {
+    $this->assertRegExp('/([0-9]+\ deg [0-9]+\'\ [0-9\.]+")/', $this->GPSobject->getLongitude());
+  }
+
+  /**
+   * @covers \MediaVorus\Media\DefaultMedia::getLongitudeRef
+   */
+  public function testGetLongitudeRef()
+  {
+    $this->assertTrue(in_array($this->GPSobject->getLongitudeRef(), array('W','E')));
+  }
+
+  /**
+   * @covers \MediaVorus\Media\DefaultMedia::getLatitude
+   */
+  public function testGetLatitude()
+  {
+    $this->assertRegExp('/([0-9]+\ deg [0-9]+\'\ [0-9\.]+")/', $this->GPSobject->getLatitude());
+  }
+
+  /**
+   * @covers \MediaVorus\Media\DefaultMedia::getLatitudeRef
+   */
+  public function testGetLatitudeRef()
+  {
+    $this->assertTrue(in_array($this->GPSobject->getLatitudeRef(), array('N','S')));
   }
 
 }

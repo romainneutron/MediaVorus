@@ -36,7 +36,7 @@ class DefaultMedia
 
   /**
    *
-   * @var \Symfony\Component\HttpFoundation\File\File
+   * @var \MediaVorus\File
    */
   protected $file;
 
@@ -61,9 +61,9 @@ class DefaultMedia
    */
   public function __construct(\SplFileInfo $file, \PHPExiftool\Exiftool $exiftool, \PHPExiftool\FileEntity $entity = null)
   {
-    if (!$file instanceof File)
+    if (!$file instanceof \MediaVorus\File)
     {
-      $file = new File($file->getPathname());
+      $file = new \MediaVorus\File($file->getPathname());
     }
 
     $this->file = $file;
@@ -75,7 +75,7 @@ class DefaultMedia
 
   /**
    *
-   * @return \Symfony\Component\HttpFoundation\File\File
+   * @return \MediaVorus\File
    */
   public function getFile()
   {

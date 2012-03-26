@@ -61,8 +61,7 @@ Medias:
 -------
 
 
-\MediaVorus\Media\DefaultMedia
-------------------------------
+###  \MediaVorus\Media\DefaultMedia
 
 Default Media is the Default container.
 This object provides GPS informations :
@@ -99,8 +98,7 @@ if($Media instanceof \MediaVorus\Media\DefaultMedia)
 ```
 
 
-\MediaVorus\Media\Image
------------------------
+### \MediaVorus\Media\Image
 
 Media Image extends the default media, so it acquires all its method.
 It has much more methods and provides the following informations :

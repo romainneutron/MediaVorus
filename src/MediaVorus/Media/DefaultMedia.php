@@ -21,8 +21,6 @@
 
 namespace MediaVorus\Media;
 
-use \Symfony\Component\HttpFoundation\File\File as SymfonyFile;
-
 /**
  *
  * @author      Romain Neutron - imprec@gmail.com
@@ -63,9 +61,9 @@ class DefaultMedia
    */
   public function __construct(\SplFileInfo $file, \PHPExiftool\Exiftool $exiftool, \PHPExiftool\FileEntity $entity = null)
   {
-    if (!$file instanceof SymfonyFile)
+    if (!$file instanceof File)
     {
-      $file = new SymfonyFile($file->getPathname());
+      $file = new File($file->getPathname());
     }
 
     $this->file = $file;

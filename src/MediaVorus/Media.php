@@ -21,8 +21,6 @@
 
 namespace MediaVorus;
 
-use \Symfony\Component\HttpFoundation\File\File as SymfonyFile;
-
 /**
  *
  * @author      Romain Neutron - imprec@gmail.com
@@ -34,23 +32,29 @@ class Media
   public static function guess(\SplFileInfo $file)
   {
 
-    if (!$file instanceof SymfonyFile)
+    if ( ! $file instanceof File)
     {
-      $file = new SymfonyFile($file->getPathname());
+      $file = new File($file->getPathname());
     }
 
-    $mime = $file->getMimeType();
+    $classname = static::guessFromMimeType($file->getMimeType());
+
+    return new $classname($file, new \PHPExiftool\Exiftool());
+  }
+
+  protected static function guessFromMimeType($mime)
+  {
 
     switch ($mime)
     {
       case strpos($mime, 'image/') === 0:
       case 'application/postscript':
-        return new Media\Image($file, new \PHPExiftool\Exiftool);
+        return 'MediaVorus\Media\Image';
         break;
 
       case strpos($mime, 'video/') === 0:
       case 'application/vnd.rn-realmedia':
-        return new Media\Video($file, new \PHPExiftool\Exiftool);
+        return 'MediaVorus\Media\Video';
         break;
 
       case strpos($mime, 'audio/') === 0:
@@ -80,8 +84,25 @@ class Media
         break;
     }
 
+    return 'MediaVorus\Media\DefaultMedia';
+  }
 
-    return new Media\DefaultMedia($file, new \PHPExiftool\Exiftool());
+  public static function inspectDirectory(\SplFileInfo $dir, $recursive = false)
+  {
+    $exiftool = new \PHPExiftool\Exiftool();
+
+    $Files = new \Doctrine\Common\Collections\ArrayCollection();
+
+    foreach ($entities = $exiftool->readDirectory($dir, $recursive) as $entity)
+    {
+      $file = new File($entity->getFile());
+
+      $classname = static::guessFromMimeType($file->getMimeType());
+
+      $Files[] = new $classname($file, $exiftool, $entity);
+    }
+
+    return $Files;
   }
 
 }

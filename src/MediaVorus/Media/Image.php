@@ -25,6 +25,8 @@ namespace MediaVorus\Media;
  *
  * @author      Romain Neutron - imprec@gmail.com
  * @license     http://opensource.org/licenses/MIT MIT
+ *
+ * @todo refactor Meta resolver to an independant object
  */
 class Image extends DefaultMedia
 {
@@ -55,7 +57,7 @@ class Image extends DefaultMedia
   {
     if ($this->getMetadatas()->containsKey('File:ImageWidth'))
     {
-      return $this->getMetadatas()->get('File:ImageWidth')->getValue();
+      return (int) $this->getMetadatas()->get('File:ImageWidth')->getValue();
     }
 
     if ($this->getMetadatas()->containsKey('Composite:ImageSize'))
@@ -66,23 +68,23 @@ class Image extends DefaultMedia
 
       if ($dimensions)
       {
-        return $dimensions['width'];
+        return (int) $dimensions['width'];
       }
     }
 
     if ($this->getMetadatas()->containsKey('SubIFD:ImageWidth'))
     {
-      return $this->getMetadatas()->get('ExifIFD:ExifImageWidth')->getValue();
+      return (int) $this->getMetadatas()->get('ExifIFD:ExifImageWidth')->getValue();
     }
 
     if ($this->getMetadatas()->containsKey('IFD0:ImageWidth'))
     {
-      return $this->getMetadatas()->get('ExifIFD:ExifImageWidth')->getValue();
+      return (int) $this->getMetadatas()->get('ExifIFD:ExifImageWidth')->getValue();
     }
 
     if ($this->getMetadatas()->containsKey('ExifIFD:ExifImageWidth'))
     {
-      return $this->getMetadatas()->get('ExifIFD:ExifImageWidth')->getValue();
+      return (int) $this->getMetadatas()->get('ExifIFD:ExifImageWidth')->getValue();
     }
 
     return null;
@@ -97,7 +99,7 @@ class Image extends DefaultMedia
   {
     if ($this->getMetadatas()->containsKey('File:ImageHeight'))
     {
-      return $this->getMetadatas()->get('File:ImageHeight')->getValue();
+      return (int) $this->getMetadatas()->get('File:ImageHeight')->getValue();
     }
 
     if ($this->getMetadatas()->containsKey('Composite:ImageSize'))
@@ -108,23 +110,23 @@ class Image extends DefaultMedia
 
       if ($dimensions)
       {
-        return $dimensions['height'];
+        return (int) $dimensions['height'];
       }
     }
 
     if ($this->getMetadatas()->containsKey('SubIFD:ImageHeight'))
     {
-      return $this->getMetadatas()->get('ExifIFD:ImageHeight')->getValue();
+      return (int) $this->getMetadatas()->get('ExifIFD:ImageHeight')->getValue();
     }
 
     if ($this->getMetadatas()->containsKey('IFD0:ImageHeight'))
     {
-      return $this->getMetadatas()->get('ExifIFD:ImageHeight')->getValue();
+      return (int) $this->getMetadatas()->get('ExifIFD:ImageHeight')->getValue();
     }
 
     if ($this->getMetadatas()->containsKey('ExifIFD:ExifImageHeight'))
     {
-      return $this->getMetadatas()->get('ExifIFD:ExifImageHeight')->getValue();
+      return (int) $this->getMetadatas()->get('ExifIFD:ExifImageHeight')->getValue();
     }
 
     return null;
@@ -139,11 +141,11 @@ class Image extends DefaultMedia
   {
     if ($this->getMetadatas()->containsKey('File:ColorComponents'))
     {
-      return $this->getMetadatas()->get('File:ColorComponents')->getValue();
+      return (int) $this->getMetadatas()->get('File:ColorComponents')->getValue();
     }
     if ($this->getMetadatas()->containsKey('IFD0:SamplesPerPixel'))
     {
-      return $this->getMetadatas()->get('IFD0:SamplesPerPixel')->getValue();
+      return (int) $this->getMetadatas()->get('IFD0:SamplesPerPixel')->getValue();
     }
 
     return null;
@@ -177,11 +179,11 @@ class Image extends DefaultMedia
   {
     if ($this->getMetadatas()->containsKey('File:BitsPerSample'))
     {
-      return $this->getMetadatas()->get('File:BitsPerSample')->getValue();
+      return (int) $this->getMetadatas()->get('File:BitsPerSample')->getValue();
     }
     if ($this->getMetadatas()->containsKey('IFD0:BitsPerSample'))
     {
-      return $this->getMetadatas()->get('IFD0:BitsPerSample')->getValue();
+      return (int) $this->getMetadatas()->get('IFD0:BitsPerSample')->getValue();
     }
 
     return null;
@@ -316,6 +318,9 @@ class Image extends DefaultMedia
   /**
    * Returns the Creation Date
    *
+   * @todo rename in getDateTaken to avoid conflicts with the original file
+   * properties, return a DateTime object
+   *
    * @return string
    */
   public function getCreationDate()
@@ -356,11 +361,11 @@ class Image extends DefaultMedia
   {
     if ($this->getMetadatas()->containsKey('ExifIFD:ISO'))
     {
-      return $this->getMetadatas()->get('ExifIFD:ISO')->getValue();
+      return (int) $this->getMetadatas()->get('ExifIFD:ISO')->getValue();
     }
     if ($this->getMetadatas()->containsKey('IFD0:ISO'))
     {
-      return $this->getMetadatas()->get('IFD0:ISO')->getValue();
+      return (int) $this->getMetadatas()->get('IFD0:ISO')->getValue();
     }
 
     return null;

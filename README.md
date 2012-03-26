@@ -26,13 +26,13 @@ if($Media instanceof \MediaVorus\Media\Image)
 Goals
 -----
 
-This library is built on Symfony\HttpFoundation component for handling files
-and PHPExiftool which is a PHP driver for Exiftool.
-Doctrine Common Package is also required to take advantage of the powerful
-ArrayCollection
-
 The aim is to provide an abstract layer between the program and the multimedia
 file.
+
+This library is built with the Symfony\HttpFoundation component
+and PHPExiftool.
+Doctrine Common Package is also required to take advantage of the powerful
+ArrayCollection.
 
 First, the need is to analyze multimedia files and get their properties.
 

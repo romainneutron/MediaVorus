@@ -61,7 +61,7 @@ class DefaultMedia
    * @param \PHPExiftool\Exiftool $exiftool
    * @return \MediaVorus\Media\DefaultMedia
    */
-  public function __construct(\SplFileInfo $file, \PHPExiftool\Exiftool $exiftool)
+  public function __construct(\SplFileInfo $file, \PHPExiftool\Exiftool $exiftool, \PHPExiftool\FileEntity $entity = null)
   {
     if (!$file instanceof SymfonyFile)
     {
@@ -70,6 +70,7 @@ class DefaultMedia
 
     $this->file = $file;
     $this->exiftool = $exiftool;
+    $this->entity = $entity;
 
     return $this;
   }

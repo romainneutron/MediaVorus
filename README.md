@@ -43,8 +43,8 @@ configurations.
 API
 ===
 
-\MediaVorus\Media
------------------
+Guesser
+-------
 
 ```php
 <?php
@@ -57,8 +57,12 @@ $MediaCollection = \MediaVorus\Media::inspectDirectory($dir, $recursive);
 ```
 
 
+Medias:
+-------
+
+
 \MediaVorus\Media\DefaultMedia
------------------------
+------------------------------
 
 Default Media is the Default container.
 This object provides GPS informations :
@@ -109,6 +113,10 @@ $Media = \MediaVorus\Media::guess(new \SplFileInfo('tests/files/ExifTool.jpg'));
 
 if($Media instanceof \MediaVorus\Media\Image)
 {
+    /**
+     * It extends the DefaultMedia
+     */
+    assert($Media instanceof \MediaVorus\Media\DefaultMedia);
     /**
      * Returns the width (int)
      */

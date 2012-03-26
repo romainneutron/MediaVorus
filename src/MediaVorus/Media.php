@@ -29,6 +29,12 @@ namespace MediaVorus;
 class Media
 {
 
+  /**
+   * Build a Media Object given a file
+   *
+   * @param \SplFileInfo $file
+   * @return \MediaVorus\Media\DefaultMedia
+   */
   public static function guess(\SplFileInfo $file)
   {
 
@@ -42,6 +48,37 @@ class Media
     return new $classname($file, new \PHPExiftool\Exiftool());
   }
 
+  /**
+   *
+   * @param \SplFileInfo $dir
+   * @param type $recursive
+   * @return \Doctrine\Common\Collections\ArrayCollection
+   */
+  public static function inspectDirectory(\SplFileInfo $dir, $recursive = false)
+  {
+    $exiftool = new \PHPExiftool\Exiftool();
+
+    $Files = new \Doctrine\Common\Collections\ArrayCollection();
+
+    foreach ($entities = $exiftool->readDirectory($dir, $recursive) as $entity)
+    {
+      $file = new File($entity->getFile());
+
+      $classname = static::guessFromMimeType($file->getMimeType());
+
+      $Files[] = new $classname($file, $exiftool, $entity);
+    }
+
+    return $Files;
+  }
+
+  /**
+   * Return the corresponding \MediaVorus\Media\* class corresponding to a
+   * mimetype
+   *
+   * @param string $mime
+   * @return string The name of the MediaType class to use
+   */
   protected static function guessFromMimeType($mime)
   {
 
@@ -57,9 +94,15 @@ class Media
         return 'MediaVorus\Media\Video';
         break;
 
+      /**
+       * @todo Implements Audio
+       */
       case strpos($mime, 'audio/') === 0:
         break;
 
+      /**
+       * @todo Implements Documents
+       */
       case 'text/plain':
       case 'application/msword':
       case 'application/access':
@@ -77,6 +120,9 @@ class Media
       case 'application/vnd.oasis.opendocument.text':
         break;
 
+      /**
+       * @todo Implements Flash
+       */
       case 'application/x-shockwave-flash':
         break;
 
@@ -85,24 +131,6 @@ class Media
     }
 
     return 'MediaVorus\Media\DefaultMedia';
-  }
-
-  public static function inspectDirectory(\SplFileInfo $dir, $recursive = false)
-  {
-    $exiftool = new \PHPExiftool\Exiftool();
-
-    $Files = new \Doctrine\Common\Collections\ArrayCollection();
-
-    foreach ($entities = $exiftool->readDirectory($dir, $recursive) as $entity)
-    {
-      $file = new File($entity->getFile());
-
-      $classname = static::guessFromMimeType($file->getMimeType());
-
-      $Files[] = new $classname($file, $exiftool, $entity);
-    }
-
-    return $Files;
   }
 
 }

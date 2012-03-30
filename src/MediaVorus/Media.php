@@ -81,8 +81,7 @@ class Media
    */
   protected static function guessFromMimeType($mime)
   {
-
-    switch ($mime)
+    switch (true)
     {
       case strpos($mime, 'image/') === 0:
       case 'application/postscript':

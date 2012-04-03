@@ -31,379 +31,455 @@ namespace MediaVorus\Media;
 class Image extends DefaultMedia
 {
 
-  /**
-   * Orientation constant Horizontal (normal)
-   */
-  const ORIENTATION_0 = 'Horizontal';
-  /**
-   * Orientation constant Vertical (90 CW)
-   */
-  const ORIENTATION_90 = 'Vertical 90 CW';
-  /**
-   * Orientation constant Vertical (270 CW)
-   */
-  const ORIENTATION_270 = 'Vertical 270 CW';
-  /**
-   * Orientation constant Horizontal (reversed)
-   */
-  const ORIENTATION_180 = 'Reversed';
+    /**
+     * Orientation constant Horizontal (normal)
+     */
+    const ORIENTATION_0   = 'Horizontal';
+    /**
+     * Orientation constant Vertical (90 CW)
+     */
+    const ORIENTATION_90  = 'Vertical 90 CW';
+    /**
+     * Orientation constant Vertical (270 CW)
+     */
+    const ORIENTATION_270 = 'Vertical 270 CW';
+    /**
+     * Orientation constant Horizontal (reversed)
+     */
+    const ORIENTATION_180 = 'Reversed';
+    /**
+     * Colorspace constant CMYK
+     */
+    const COLORSPACE_CMYK      = 'CMYK';
+    /**
+     * Colorspace constant RGB
+     */
+    const COLORSPACE_RGB       = 'RGB';
+    /**
+     * Colorspace constant sRGB
+     */
+    const COLORSPACE_SRGB      = 'sRGB';
+    /**
+     * Colorspace constant Grayscale
+     */
+    const COLORSPACE_GRAYSCALE = 'Grayscale';
 
-  /**
-   * Return the width, null on error
-   *
-   * @return int
-   */
-  public function getWidth()
-  {
-    if ($this->getMetadatas()->containsKey('File:ImageWidth'))
+    /**
+     * Returns true if the document is a "Raw" image
+     *
+     * @return boolean
+     */
+    public function isRawImage()
     {
-      return (int) $this->getMetadatas()->get('File:ImageWidth')->getValue();
+        return in_array($this->getFile()->getMimeType(), \MediaVorus\RawImageMimeTypeGuesser::$rawMimeTypes);
     }
 
-    if ($this->getMetadatas()->containsKey('Composite:ImageSize'))
+    /**
+     * Returns true if the document has multiple layers.
+     * This method is supposed to be used to extract layer 0 with ImageMagick
+     *
+     * @return type
+     */
+    public function hasMultipleLayers()
     {
-      $dimensions = $this->extractFromDimensions(
-        $this->getMetadatas()->get('Composite:ImageSize')->getValue()
-      );
-
-      if ($dimensions)
-      {
-        return (int) $dimensions['width'];
-      }
+        return in_array($this->getFile()->getMimeType(), array(
+            'image/tiff',
+            'application/pdf',
+            'image/psd',
+            'image/vnd.adobe.photoshop',
+            'image/photoshop',
+            'image/ai',
+            'image/illustrator',
+            'image/vnd.adobe.illustrator'
+          ));
     }
 
-    if ($this->getMetadatas()->containsKey('SubIFD:ImageWidth'))
+    /**
+     * Return the width, null on error
+     *
+     * @return int
+     */
+    public function getWidth()
     {
-      return (int) $this->getMetadatas()->get('ExifIFD:ExifImageWidth')->getValue();
+        if ($this->getMetadatas()->containsKey('File:ImageWidth'))
+        {
+            return (int) $this->getMetadatas()->get('File:ImageWidth')->getValue();
+        }
+
+        if ($this->getMetadatas()->containsKey('Composite:ImageSize'))
+        {
+            $dimensions = $this->extractFromDimensions(
+              $this->getMetadatas()->get('Composite:ImageSize')->getValue()
+            );
+
+            if ($dimensions)
+            {
+                return (int) $dimensions['width'];
+            }
+        }
+
+        if ($this->getMetadatas()->containsKey('SubIFD:ImageWidth'))
+        {
+            return (int) $this->getMetadatas()->get('ExifIFD:ExifImageWidth')->getValue();
+        }
+
+        if ($this->getMetadatas()->containsKey('IFD0:ImageWidth'))
+        {
+            return (int) $this->getMetadatas()->get('ExifIFD:ExifImageWidth')->getValue();
+        }
+
+        if ($this->getMetadatas()->containsKey('ExifIFD:ExifImageWidth'))
+        {
+            return (int) $this->getMetadatas()->get('ExifIFD:ExifImageWidth')->getValue();
+        }
+
+        return null;
     }
 
-    if ($this->getMetadatas()->containsKey('IFD0:ImageWidth'))
+    /**
+     * Return the height, null on error
+     *
+     * @return int
+     */
+    public function getHeight()
     {
-      return (int) $this->getMetadatas()->get('ExifIFD:ExifImageWidth')->getValue();
+        if ($this->getMetadatas()->containsKey('File:ImageHeight'))
+        {
+            return (int) $this->getMetadatas()->get('File:ImageHeight')->getValue();
+        }
+
+        if ($this->getMetadatas()->containsKey('Composite:ImageSize'))
+        {
+            $dimensions = $this->extractFromDimensions(
+              $this->getMetadatas()->get('Composite:ImageSize')->getValue()
+            );
+
+            if ($dimensions)
+            {
+                return (int) $dimensions['height'];
+            }
+        }
+
+        if ($this->getMetadatas()->containsKey('SubIFD:ImageHeight'))
+        {
+            return (int) $this->getMetadatas()->get('ExifIFD:ImageHeight')->getValue();
+        }
+
+        if ($this->getMetadatas()->containsKey('IFD0:ImageHeight'))
+        {
+            return (int) $this->getMetadatas()->get('ExifIFD:ImageHeight')->getValue();
+        }
+
+        if ($this->getMetadatas()->containsKey('ExifIFD:ExifImageHeight'))
+        {
+            return (int) $this->getMetadatas()->get('ExifIFD:ExifImageHeight')->getValue();
+        }
+
+        return null;
     }
 
-    if ($this->getMetadatas()->containsKey('ExifIFD:ExifImageWidth'))
+    /**
+     * Return the number of channels (samples per pixel), null on error
+     *
+     * @return int
+     */
+    public function getChannels()
     {
-      return (int) $this->getMetadatas()->get('ExifIFD:ExifImageWidth')->getValue();
+        if ($this->getMetadatas()->containsKey('File:ColorComponents'))
+        {
+            return (int) $this->getMetadatas()->get('File:ColorComponents')->getValue();
+        }
+        if ($this->getMetadatas()->containsKey('IFD0:SamplesPerPixel'))
+        {
+            return (int) $this->getMetadatas()->get('IFD0:SamplesPerPixel')->getValue();
+        }
+
+        return null;
     }
 
-    return null;
-  }
-
-  /**
-   * Return the height, null on error
-   *
-   * @return int
-   */
-  public function getHeight()
-  {
-    if ($this->getMetadatas()->containsKey('File:ImageHeight'))
+    /**
+     * Return the focal length used by the camera, null on error
+     *
+     * @return string
+     */
+    public function getFocalLength()
     {
-      return (int) $this->getMetadatas()->get('File:ImageHeight')->getValue();
+        if ($this->getMetadatas()->containsKey('ExifIFD:FocalLength'))
+        {
+            return $this->getMetadatas()->get('ExifIFD:FocalLength')->getValue();
+        }
+        if ($this->getMetadatas()->containsKey('XMP-exif:FocalLength'))
+        {
+            return $this->getMetadatas()->get('XMP-exif:FocalLength')->getValue();
+        }
+
+        return null;
     }
 
-    if ($this->getMetadatas()->containsKey('Composite:ImageSize'))
+    /**
+     * Return the color depth (bits per sample), null on error
+     *
+     * @return int
+     */
+    public function getColorDepth()
     {
-      $dimensions = $this->extractFromDimensions(
-        $this->getMetadatas()->get('Composite:ImageSize')->getValue()
-      );
+        if ($this->getMetadatas()->containsKey('File:BitsPerSample'))
+        {
+            return (int) $this->getMetadatas()->get('File:BitsPerSample')->getValue();
+        }
+        if ($this->getMetadatas()->containsKey('IFD0:BitsPerSample'))
+        {
+            return (int) $this->getMetadatas()->get('IFD0:BitsPerSample')->getValue();
+        }
 
-      if ($dimensions)
-      {
-        return (int) $dimensions['height'];
-      }
+        return null;
     }
 
-    if ($this->getMetadatas()->containsKey('SubIFD:ImageHeight'))
+    /**
+     * Return the camera model, null on error
+     *
+     * @return string
+     */
+    public function getCameraModel()
     {
-      return (int) $this->getMetadatas()->get('ExifIFD:ImageHeight')->getValue();
+        if ($this->getMetadatas()->containsKey('IFD0:Model'))
+        {
+            return $this->getMetadatas()->get('IFD0:Model')->getValue();
+        }
+        if ($this->getMetadatas()->containsKey('IFD0:UniqueCameraModel'))
+        {
+            return $this->getMetadatas()->get('IFD0:UniqueCameraModel')->getValue();
+        }
+        if ($this->getMetadatas()->containsKey('IFD0:UniqueCameraModel'))
+        {
+            return $this->getMetadatas()->get('IFD0:UniqueCameraModel')->getValue();
+        }
+
+        return null;
     }
 
-    if ($this->getMetadatas()->containsKey('IFD0:ImageHeight'))
+    /**
+     * Return true if the Flash has been fired, false if it has not been
+     * fired, null if does not know
+     *
+     * @return boolean
+     */
+    public function getFlashFired()
     {
-      return (int) $this->getMetadatas()->get('ExifIFD:ImageHeight')->getValue();
+        if ($this->getMetadatas()->containsKey('ExifIFD:Flash'))
+        {
+            $value = strtolower($this->getMetadatas()->get('ExifIFD:Flash')->getValue());
+            switch (true)
+            {
+                case strpos($value, 'not fire') !== false:
+                case strpos($value, 'no flash') !== false:
+                case strpos($value, 'off,') === 0:
+                    return false;
+                    break;
+                case strpos($value, 'fired') !== false:
+                case strpos($value, 'on,') === 0:
+                    return true;
+                    break;
+            }
+        }
+
+        if ($this->getMetadatas()->containsKey('XMP-exif:FlashFired'))
+        {
+            $value = strtolower($this->getMetadatas()->get('XMP-exif:FlashFired')->getValue());
+            switch (true)
+            {
+                case $value === 'true':
+                    return true;
+                    break;
+                case $value === 'false':
+                    return false;
+                    break;
+            }
+        }
+
+        return null;
     }
 
-    if ($this->getMetadatas()->containsKey('ExifIFD:ExifImageHeight'))
+    /**
+     * Get Aperture value
+     *
+     * @return float
+     */
+    public function getAperture()
     {
-      return (int) $this->getMetadatas()->get('ExifIFD:ExifImageHeight')->getValue();
+        if ($this->getMetadatas()->containsKey('Composite:Aperture'))
+        {
+            return $this->getMetadatas()->get('Composite:Aperture')->getValue();
+        }
+
+        return null;
     }
 
-    return null;
-  }
+    /**
+     * Get ShutterSpeed value
+     *
+     * @return string
+     */
+    public function getShutterSpeed()
+    {
+        if ($this->getMetadatas()->containsKey('Composite:ShutterSpeed'))
+        {
+            return $this->getMetadatas()->get('Composite:ShutterSpeed')->getValue();
+        }
 
-  /**
-   * Return the number of channels (samples per pixel), null on error
-   *
-   * @return int
-   */
-  public function getChannels()
-  {
-    if ($this->getMetadatas()->containsKey('File:ColorComponents'))
-    {
-      return (int) $this->getMetadatas()->get('File:ColorComponents')->getValue();
-    }
-    if ($this->getMetadatas()->containsKey('IFD0:SamplesPerPixel'))
-    {
-      return (int) $this->getMetadatas()->get('IFD0:SamplesPerPixel')->getValue();
+        return null;
     }
 
-    return null;
-  }
+    /**
+     * Returns one one the ORIENTATION_* constants
+     *
+     * @return string
+     */
+    public function getOrientation()
+    {
+        if ($this->getMetadatas()->containsKey('IFD0:Orientation'))
+        {
+            $orientation = strtolower($this->getMetadatas()->get('IFD0:Orientation')->getValue());
 
-  /**
-   * Return the focal length used by the camera, null on error
-   *
-   * @return string
-   */
-  public function getFocalLength()
-  {
-    if ($this->getMetadatas()->containsKey('ExifIFD:FocalLength'))
-    {
-      return $this->getMetadatas()->get('ExifIFD:FocalLength')->getValue();
-    }
-    if ($this->getMetadatas()->containsKey('XMP-exif:FocalLength'))
-    {
-      return $this->getMetadatas()->get('XMP-exif:FocalLength')->getValue();
-    }
+            switch (true)
+            {
+                case strpos($orientation, '90 cw') !== false:
+                    return self::ORIENTATION_90;
+                    break;
+                case strpos($orientation, '270 cw') !== false:
+                    return self::ORIENTATION_270;
+                    break;
+                case strpos($orientation, 'horizontal (normal)') !== false:
+                    return self::ORIENTATION_0;
+                    break;
+                case strpos($orientation, '180') !== false:
+                    return self::ORIENTATION_180;
+                    break;
+            }
+        }
 
-    return null;
-  }
-
-  /**
-   * Return the color depth (bits per sample), null on error
-   *
-   * @return int
-   */
-  public function getColorDepth()
-  {
-    if ($this->getMetadatas()->containsKey('File:BitsPerSample'))
-    {
-      return (int) $this->getMetadatas()->get('File:BitsPerSample')->getValue();
-    }
-    if ($this->getMetadatas()->containsKey('IFD0:BitsPerSample'))
-    {
-      return (int) $this->getMetadatas()->get('IFD0:BitsPerSample')->getValue();
+        return null;
     }
 
-    return null;
-  }
+    /**
+     * Returns the Creation Date
+     *
+     * @todo rename in getDateTaken to avoid conflicts with the original file
+     * properties, return a DateTime object
+     *
+     * @return string
+     */
+    public function getCreationDate()
+    {
+        if ($this->getMetadatas()->containsKey('IPTC:DateCreated'))
+        {
+            return $this->getMetadatas()->get('IPTC:DateCreated')->getValue();
+        }
+        if ($this->getMetadatas()->containsKey('ExifIFD:DateTimeOriginal'))
+        {
+            return $this->getMetadatas()->get('ExifIFD:DateTimeOriginal')->getValue();
+        }
 
-  /**
-   * Return the camera model, null on error
-   *
-   * @return string
-   */
-  public function getCameraModel()
-  {
-    if ($this->getMetadatas()->containsKey('IFD0:Model'))
-    {
-      return $this->getMetadatas()->get('IFD0:Model')->getValue();
-    }
-    if ($this->getMetadatas()->containsKey('IFD0:UniqueCameraModel'))
-    {
-      return $this->getMetadatas()->get('IFD0:UniqueCameraModel')->getValue();
-    }
-    if ($this->getMetadatas()->containsKey('IFD0:UniqueCameraModel'))
-    {
-      return $this->getMetadatas()->get('IFD0:UniqueCameraModel')->getValue();
-    }
-
-    return null;
-  }
-
-  /**
-   * Return true if the Flash has been fired, false if it has not been
-   * fired, null if does not know
-   *
-   * @return boolean
-   */
-  public function getFlashFired()
-  {
-    if ($this->getMetadatas()->containsKey('ExifIFD:Flash'))
-    {
-      $value = strtolower($this->getMetadatas()->get('ExifIFD:Flash')->getValue());
-      switch (true)
-      {
-        case strpos($value, 'not fire') !== false:
-        case strpos($value, 'no flash') !== false:
-        case strpos($value, 'off,') === 0:
-          return false;
-          break;
-        case strpos($value, 'fired') !== false:
-        case strpos($value, 'on,') === 0:
-          return true;
-          break;
-      }
+        return null;
     }
 
-    if ($this->getMetadatas()->containsKey('XMP-exif:FlashFired'))
+    /**
+     * Return the Hyperfocal Distance
+     *
+     * @return string
+     */
+    public function getHyperfocalDistance()
     {
-      $value = strtolower($this->getMetadatas()->get('XMP-exif:FlashFired')->getValue());
-      switch (true)
-      {
-        case $value === 'true':
-          return true;
-          break;
-        case $value === 'false':
-          return false;
-          break;
-      }
+        if ($this->getMetadatas()->containsKey('Composite:HyperfocalDistance'))
+        {
+            return $this->getMetadatas()->get('Composite:HyperfocalDistance')->getValue();
+        }
+
+        return null;
     }
 
-    return null;
-  }
-
-  /**
-   * Get Aperture value
-   *
-   * @return float
-   */
-  public function getAperture()
-  {
-    if ($this->getMetadatas()->containsKey('Composite:Aperture'))
+    /**
+     * Return the ISO value
+     *
+     * @return int
+     */
+    public function getISO()
     {
-      return $this->getMetadatas()->get('Composite:Aperture')->getValue();
+        if ($this->getMetadatas()->containsKey('ExifIFD:ISO'))
+        {
+            return (int) $this->getMetadatas()->get('ExifIFD:ISO')->getValue();
+        }
+        if ($this->getMetadatas()->containsKey('IFD0:ISO'))
+        {
+            return (int) $this->getMetadatas()->get('IFD0:ISO')->getValue();
+        }
+
+        return null;
     }
 
-    return null;
-  }
-
-  /**
-   * Get ShutterSpeed value
-   *
-   * @return string
-   */
-  public function getShutterSpeed()
-  {
-    if ($this->getMetadatas()->containsKey('Composite:ShutterSpeed'))
+    /**
+     * Return the Light Value
+     *
+     * @return float
+     */
+    public function getLightValue()
     {
-      return $this->getMetadatas()->get('Composite:ShutterSpeed')->getValue();
+        if ($this->getMetadatas()->containsKey('Composite:LightValue'))
+        {
+            return $this->getMetadatas()->get('Composite:LightValue')->getValue();
+        }
+
+        return null;
     }
 
-    return null;
-  }
-
-  /**
-   * Returns one one the ORIENTATION_* constants
-   *
-   * @return string
-   */
-  public function getOrientation()
-  {
-    if ($this->getMetadatas()->containsKey('IFD0:Orientation'))
+    /**
+     * Returns the colorspace as one of the COLORSPACE_* constants
+     *
+     * @return string
+     */
+    public function getColorSpace()
     {
-      $orientation = strtolower($this->getMetadatas()->get('IFD0:Orientation')->getValue());
+        $regexp = '/.*:(colorspace|colormode|colorspacedata)/i';
 
-      switch(true)
-      {
-        case strpos($orientation, '90 cw') !== false:
-          return self::ORIENTATION_90;
-          break;
-        case strpos($orientation, '270 cw') !== false:
-          return self::ORIENTATION_270;
-          break;
-        case strpos($orientation, 'horizontal (normal)') !== false:
-          return self::ORIENTATION_0;
-          break;
-        case strpos($orientation, '180') !== false:
-          return self::ORIENTATION_180;
-          break;
-      }
+        foreach ($this->getMetadatas()->filterKeysByRegExp($regexp) as $meta)
+        {
+            switch (strtolower(trim($meta->getValue())))
+            {
+                case 'cmyk':
+                    return self::COLORSPACE_CMYK;
+                    break;
+                case 'srgb':
+                    return self::COLORSPACE_SRGB;
+                    break;
+                case 'rgb':
+                    return self::COLORSPACE_RGB;
+                    break;
+                case 'grayscale':
+                    return self::COLORSPACE_GRAYSCALE;
+                    break;
+            }
+        }
+
+        return null;
     }
 
-    return null;
-  }
-
-  /**
-   * Returns the Creation Date
-   *
-   * @todo rename in getDateTaken to avoid conflicts with the original file
-   * properties, return a DateTime object
-   *
-   * @return string
-   */
-  public function getCreationDate()
-  {
-    if ($this->getMetadatas()->containsKey('IPTC:DateCreated'))
+    /**
+     * Extract the width and height from a widthXheight serialized value
+     * Returns an array with width and height keys, null on error
+     *
+     * @param type $WidthXHeight
+     * @return array
+     */
+    protected function extractFromDimensions($WidthXHeight)
     {
-      return $this->getMetadatas()->get('IPTC:DateCreated')->getValue();
+        $values = explode('x', strtolower($WidthXHeight));
+
+        if (count($values) === 2 && ctype_digit($values[0]) && ctype_digit($values[1]))
+        {
+            return array('width'  => $values[0], 'height' => $values[1]);
+        }
+
+        return null;
     }
-    if ($this->getMetadatas()->containsKey('ExifIFD:DateTimeOriginal'))
-    {
-      return $this->getMetadatas()->get('ExifIFD:DateTimeOriginal')->getValue();
-    }
-
-    return null;
-  }
-
-  /**
-   * Return the Hyperfocal Distance
-   *
-   * @return string
-   */
-  public function getHyperfocalDistance()
-  {
-    if ($this->getMetadatas()->containsKey('Composite:HyperfocalDistance'))
-    {
-      return $this->getMetadatas()->get('Composite:HyperfocalDistance')->getValue();
-    }
-
-    return null;
-  }
-
-  /**
-   * Return the ISO value
-   *
-   * @return int
-   */
-  public function getISO()
-  {
-    if ($this->getMetadatas()->containsKey('ExifIFD:ISO'))
-    {
-      return (int) $this->getMetadatas()->get('ExifIFD:ISO')->getValue();
-    }
-    if ($this->getMetadatas()->containsKey('IFD0:ISO'))
-    {
-      return (int) $this->getMetadatas()->get('IFD0:ISO')->getValue();
-    }
-
-    return null;
-  }
-
-  /**
-   * Return the Light Value
-   *
-   * @return float
-   */
-  public function getLightValue()
-  {
-    if ($this->getMetadatas()->containsKey('Composite:LightValue'))
-    {
-      return $this->getMetadatas()->get('Composite:LightValue')->getValue();
-    }
-
-    return null;
-  }
-
-
-  /**
-   * Extract the width and height from a widthXheight serialized value
-   * Returns an array with width and height keys, null on error
-   *
-   * @param type $WidthXHeight
-   * @return array
-   */
-  protected function extractFromDimensions($WidthXHeight)
-  {
-    $values = explode('x', strtolower($WidthXHeight));
-
-    if (count($values) === 2 && ctype_digit($values[0]) && ctype_digit($values[1]))
-    {
-      return array('width'  => $values[0], 'height' => $values[1]);
-    }
-
-    return null;
-  }
 
 }

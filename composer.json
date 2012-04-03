@@ -11,16 +11,10 @@
         "homepage": "http://www.lickmychip.com/"
     }
     ],
-    "repositories": [
-    {
-        "type": "vcs",
-        "url": "https://romainneutron@github.com/romainneutron/PHPExiftool.git"
-    }
-    ],
     "require": {
         "php": ">=5.3.6",
         "symfony/http-foundation": "2.1.*",
-        "phpexiftool/phpexiftool": "master"
+        "phpexiftool/phpexiftool": "dev-master"
     },
     "autoload": {
         "psr-0": {

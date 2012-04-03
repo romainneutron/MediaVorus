@@ -29,225 +29,225 @@ namespace MediaVorus\Media;
 class DefaultMedia
 {
 
-  const GPSREF_LONGITUDE_WEST = 'W';
-  const GPSREF_LONGITUDE_EAST = 'E';
-  const GPSREF_LATITUDE_NORTH = 'N';
-  const GPSREF_LATITUDE_SOUTH = 'S';
+    const GPSREF_LONGITUDE_WEST = 'W';
+    const GPSREF_LONGITUDE_EAST = 'E';
+    const GPSREF_LATITUDE_NORTH = 'N';
+    const GPSREF_LATITUDE_SOUTH = 'S';
 
-  /**
-   *
-   * @var \MediaVorus\File
-   */
-  protected $file;
+    /**
+     *
+     * @var \MediaVorus\File
+     */
+    protected $file;
 
-  /**
-   *
-   * @var \PHPExiftool\Exiftool
-   */
-  protected $exiftool;
+    /**
+     *
+     * @var \PHPExiftool\Exiftool
+     */
+    protected $exiftool;
 
-  /**
-   *
-   * @var \PHPExiftool\FileEntity
-   */
-  protected $entity;
+    /**
+     *
+     * @var \PHPExiftool\FileEntity
+     */
+    protected $entity;
 
-  /**
-   * Constructor for Medias
-   *
-   * @param \SplFileInfo $file
-   * @param \PHPExiftool\Exiftool $exiftool
-   * @return \MediaVorus\Media\DefaultMedia
-   */
-  public function __construct(\SplFileInfo $file, \PHPExiftool\Exiftool $exiftool, \PHPExiftool\FileEntity $entity = null)
-  {
-    if (!$file instanceof \MediaVorus\File)
+    /**
+     * Constructor for Medias
+     *
+     * @param \SplFileInfo $file
+     * @param \PHPExiftool\Exiftool $exiftool
+     * @return \MediaVorus\Media\DefaultMedia
+     */
+    public function __construct(\SplFileInfo $file, \PHPExiftool\Exiftool $exiftool, \PHPExiftool\FileEntity $entity = null)
     {
-      $file = new \MediaVorus\File($file->getPathname());
+        if ( ! $file instanceof \MediaVorus\File)
+        {
+            $file = new \MediaVorus\File($file->getPathname());
+        }
+
+        $this->file = $file;
+        $this->exiftool = $exiftool;
+        $this->entity = $entity;
+
+        return $this;
     }
 
-    $this->file = $file;
-    $this->exiftool = $exiftool;
-    $this->entity = $entity;
-
-    return $this;
-  }
-
-  /**
-   *
-   * @return \MediaVorus\File
-   */
-  public function getFile()
-  {
-    return $this->file;
-  }
-
-  /**
-   * Get Longitude value
-   *
-   * @return string
-   */
-  public function getLongitude()
-  {
-    if ($this->getMetadatas()->containsKey('GPS:GPSLongitude'))
+    /**
+     *
+     * @return \MediaVorus\File
+     */
+    public function getFile()
     {
-      return $this->getMetadatas()->get('GPS:GPSLongitude')->getValue();
-    }
-    if ($this->getMetadatas()->containsKey('Composite:GPSLongitude'))
-    {
-      $datas = $this->GPSCompositeExtract(
-        $this->getMetadatas()->get('Composite:GPSLongitude')->getValue()
-      );
-
-      if ($datas)
-      {
-        return $datas['value'];
-      }
+        return $this->file;
     }
 
-    return null;
-  }
-
-  /**
-   * Get Longitude Reference value, one of the GPSREF_LONGITUDE_*
-   *
-   * @return string|null
-   */
-  public function getLongitudeRef()
-  {
-    if ($this->getMetadatas()->containsKey('GPS:GPSLongitudeRef'))
+    /**
+     * Get Longitude value
+     *
+     * @return string
+     */
+    public function getLongitude()
     {
-      switch (strtolower($this->getMetadatas()->get('GPS:GPSLongitudeRef')->getValue()))
-      {
-        case 'west':
-          return self::GPSREF_LONGITUDE_WEST;
-          break;
-        case 'east':
-          return self::GPSREF_LONGITUDE_EAST;
-          break;
-      }
-    }
-    if ($this->getMetadatas()->containsKey('Composite:GPSLongitude'))
-    {
-      $datas = $this->GPSCompositeExtract(
-        $this->getMetadatas()->get('Composite:GPSLongitude')->getValue()
-      );
+        if ($this->getMetadatas()->containsKey('GPS:GPSLongitude'))
+        {
+            return $this->getMetadatas()->get('GPS:GPSLongitude')->getValue();
+        }
+        if ($this->getMetadatas()->containsKey('Composite:GPSLongitude'))
+        {
+            $datas = $this->GPSCompositeExtract(
+              $this->getMetadatas()->get('Composite:GPSLongitude')->getValue()
+            );
 
-      if ($datas)
-      {
-        return $datas['ref'];
-      }
+            if ($datas)
+            {
+                return $datas['value'];
+            }
+        }
+
+        return null;
     }
 
-    return null;
-  }
-
-  /**
-   * Get Latitude value
-   *
-   * @return string
-   */
-  public function getLatitude()
-  {
-    if ($this->getMetadatas()->containsKey('GPS:GPSLatitude'))
+    /**
+     * Get Longitude Reference value, one of the GPSREF_LONGITUDE_*
+     *
+     * @return string|null
+     */
+    public function getLongitudeRef()
     {
-      return $this->getMetadatas()->get('GPS:GPSLatitude')->getValue();
-    }
-    if ($this->getMetadatas()->containsKey('Composite:GPSLatitude'))
-    {
-      $datas = $this->GPSCompositeExtract(
-        $this->getMetadatas()->get('Composite:GPSLatitude')->getValue()
-      );
+        if ($this->getMetadatas()->containsKey('GPS:GPSLongitudeRef'))
+        {
+            switch (strtolower($this->getMetadatas()->get('GPS:GPSLongitudeRef')->getValue()))
+            {
+                case 'west':
+                    return self::GPSREF_LONGITUDE_WEST;
+                    break;
+                case 'east':
+                    return self::GPSREF_LONGITUDE_EAST;
+                    break;
+            }
+        }
+        if ($this->getMetadatas()->containsKey('Composite:GPSLongitude'))
+        {
+            $datas = $this->GPSCompositeExtract(
+              $this->getMetadatas()->get('Composite:GPSLongitude')->getValue()
+            );
 
-      if ($datas)
-      {
-        return $datas['value'];
-      }
-    }
+            if ($datas)
+            {
+                return $datas['ref'];
+            }
+        }
 
-    return null;
-  }
-
-  /**
-   * Get Latitude Reference value, one of the GPSREF_LATITUDE_*
-   *
-   * @return string|null
-   */
-  public function getLatitudeRef()
-  {
-    if ($this->getMetadatas()->containsKey('GPS:GPSLatitudeRef'))
-    {
-      switch (strtolower($this->getMetadatas()->get('GPS:GPSLatitudeRef')->getValue()))
-      {
-        case 'north':
-          return self::GPSREF_LATITUDE_NORTH;
-          break;
-        case 'south':
-          return self::GPSREF_LATITUDE_SOUTH;
-          break;
-      }
-    }
-    if ($this->getMetadatas()->containsKey('Composite:GPSLatitude'))
-    {
-      $datas = $this->GPSCompositeExtract(
-        $this->getMetadatas()->get('Composite:GPSLatitude')->getValue()
-      );
-
-      if ($datas)
-      {
-        return $datas['ref'];
-      }
+        return null;
     }
 
-    return null;
-  }
-
-  /**
-   * Explode Coordinate and Reference in a concatenated string
-   *
-   * @param string $coordinate
-   * @return array
-   */
-  protected function GPSCompositeExtract($coordinate)
-  {
-    $refs = array(
-      self::GPSREF_LONGITUDE_EAST,
-      self::GPSREF_LONGITUDE_WEST,
-      self::GPSREF_LATITUDE_NORTH,
-      self::GPSREF_LATITUDE_SOUTH,
-    );
-    $LatLong = implode('|', $refs);
-
-    $pattern = '/([0-9]+\ deg [0-9]+\'\ [0-9\.]+")\ ([' . $LatLong . '])/';
-
-    preg_match($pattern, $coordinate, $matches, 0);
-
-    if (count($matches) === 3)
+    /**
+     * Get Latitude value
+     *
+     * @return string
+     */
+    public function getLatitude()
     {
-      return array('value' => $matches[1], 'ref'   => $matches[2]);
+        if ($this->getMetadatas()->containsKey('GPS:GPSLatitude'))
+        {
+            return $this->getMetadatas()->get('GPS:GPSLatitude')->getValue();
+        }
+        if ($this->getMetadatas()->containsKey('Composite:GPSLatitude'))
+        {
+            $datas = $this->GPSCompositeExtract(
+              $this->getMetadatas()->get('Composite:GPSLatitude')->getValue()
+            );
+
+            if ($datas)
+            {
+                return $datas['value'];
+            }
+        }
+
+        return null;
     }
 
-    return null;
-  }
-
-  /**
-   *
-   * @return \PHPExiftool\Driver\Metadata\MetadataBag
-   */
-  protected function getMetadatas()
-  {
-
-    return $this->getEntity()->getMetadatas();
-  }
-
-  protected function getEntity()
-  {
-    if (!$this->entity)
+    /**
+     * Get Latitude Reference value, one of the GPSREF_LATITUDE_*
+     *
+     * @return string|null
+     */
+    public function getLatitudeRef()
     {
-      $this->entity = $this->exiftool->read($this->file);
+        if ($this->getMetadatas()->containsKey('GPS:GPSLatitudeRef'))
+        {
+            switch (strtolower($this->getMetadatas()->get('GPS:GPSLatitudeRef')->getValue()))
+            {
+                case 'north':
+                    return self::GPSREF_LATITUDE_NORTH;
+                    break;
+                case 'south':
+                    return self::GPSREF_LATITUDE_SOUTH;
+                    break;
+            }
+        }
+        if ($this->getMetadatas()->containsKey('Composite:GPSLatitude'))
+        {
+            $datas = $this->GPSCompositeExtract(
+              $this->getMetadatas()->get('Composite:GPSLatitude')->getValue()
+            );
+
+            if ($datas)
+            {
+                return $datas['ref'];
+            }
+        }
+
+        return null;
     }
 
-    return $this->entity;
-  }
+    /**
+     * Explode Coordinate and Reference in a concatenated string
+     *
+     * @param string $coordinate
+     * @return array
+     */
+    protected function GPSCompositeExtract($coordinate)
+    {
+        $refs = array(
+          self::GPSREF_LONGITUDE_EAST,
+          self::GPSREF_LONGITUDE_WEST,
+          self::GPSREF_LATITUDE_NORTH,
+          self::GPSREF_LATITUDE_SOUTH,
+        );
+        $LatLong = implode('|', $refs);
+
+        $pattern = '/([0-9]+\ deg [0-9]+\'\ [0-9\.]+")\ ([' . $LatLong . '])/';
+
+        preg_match($pattern, $coordinate, $matches, 0);
+
+        if (count($matches) === 3)
+        {
+            return array('value' => $matches[1], 'ref'   => $matches[2]);
+        }
+
+        return null;
+    }
+
+    /**
+     *
+     * @return \PHPExiftool\Driver\Metadata\MetadataBag
+     */
+    protected function getMetadatas()
+    {
+
+        return $this->getEntity()->getMetadatas();
+    }
+
+    protected function getEntity()
+    {
+        if ( ! $this->entity)
+        {
+            $this->entity = $this->exiftool->read($this->file);
+        }
+
+        return $this->entity;
+    }
 
 }

@@ -29,165 +29,165 @@ namespace MediaVorus\Media;
 class Video extends Image
 {
 
-  /**
-   * Get the duration of the video in seconds, null if unavailable
-   *
-   * @return float
-   */
-  public function getDuration()
-  {
-
-    if ($this->getMetadatas()->containsKey('Composite:Duration'))
+    /**
+     * Get the duration of the video in seconds, null if unavailable
+     *
+     * @return float
+     */
+    public function getDuration()
     {
-      $value = $this->getMetadatas()->get('Composite:Duration')->getValue();
-    }
-    elseif ($this->getMetadatas()->containsKey('Flash:Duration'))
-    {
-      $value = $this->getMetadatas()->get('Flash:Duration')->getValue();
-    }
-    elseif ($this->getMetadatas()->containsKey('QuickTime:Duration'))
-    {
-      $value = $this->getMetadatas()->get('QuickTime:Duration')->getValue();
-    }
-    elseif ($this->getMetadatas()->containsKey('Real-PROP:Duration'))
-    {
-      $value = $this->getMetadatas()->get('Real-PROP:Duration')->getValue();
-    }
 
-    if ($value)
-    {
-      preg_match('/([0-9\.]+) s/', $value, $matches);
-
-      if (count($matches) > 0)
-      {
-        return (float) $matches[1];
-      }
-
-      preg_match('/[0-9]+:[0-9]+:[0-9\.]+/', $value, $matches);
-
-      if (count($matches) > 0)
-      {
-        $data = explode(':', $matches[0]);
-
-        $duration = 0;
-        $factor   = 1;
-        while ($segment  = array_pop($data))
+        if ($this->getMetadatas()->containsKey('Composite:Duration'))
         {
-          $duration += $segment * $factor;
-          $factor *=60;
+            $value = $this->getMetadatas()->get('Composite:Duration')->getValue();
+        }
+        elseif ($this->getMetadatas()->containsKey('Flash:Duration'))
+        {
+            $value = $this->getMetadatas()->get('Flash:Duration')->getValue();
+        }
+        elseif ($this->getMetadatas()->containsKey('QuickTime:Duration'))
+        {
+            $value = $this->getMetadatas()->get('QuickTime:Duration')->getValue();
+        }
+        elseif ($this->getMetadatas()->containsKey('Real-PROP:Duration'))
+        {
+            $value = $this->getMetadatas()->get('Real-PROP:Duration')->getValue();
         }
 
-        return (float) $duration;
-      }
+        if ($value)
+        {
+            preg_match('/([0-9\.]+) s/', $value, $matches);
+
+            if (count($matches) > 0)
+            {
+                return (float) $matches[1];
+            }
+
+            preg_match('/[0-9]+:[0-9]+:[0-9\.]+/', $value, $matches);
+
+            if (count($matches) > 0)
+            {
+                $data = explode(':', $matches[0]);
+
+                $duration = 0;
+                $factor   = 1;
+                while ($segment  = array_pop($data))
+                {
+                    $duration += $segment * $factor;
+                    $factor *=60;
+                }
+
+                return (float) $duration;
+            }
+        }
+
+        return null;
     }
 
-    return null;
-  }
+    /**
+     * Returns the value of video frame rate, null if not available
+     *
+     * @return string
+     */
+    public function getFrameRate()
+    {
+        if ($this->getMetadatas()->containsKey('RIFF:FrameRate'))
+        {
+            return $this->getMetadatas()->get('RIFF:FrameRate')->getValue();
+        }
+        if ($this->getMetadatas()->containsKey('RIFF:VideoFrameRate'))
+        {
+            return $this->getMetadatas()->get('RIFF:VideoFrameRate')->getValue();
+        }
+        if ($this->getMetadatas()->containsKey('Flash:FrameRate'))
+        {
+            return $this->getMetadatas()->get('Flash:FrameRate')->getValue();
+        }
+        if (null !== $Framerate = $this->getEntity()->executeQuery('Track1:VideoFrameRate'))
+        {
+            return $Framerate;
+        }
 
-  /**
-   * Returns the value of video frame rate, null if not available
-   *
-   * @return string
-   */
-  public function getFrameRate()
-  {
-    if ($this->getMetadatas()->containsKey('RIFF:FrameRate'))
-    {
-      return $this->getMetadatas()->get('RIFF:FrameRate')->getValue();
-    }
-    if ($this->getMetadatas()->containsKey('RIFF:VideoFrameRate'))
-    {
-      return $this->getMetadatas()->get('RIFF:VideoFrameRate')->getValue();
-    }
-    if ($this->getMetadatas()->containsKey('Flash:FrameRate'))
-    {
-      return $this->getMetadatas()->get('Flash:FrameRate')->getValue();
-    }
-    if (null !== $Framerate = $this->getEntity()->executeQuery('Track1:VideoFrameRate'))
-    {
-      return $Framerate;
-    }
-
-    return null;
-  }
-
-  /**
-   * Returns the value of audio samplerate, null if not available
-   *
-   * @return string
-   */
-  public function getAudioSampleRate()
-  {
-    if ($this->getMetadatas()->containsKey('RIFF:AudioSampleRate'))
-    {
-      return $this->getMetadatas()->get('RIFF:AudioSampleRate')->getValue();
-    }
-    if ($this->getMetadatas()->containsKey('Flash:AudioSampleRate'))
-    {
-      return $this->getMetadatas()->get('Flash:AudioSampleRate')->getValue();
-    }
-    if (null !== $AudioBitRate = $this->getEntity()->executeQuery('Track2:AudioSampleRate'))
-    {
-      return $AudioBitRate;
+        return null;
     }
 
-    return null;
-  }
+    /**
+     * Returns the value of audio samplerate, null if not available
+     *
+     * @return string
+     */
+    public function getAudioSampleRate()
+    {
+        if ($this->getMetadatas()->containsKey('RIFF:AudioSampleRate'))
+        {
+            return $this->getMetadatas()->get('RIFF:AudioSampleRate')->getValue();
+        }
+        if ($this->getMetadatas()->containsKey('Flash:AudioSampleRate'))
+        {
+            return $this->getMetadatas()->get('Flash:AudioSampleRate')->getValue();
+        }
+        if (null !== $AudioBitRate = $this->getEntity()->executeQuery('Track2:AudioSampleRate'))
+        {
+            return $AudioBitRate;
+        }
 
-  /**
-   * Returns the name of video codec, null if not available
-   *
-   * @return string
-   */
-  public function getVideoCodec()
-  {
-    if ($this->getMetadatas()->containsKey('RIFF:VideoCodec'))
-    {
-      return $this->getMetadatas()->get('RIFF:VideoCodec')->getValue();
-    }
-    if ($this->getMetadatas()->containsKey('Flash:VideoEncoding'))
-    {
-      return $this->getMetadatas()->get('Flash:VideoEncoding')->getValue();
-    }
-    if (null !== $VideoCodec = $this->getEntity()->executeQuery('QuickTime:ComAppleProappsOriginalFormat'))
-    {
-      return $VideoCodec;
-    }
-    if (null !== $VideoCodec = $this->getEntity()->executeQuery('Track1:CompressorName'))
-    {
-      return $VideoCodec;
-    }
-    if (null !== $VideoCodec = $this->getEntity()->executeQuery('Track1:CompressorID'))
-    {
-      return $VideoCodec;
+        return null;
     }
 
-    return null;
-  }
+    /**
+     * Returns the name of video codec, null if not available
+     *
+     * @return string
+     */
+    public function getVideoCodec()
+    {
+        if ($this->getMetadatas()->containsKey('RIFF:VideoCodec'))
+        {
+            return $this->getMetadatas()->get('RIFF:VideoCodec')->getValue();
+        }
+        if ($this->getMetadatas()->containsKey('Flash:VideoEncoding'))
+        {
+            return $this->getMetadatas()->get('Flash:VideoEncoding')->getValue();
+        }
+        if (null !== $VideoCodec = $this->getEntity()->executeQuery('QuickTime:ComAppleProappsOriginalFormat'))
+        {
+            return $VideoCodec;
+        }
+        if (null !== $VideoCodec = $this->getEntity()->executeQuery('Track1:CompressorName'))
+        {
+            return $VideoCodec;
+        }
+        if (null !== $VideoCodec = $this->getEntity()->executeQuery('Track1:CompressorID'))
+        {
+            return $VideoCodec;
+        }
 
-  /**
-   * Returns the name of audio codec, null if not available
-   *
-   * @return string
-   */
-  public function getAudioCodec()
-  {
-    if ($this->getMetadatas()->containsKey('RIFF:AudioCodec')
-      && $this->getMetadatas()->containsKey('RIFF:Encoding')
-      && $this->getMetadatas()->get('RIFF:AudioCodec')->getValue() === '')
-    {
-      return $this->getMetadatas()->get('RIFF:Encoding')->getValue();
-    }
-    if ($this->getMetadatas()->containsKey('Flash:AudioEncoding'))
-    {
-      return $this->getMetadatas()->get('Flash:AudioEncoding')->getValue();
-    }
-    if (null !== $VideoCodec = $this->getEntity()->executeQuery('Track2:AudioFormat'))
-    {
-      return $VideoCodec;
+        return null;
     }
 
-    return null;
-  }
+    /**
+     * Returns the name of audio codec, null if not available
+     *
+     * @return string
+     */
+    public function getAudioCodec()
+    {
+        if ($this->getMetadatas()->containsKey('RIFF:AudioCodec')
+          && $this->getMetadatas()->containsKey('RIFF:Encoding')
+          && $this->getMetadatas()->get('RIFF:AudioCodec')->getValue() === '')
+        {
+            return $this->getMetadatas()->get('RIFF:Encoding')->getValue();
+        }
+        if ($this->getMetadatas()->containsKey('Flash:AudioEncoding'))
+        {
+            return $this->getMetadatas()->get('Flash:AudioEncoding')->getValue();
+        }
+        if (null !== $VideoCodec = $this->getEntity()->executeQuery('Track2:AudioFormat'))
+        {
+            return $VideoCodec;
+        }
+
+        return null;
+    }
 
 }

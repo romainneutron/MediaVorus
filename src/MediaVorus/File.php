@@ -32,13 +32,13 @@ use Symfony\Component\HttpFoundation\File\MimeType\MimeTypeGuesser;
 class File extends SymfonyFile
 {
 
-  public function getMimeType()
-  {
-    $guesser = MimeTypeGuesser::getInstance();
+    public function getMimeType()
+    {
+        $guesser = MimeTypeGuesser::getInstance();
 
-    $guesser->register(new RawImageMimeTypeGuesser());
+        $guesser->register(new RawImageMimeTypeGuesser());
 
-    return $guesser->guess($this->getPathname());
-  }
+        return $guesser->guess($this->getPathname());
+    }
 
 }

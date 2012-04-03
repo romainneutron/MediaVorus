@@ -1,38 +1,38 @@
 {
-  "name": "mediavorus/mediavorus",
-  "type": "library",
-  "description": "MediaVorus",
-  "keywords": ["metadata"],
-  "license": "MIT",
-  "authors": [
-  {
-    "name": "Romain Neutron",
-    "email": "imprec@gmail.com",
-    "homepage": "http://www.lickmychip.com/"
-  }
-  ],
-  "repositories": [
-  {
-    "type": "vcs",
-    "url": "https://romainneutron@github.com/romainneutron/PHPExiftool.git"
-  }
-  ],
-  "require": {
-    "php": ">=5.3.6",
-    "symfony/http-foundation": "2.1.*",
-    "phpexiftool/phpexiftool": "master"
-  },
-  "autoload": {
-    "psr-0": {
-      "MediaVorus": "src"
+    "name": "mediavorus/mediavorus",
+    "type": "library",
+    "description": "MediaVorus",
+    "keywords": ["metadata"],
+    "license": "MIT",
+    "authors": [
+    {
+        "name": "Romain Neutron",
+        "email": "imprec@gmail.com",
+        "homepage": "http://www.lickmychip.com/"
     }
-  },
-  "scripts": {
-    "post-install-cmd": [
-    "PHPExiftool\\Vendors::Init"
     ],
-    "post-update-cmd": [
-    "PHPExiftool\\Vendors::Init"
-    ]
-  }
+    "repositories": [
+    {
+        "type": "vcs",
+        "url": "https://romainneutron@github.com/romainneutron/PHPExiftool.git"
+    }
+    ],
+    "require": {
+        "php": ">=5.3.6",
+        "symfony/http-foundation": "2.1.*",
+        "phpexiftool/phpexiftool": "master"
+    },
+    "autoload": {
+        "psr-0": {
+            "MediaVorus": "src"
+        }
+    },
+    "scripts": {
+        "post-install-cmd": [
+        "PHPExiftool\\Vendors::Init"
+        ],
+        "post-update-cmd": [
+        "PHPExiftool\\Vendors::Init"
+        ]
+    }
 }

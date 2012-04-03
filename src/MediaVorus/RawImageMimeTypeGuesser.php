@@ -31,11 +31,7 @@ use Symfony\Component\HttpFoundation\File\MimeType\MimeTypeGuesserInterface;
 class RawImageMimeTypeGuesser implements MimeTypeGuesserInterface
 {
 
-  public function guess($path)
-  {
-    $extension = strtolower(pathinfo(basename($path), PATHINFO_EXTENSION));
-
-    $types = array(
+    public static $rawMimeTypes = array(
       '3fr'  => 'image/x-tika-hasselblad',
       'arw'  => 'image/x-tika-sony',
       'bay'  => 'image/x-tika-casio',
@@ -72,12 +68,16 @@ class RawImageMimeTypeGuesser implements MimeTypeGuesserInterface
       'x3f'  => 'image/x-tika-sigma',
     );
 
-    if (array_key_exists($extension, $types))
+    public function guess($path)
     {
-      return $types[$extension];
-    }
+        $extension = strtolower(pathinfo(basename($path), PATHINFO_EXTENSION));
 
-    return null;
-  }
+        if (array_key_exists($extension, static::$rawMimeTypes))
+        {
+            return static::$rawMimeTypes[$extension];
+        }
+
+        return null;
+    }
 
 }

@@ -1,4 +1,5 @@
 /nbproject
 /vendor
+/docs/_build
 composer.lock
 composer.phar

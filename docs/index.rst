@@ -182,8 +182,8 @@ It has much more methods and provides the following informations :
 
 
 
-Contents:
-
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
 
+   API
+   UseCases

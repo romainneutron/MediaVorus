@@ -32,3 +32,44 @@ h1 {
 h2 {
     margin-top: 10px;
 }
+
+/* -- navigation styles ----- */
+#navbar, #menu {
+	margin-bottom: 10px;
+}
+#navigation {
+    min-height: 29px;
+    line-height: 30px;
+	display:inline-block;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-weight: normal;
+}
+#navigation ul {
+    margin:0;
+}
+#navigation li {
+	list-style-type:none;
+	margin:0;
+	padding:10px 0;
+	display:inline-block;
+}
+#navigation li ul {
+	display:none;
+}
+#navigation li a span {
+	padding:3px 8px;
+	color: #999;
+}
+#navigation li.current a span {
+	color: #FFFFFF;
+}
+#navigation li a:hover span {
+	color: #FFFFFF;
+}
+#navigation li a:hover, #navigation li a {
+	text-decoration:none;
+}
+#navigation li, #ddLinks, #menu {
+	font-size: 14px;
+}
+/* -------------------------- */

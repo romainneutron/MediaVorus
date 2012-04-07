@@ -14,9 +14,12 @@ Example
 
     <?php
 
-    $Media = \MediaVorus\Media::guess(new \SplFileInfo('tests/files/ExifTool.jpg'));
+    use MediaVorus\MediaVorus;
+    use MediaVorus\Media\Image;
 
-    if($Media instanceof \MediaVorus\Media\Image)
+    $Media = MediaVorus::guess('tests/files/ExifTool.jpg');
+
+    if($Media instanceof Image)
     {
         echo sprintf("Found a file with dimensions : %dx%d", $Media->getWidth(), $Media->getHeight());
     }
@@ -53,10 +56,12 @@ Guesser
 
     <?php
 
-    $Media = \MediaVorus\Media::guess(new \SplFileInfo('tests/files/ExifTool.jpg'));
+    use MediaVorus\MediaVorus;
+
+    $Media = MediaVorus::guess('tests/files/ExifTool.jpg');
 
     //Returns a \Doctrine\Common\Collections\ArrayCollection of Medias
-    $MediaCollection = \MediaVorus\Media::inspectDirectory($dir, $recursive);
+    $MediaCollection = MediaVorus::inspectDirectory($dir, $recursive);
 
 
 Medias
@@ -73,9 +78,10 @@ This object provides GPS informations :
 
     <?php
 
+    use MediaVorus\MediaVorus;
     use MediaVorus\Media;
 
-    $Media = Media::guess(new \SplFileInfo('somefile.smf'));
+    $Media = MediaVorus::guess('somefile.smf');
 
     if($Media instanceof Media\DefaultMedia)
     {
@@ -111,9 +117,10 @@ It has much more methods and provides the following informations :
 
     <?php
 
+    use MediaVorus\MediaVorus;
     use MediaVorus\Media;
 
-    $Media = Media::guess(new \SplFileInfo('tests/files/ExifTool.jpg'));
+    $Media = MediaVorus::guess('tests/files/ExifTool.jpg');
 
     if($Media instanceof Media\Image)
     {

@@ -55,15 +55,30 @@ class DefaultMedia
     /**
      * Constructor for Medias
      *
-     * @param \SplFileInfo $file
+     * @param string|\SplFileInfo|\MediaVorus\File $file
      * @param \PHPExiftool\Exiftool $exiftool
      * @return \MediaVorus\Media\DefaultMedia
      */
-    public function __construct(\SplFileInfo $file, \PHPExiftool\Exiftool $exiftool, \PHPExiftool\FileEntity $entity = null)
+    public function __construct($file, \PHPExiftool\Exiftool $exiftool = null, \PHPExiftool\FileEntity $entity = null)
     {
-        if ( ! $file instanceof \MediaVorus\File)
+        switch (true)
         {
-            $file = new \MediaVorus\File($file->getPathname());
+            case ! is_object($file):
+                $file = new \MediaVorus\File($file);
+                break;
+            case $file instanceof \MediaVorus\File:
+                break;
+            case $file instanceof \SplFileInfo:
+                $file = new \MediaVorus\File($file->getPathname());
+                break;
+            default:
+                throw new \MediaVorus\InvalidArgumentException('$file should be either a pathname, a \SplFileInfo or \MediaVorus\File');
+                break;
+        }
+
+        if ( ! $exiftool instanceof \PHPExiftool\Exiftool)
+        {
+            $exiftool = new \PHPExiftool\Exiftool();
         }
 
         $this->file = $file;

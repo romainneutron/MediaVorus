@@ -45,25 +45,33 @@ h2 {
     font-weight: normal;
 }
 #navigation ul {
-    margin:0;
+    display: block;
+    float: left;
+    left: 0;
+    margin: 0 10px 0 0;
+    position: relative;
 }
 #navigation li {
-	list-style-type:none;
-	margin:0;
-	padding:10px 0;
-	display:inline-block;
+    float: left;
+	display:block;
+    line-height:38px;
 }
-#navigation li ul {
-	display:none;
+#navigation ul > li > a {
+    color: #999999;
+    float: none;
+    line-height: 19px;
+    padding: 10px 10px 11px;
+    text-decoration: none;
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
 }
-#navigation li a span {
+#navigation li a {
 	padding:3px 8px;
 	color: #999;
 }
-#navigation li.current a span {
+#navigation li.current a {
 	color: #FFFFFF;
 }
-#navigation li a:hover span {
+#navigation li a:hover {
 	color: #FFFFFF;
 }
 #navigation li a:hover, #navigation li a {

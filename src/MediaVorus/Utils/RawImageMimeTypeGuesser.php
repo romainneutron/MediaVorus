@@ -19,7 +19,7 @@
  * IN THE SOFTWARE.
  */
 
-namespace MediaVorus;
+namespace MediaVorus\Utils;
 
 use Symfony\Component\HttpFoundation\File\MimeType\MimeTypeGuesserInterface;
 
@@ -68,6 +68,9 @@ class RawImageMimeTypeGuesser implements MimeTypeGuesserInterface
       'x3f'  => 'image/x-tika-sigma',
     );
 
+    /**
+     * {@inheritdoc}
+     */
     public function guess($path)
     {
         $extension = strtolower(pathinfo(basename($path), PATHINFO_EXTENSION));

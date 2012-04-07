@@ -26,7 +26,7 @@ namespace MediaVorus;
  * @author      Romain Neutron - imprec@gmail.com
  * @license     http://opensource.org/licenses/MIT MIT
  */
-class Media
+class MediaVorus
 {
 
   /**

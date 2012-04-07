@@ -21,6 +21,8 @@
 
 namespace MediaVorus\Media;
 
+use \MediaVorus\Utils\RawImageMimeTypeGuesser;
+
 /**
  *
  * @author      Romain Neutron - imprec@gmail.com
@@ -71,7 +73,7 @@ class Image extends DefaultMedia
      */
     public function isRawImage()
     {
-        return in_array($this->getFile()->getMimeType(), \MediaVorus\RawImageMimeTypeGuesser::$rawMimeTypes);
+        return in_array($this->getFile()->getMimeType(), RawImageMimeTypeGuesser::$rawMimeTypes);
     }
 
     /**

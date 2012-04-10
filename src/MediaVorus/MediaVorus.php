@@ -21,6 +21,8 @@
 
 namespace MediaVorus;
 
+use MediaVorus\MediaCollection;
+
 /**
  *
  * @author      Romain Neutron - imprec@gmail.com
@@ -52,13 +54,13 @@ class MediaVorus
    *
    * @param \SplFileInfo $dir
    * @param type $recursive
-   * @return \Doctrine\Common\Collections\ArrayCollection
+   * @return MediaCollection
    */
   public static function inspectDirectory(\SplFileInfo $dir, $recursive = false)
   {
     $exiftool = new \PHPExiftool\Exiftool();
 
-    $Files = new \Doctrine\Common\Collections\ArrayCollection();
+    $files = new MediaCollection();
 
     foreach ($entities = $exiftool->readDirectory($dir, $recursive) as $entity)
     {
@@ -66,10 +68,10 @@ class MediaVorus
 
       $classname = static::guessFromMimeType($file->getMimeType());
 
-      $Files[] = new $classname($file, $exiftool, $entity);
+      $files[] = new $classname($file, $exiftool, $entity);
     }
 
-    return $Files;
+    return $files;
   }
 
   /**

@@ -21,9 +21,17 @@
 
 namespace MediaVorus\Filter;
 
+/**
+ *
+ * @author      Romain Neutron - imprec@gmail.com
+ * @license     http://opensource.org/licenses/MIT MIT
+ */
 interface Filter
 {
 
+    /**
+     * Return a \Closure with {$key, Media $media} parameters and returns boolean
+     */
     public function apply();
 
 }

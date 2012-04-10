@@ -199,7 +199,7 @@ class Image extends DefaultMedia
     {
         $sources = array('File:ColorComponents','IFD0:SamplesPerPixel');
 
-        return $this->findInSources($sources);
+        return $this->castValue($this->findInSources($sources), 'int');
     }
 
     /**
@@ -223,7 +223,7 @@ class Image extends DefaultMedia
     {
         $sources = array('File:BitsPerSample','IFD0:BitsPerSample');
 
-        return $this->findInSources($sources);
+        return $this->castValue($this->findInSources($sources), 'int');
     }
 
     /**

@@ -21,6 +21,11 @@
 
 namespace MediaVorus\Media;
 
+/**
+ *
+ * @author      Romain Neutron - imprec@gmail.com
+ * @license     http://opensource.org/licenses/MIT MIT
+ */
 class Audio extends DefaultMedia
 {
 

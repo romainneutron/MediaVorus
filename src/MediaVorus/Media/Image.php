@@ -130,22 +130,9 @@ class Image extends DefaultMedia
             }
         }
 
-        if ($this->getMetadatas()->containsKey('SubIFD:ImageWidth'))
-        {
-            return (int) $this->getMetadatas()->get('ExifIFD:ExifImageWidth')->getValue();
-        }
+        $sources = array('SubIFD:ImageWidth', 'IFD0:ImageWidth', 'ExifIFD:ExifImageWidth');
 
-        if ($this->getMetadatas()->containsKey('IFD0:ImageWidth'))
-        {
-            return (int) $this->getMetadatas()->get('ExifIFD:ExifImageWidth')->getValue();
-        }
-
-        if ($this->getMetadatas()->containsKey('ExifIFD:ExifImageWidth'))
-        {
-            return (int) $this->getMetadatas()->get('ExifIFD:ExifImageWidth')->getValue();
-        }
-
-        return null;
+        return $this->castValue($this->findInSources($sources), 'int');
     }
 
     /**
@@ -172,22 +159,9 @@ class Image extends DefaultMedia
             }
         }
 
-        if ($this->getMetadatas()->containsKey('SubIFD:ImageHeight'))
-        {
-            return (int) $this->getMetadatas()->get('ExifIFD:ImageHeight')->getValue();
-        }
+        $sources = array('SubIFD:ImageHeight', 'IFD0:ImageHeight', 'ExifIFD:ExifImageHeight');
 
-        if ($this->getMetadatas()->containsKey('IFD0:ImageHeight'))
-        {
-            return (int) $this->getMetadatas()->get('ExifIFD:ImageHeight')->getValue();
-        }
-
-        if ($this->getMetadatas()->containsKey('ExifIFD:ExifImageHeight'))
-        {
-            return (int) $this->getMetadatas()->get('ExifIFD:ExifImageHeight')->getValue();
-        }
-
-        return null;
+        return $this->castValue($this->findInSources($sources), 'int');
     }
 
     /**
@@ -197,7 +171,7 @@ class Image extends DefaultMedia
      */
     public function getChannels()
     {
-        $sources = array('File:ColorComponents','IFD0:SamplesPerPixel');
+        $sources = array('File:ColorComponents', 'IFD0:SamplesPerPixel');
 
         return $this->castValue($this->findInSources($sources), 'int');
     }
@@ -209,7 +183,7 @@ class Image extends DefaultMedia
      */
     public function getFocalLength()
     {
-        $sources = array('ExifIFD:FocalLength','XMP-exif:FocalLength');
+        $sources = array('ExifIFD:FocalLength', 'XMP-exif:FocalLength');
 
         return $this->findInSources($sources);
     }
@@ -221,7 +195,7 @@ class Image extends DefaultMedia
      */
     public function getColorDepth()
     {
-        $sources = array('File:BitsPerSample','IFD0:BitsPerSample');
+        $sources = array('File:BitsPerSample', 'IFD0:BitsPerSample');
 
         return $this->castValue($this->findInSources($sources), 'int');
     }
@@ -233,7 +207,7 @@ class Image extends DefaultMedia
      */
     public function getCameraModel()
     {
-        $sources = array('IFD0:Model','IFD0:UniqueCameraModel');
+        $sources = array('IFD0:Model', 'IFD0:UniqueCameraModel');
 
         return $this->findInSources($sources);
     }
@@ -246,9 +220,8 @@ class Image extends DefaultMedia
      */
     public function getFlashFired()
     {
-        if ($this->getMetadatas()->containsKey('ExifIFD:Flash'))
+        if (null !== $value = strtolower($this->findInSources(array('ExifIFD:Flash'))))
         {
-            $value = strtolower($this->getMetadatas()->get('ExifIFD:Flash')->getValue());
             switch (true)
             {
                 case strpos($value, 'not fire') !== false:
@@ -263,9 +236,8 @@ class Image extends DefaultMedia
             }
         }
 
-        if ($this->getMetadatas()->containsKey('XMP-exif:FlashFired'))
+        if (null !== $value = strtolower($this->findInSources(array('XMP-exif:FlashFired'))))
         {
-            $value = strtolower($this->getMetadatas()->get('XMP-exif:FlashFired')->getValue());
             switch (true)
             {
                 case $value === 'true':
@@ -309,10 +281,8 @@ class Image extends DefaultMedia
      */
     public function getOrientation()
     {
-        if ($this->getMetadatas()->containsKey('IFD0:Orientation'))
+        if (null !== $orientation = strtolower($this->findInSources(array('IFD0:Orientation'))))
         {
-            $orientation = strtolower($this->getMetadatas()->get('IFD0:Orientation')->getValue());
-
             switch (true)
             {
                 case strpos($orientation, '90 cw') !== false:

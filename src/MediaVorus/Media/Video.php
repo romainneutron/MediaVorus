@@ -30,31 +30,24 @@ class Video extends Image
 {
 
     /**
+     *
+     * @return string
+     */
+    public function getType()
+    {
+        return 'Video';
+    }
+
+    /**
      * Get the duration of the video in seconds, null if unavailable
      *
      * @return float
      */
     public function getDuration()
     {
+        $sources = array('Composite:Duration', 'Flash:Duration', 'QuickTime:Duration', 'Real-PROP:Duration');
 
-        if ($this->getMetadatas()->containsKey('Composite:Duration'))
-        {
-            $value = $this->getMetadatas()->get('Composite:Duration')->getValue();
-        }
-        elseif ($this->getMetadatas()->containsKey('Flash:Duration'))
-        {
-            $value = $this->getMetadatas()->get('Flash:Duration')->getValue();
-        }
-        elseif ($this->getMetadatas()->containsKey('QuickTime:Duration'))
-        {
-            $value = $this->getMetadatas()->get('QuickTime:Duration')->getValue();
-        }
-        elseif ($this->getMetadatas()->containsKey('Real-PROP:Duration'))
-        {
-            $value = $this->getMetadatas()->get('Real-PROP:Duration')->getValue();
-        }
-
-        if ($value)
+        if (null !== $value = $this->findInSources($sources))
         {
             preg_match('/([0-9\.]+) s/', $value, $matches);
 
@@ -91,21 +84,16 @@ class Video extends Image
      */
     public function getFrameRate()
     {
-        if ($this->getMetadatas()->containsKey('RIFF:FrameRate'))
+        $sources = array('RIFF:FrameRate', 'RIFF:VideoFrameRate', 'Flash:FrameRate');
+
+        if (null !== $value = $this->findInSources($sources))
         {
-            return $this->getMetadatas()->get('RIFF:FrameRate')->getValue();
+            return $value;
         }
-        if ($this->getMetadatas()->containsKey('RIFF:VideoFrameRate'))
+
+        if (null !== $value = $this->getEntity()->executeQuery('Track1:VideoFrameRate'))
         {
-            return $this->getMetadatas()->get('RIFF:VideoFrameRate')->getValue();
-        }
-        if ($this->getMetadatas()->containsKey('Flash:FrameRate'))
-        {
-            return $this->getMetadatas()->get('Flash:FrameRate')->getValue();
-        }
-        if (null !== $Framerate = $this->getEntity()->executeQuery('Track1:VideoFrameRate'))
-        {
-            return $Framerate;
+            return $value;
         }
 
         return null;
@@ -118,17 +106,16 @@ class Video extends Image
      */
     public function getAudioSampleRate()
     {
-        if ($this->getMetadatas()->containsKey('RIFF:AudioSampleRate'))
+        $sources = array('RIFF:AudioSampleRate', 'Flash:AudioSampleRate');
+
+        if (null !== $value = $this->findInSources($sources))
         {
-            return $this->getMetadatas()->get('RIFF:AudioSampleRate')->getValue();
+            return $value;
         }
-        if ($this->getMetadatas()->containsKey('Flash:AudioSampleRate'))
+
+        if (null !== $value = $this->getEntity()->executeQuery('Track2:AudioSampleRate'))
         {
-            return $this->getMetadatas()->get('Flash:AudioSampleRate')->getValue();
-        }
-        if (null !== $AudioBitRate = $this->getEntity()->executeQuery('Track2:AudioSampleRate'))
-        {
-            return $AudioBitRate;
+            return $value;
         }
 
         return null;
@@ -141,25 +128,24 @@ class Video extends Image
      */
     public function getVideoCodec()
     {
-        if ($this->getMetadatas()->containsKey('RIFF:VideoCodec'))
+        $sources = array('RIFF:AudioSampleRate', 'Flash:VideoEncoding');
+
+        if (null !== $value = $this->findInSources($sources))
         {
-            return $this->getMetadatas()->get('RIFF:VideoCodec')->getValue();
+            return $value;
         }
-        if ($this->getMetadatas()->containsKey('Flash:VideoEncoding'))
+
+        if (null !== $value = $this->getEntity()->executeQuery('QuickTime:ComAppleProappsOriginalFormat'))
         {
-            return $this->getMetadatas()->get('Flash:VideoEncoding')->getValue();
+            return $value;
         }
-        if (null !== $VideoCodec = $this->getEntity()->executeQuery('QuickTime:ComAppleProappsOriginalFormat'))
+        if (null !== $value = $this->getEntity()->executeQuery('Track1:CompressorName'))
         {
-            return $VideoCodec;
+            return $value;
         }
-        if (null !== $VideoCodec = $this->getEntity()->executeQuery('Track1:CompressorName'))
+        if (null !== $value = $this->getEntity()->executeQuery('Track1:CompressorID'))
         {
-            return $VideoCodec;
-        }
-        if (null !== $VideoCodec = $this->getEntity()->executeQuery('Track1:CompressorID'))
-        {
-            return $VideoCodec;
+            return $value;
         }
 
         return null;

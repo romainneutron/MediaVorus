@@ -36,19 +36,20 @@ class Image extends DefaultMedia
     /**
      * Orientation constant Horizontal (normal)
      */
-    const ORIENTATION_0   = 'Horizontal';
+
+    const ORIENTATION_0        = 'Horizontal';
     /**
      * Orientation constant Vertical (90 CW)
      */
-    const ORIENTATION_90  = 'Vertical 90 CW';
+    const ORIENTATION_90       = 'Vertical 90 CW';
     /**
      * Orientation constant Vertical (270 CW)
      */
-    const ORIENTATION_270 = 'Vertical 270 CW';
+    const ORIENTATION_270      = 'Vertical 270 CW';
     /**
      * Orientation constant Horizontal (reversed)
      */
-    const ORIENTATION_180 = 'Reversed';
+    const ORIENTATION_180      = 'Reversed';
     /**
      * Colorspace constant CMYK
      */
@@ -65,6 +66,15 @@ class Image extends DefaultMedia
      * Colorspace constant Grayscale
      */
     const COLORSPACE_GRAYSCALE = 'Grayscale';
+
+    /**
+     *
+     * @return string
+     */
+    public function getType()
+    {
+        return 'Image';
+    }
 
     /**
      * Returns true if the document is a "Raw" image
@@ -187,16 +197,9 @@ class Image extends DefaultMedia
      */
     public function getChannels()
     {
-        if ($this->getMetadatas()->containsKey('File:ColorComponents'))
-        {
-            return (int) $this->getMetadatas()->get('File:ColorComponents')->getValue();
-        }
-        if ($this->getMetadatas()->containsKey('IFD0:SamplesPerPixel'))
-        {
-            return (int) $this->getMetadatas()->get('IFD0:SamplesPerPixel')->getValue();
-        }
+        $sources = array('File:ColorComponents','IFD0:SamplesPerPixel');
 
-        return null;
+        return $this->findInSources($sources);
     }
 
     /**
@@ -206,16 +209,9 @@ class Image extends DefaultMedia
      */
     public function getFocalLength()
     {
-        if ($this->getMetadatas()->containsKey('ExifIFD:FocalLength'))
-        {
-            return $this->getMetadatas()->get('ExifIFD:FocalLength')->getValue();
-        }
-        if ($this->getMetadatas()->containsKey('XMP-exif:FocalLength'))
-        {
-            return $this->getMetadatas()->get('XMP-exif:FocalLength')->getValue();
-        }
+        $sources = array('ExifIFD:FocalLength','XMP-exif:FocalLength');
 
-        return null;
+        return $this->findInSources($sources);
     }
 
     /**
@@ -225,16 +221,9 @@ class Image extends DefaultMedia
      */
     public function getColorDepth()
     {
-        if ($this->getMetadatas()->containsKey('File:BitsPerSample'))
-        {
-            return (int) $this->getMetadatas()->get('File:BitsPerSample')->getValue();
-        }
-        if ($this->getMetadatas()->containsKey('IFD0:BitsPerSample'))
-        {
-            return (int) $this->getMetadatas()->get('IFD0:BitsPerSample')->getValue();
-        }
+        $sources = array('File:BitsPerSample','IFD0:BitsPerSample');
 
-        return null;
+        return $this->findInSources($sources);
     }
 
     /**
@@ -244,20 +233,9 @@ class Image extends DefaultMedia
      */
     public function getCameraModel()
     {
-        if ($this->getMetadatas()->containsKey('IFD0:Model'))
-        {
-            return $this->getMetadatas()->get('IFD0:Model')->getValue();
-        }
-        if ($this->getMetadatas()->containsKey('IFD0:UniqueCameraModel'))
-        {
-            return $this->getMetadatas()->get('IFD0:UniqueCameraModel')->getValue();
-        }
-        if ($this->getMetadatas()->containsKey('IFD0:UniqueCameraModel'))
-        {
-            return $this->getMetadatas()->get('IFD0:UniqueCameraModel')->getValue();
-        }
+        $sources = array('IFD0:Model','IFD0:UniqueCameraModel');
 
-        return null;
+        return $this->findInSources($sources);
     }
 
     /**
@@ -309,12 +287,8 @@ class Image extends DefaultMedia
      */
     public function getAperture()
     {
-        if ($this->getMetadatas()->containsKey('Composite:Aperture'))
-        {
-            return $this->getMetadatas()->get('Composite:Aperture')->getValue();
-        }
 
-        return null;
+        return $this->findInSources(array('Composite:Aperture'));
     }
 
     /**
@@ -324,12 +298,8 @@ class Image extends DefaultMedia
      */
     public function getShutterSpeed()
     {
-        if ($this->getMetadatas()->containsKey('Composite:ShutterSpeed'))
-        {
-            return $this->getMetadatas()->get('Composite:ShutterSpeed')->getValue();
-        }
 
-        return null;
+        return $this->findInSources(array('Composite:ShutterSpeed'));
     }
 
     /**
@@ -373,16 +343,9 @@ class Image extends DefaultMedia
      */
     public function getCreationDate()
     {
-        if ($this->getMetadatas()->containsKey('IPTC:DateCreated'))
-        {
-            return $this->getMetadatas()->get('IPTC:DateCreated')->getValue();
-        }
-        if ($this->getMetadatas()->containsKey('ExifIFD:DateTimeOriginal'))
-        {
-            return $this->getMetadatas()->get('ExifIFD:DateTimeOriginal')->getValue();
-        }
+        $sources = array('IPTC:DateCreated', 'ExifIFD:DateTimeOriginal');
 
-        return null;
+        return $this->findInSources($sources);
     }
 
     /**
@@ -392,12 +355,8 @@ class Image extends DefaultMedia
      */
     public function getHyperfocalDistance()
     {
-        if ($this->getMetadatas()->containsKey('Composite:HyperfocalDistance'))
-        {
-            return $this->getMetadatas()->get('Composite:HyperfocalDistance')->getValue();
-        }
 
-        return null;
+        return $this->findInSources(array('Composite:HyperfocalDistance'));
     }
 
     /**
@@ -407,16 +366,9 @@ class Image extends DefaultMedia
      */
     public function getISO()
     {
-        if ($this->getMetadatas()->containsKey('ExifIFD:ISO'))
-        {
-            return (int) $this->getMetadatas()->get('ExifIFD:ISO')->getValue();
-        }
-        if ($this->getMetadatas()->containsKey('IFD0:ISO'))
-        {
-            return (int) $this->getMetadatas()->get('IFD0:ISO')->getValue();
-        }
+        $sources = array('ExifIFD:ISO', 'IFD0:ISO');
 
-        return null;
+        return $this->castValue($this->findInSources($sources), 'int');
     }
 
     /**
@@ -426,12 +378,8 @@ class Image extends DefaultMedia
      */
     public function getLightValue()
     {
-        if ($this->getMetadatas()->containsKey('Composite:LightValue'))
-        {
-            return $this->getMetadatas()->get('Composite:LightValue')->getValue();
-        }
 
-        return null;
+        return $this->findInSources(array('Composite:LightValue'));
     }
 
     /**

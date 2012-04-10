@@ -26,7 +26,7 @@ namespace MediaVorus\Media;
  * @author      Romain Neutron - imprec@gmail.com
  * @license     http://opensource.org/licenses/MIT MIT
  */
-class DefaultMedia
+class DefaultMedia implements Media
 {
 
     const GPSREF_LONGITUDE_WEST = 'W';
@@ -86,6 +86,15 @@ class DefaultMedia
         $this->entity = $entity;
 
         return $this;
+    }
+
+    /**
+     *
+     * @return string
+     */
+    public function getType()
+    {
+        return 'DefaultMedia';
     }
 
     /**
@@ -263,6 +272,37 @@ class DefaultMedia
         }
 
         return $this->entity;
+    }
+
+    protected function findInSources(Array $sources)
+    {
+        foreach ($sources as $source)
+        {
+            if ($this->getMetadatas()->containsKey($source))
+            {
+                return $this->getMetadatas()->get($source)->getValue();
+            }
+        }
+
+        return null;
+    }
+
+    protected function castValue($value, $type)
+    {
+        if(is_null($value))
+        {
+            return null;
+        }
+
+        switch($type)
+        {
+            case 'int':
+                return (int) $value;
+                break;
+            default:
+                return $value;
+                break;
+        }
     }
 
 }

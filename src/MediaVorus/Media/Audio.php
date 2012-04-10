@@ -30,7 +30,7 @@ class Audio extends DefaultMedia
      */
     public function getType()
     {
-        return 'Audio';
+        return self::TYPE_AUDIO;
     }
 
     /**

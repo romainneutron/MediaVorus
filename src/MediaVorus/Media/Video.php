@@ -35,7 +35,7 @@ class Video extends Image
      */
     public function getType()
     {
-        return 'Video';
+        return self::TYPE_VIDEO;
     }
 
     /**

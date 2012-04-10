@@ -73,7 +73,7 @@ class Image extends DefaultMedia
      */
     public function getType()
     {
-        return 'Image';
+        return self::TYPE_IMAGE;
     }
 
     /**

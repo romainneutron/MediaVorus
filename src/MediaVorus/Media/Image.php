@@ -37,19 +37,19 @@ class Image extends DefaultMedia
      * Orientation constant Horizontal (normal)
      */
 
-    const ORIENTATION_0        = 'Horizontal';
+    const ORIENTATION_0        = 0;
     /**
      * Orientation constant Vertical (90 CW)
      */
-    const ORIENTATION_90       = 'Vertical 90 CW';
+    const ORIENTATION_90       = 90;
     /**
      * Orientation constant Vertical (270 CW)
      */
-    const ORIENTATION_270      = 'Vertical 270 CW';
+    const ORIENTATION_270      = 270;
     /**
      * Orientation constant Horizontal (reversed)
      */
-    const ORIENTATION_180      = 'Reversed';
+    const ORIENTATION_180      = 180;
     /**
      * Colorspace constant CMYK
      */

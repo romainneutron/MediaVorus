@@ -83,15 +83,17 @@ class MediaVorus
      */
     protected static function guessFromMimeType($mime)
     {
+        $mime = strtolower($mime);
+
         switch (true)
         {
             case strpos($mime, 'image/') === 0:
-            case 'application/postscript':
+            case $mime === 'application/postscript':
                 return 'MediaVorus\Media\Image';
                 break;
 
             case strpos($mime, 'video/') === 0:
-            case 'application/vnd.rn-realmedia':
+            case $mime === 'application/vnd.rn-realmedia':
                 return 'MediaVorus\Media\Video';
                 break;
 
@@ -105,27 +107,27 @@ class MediaVorus
             /**
              * @todo Implements Documents
              */
-            case 'text/plain':
-            case 'application/msword':
-            case 'application/access':
-            case 'application/pdf':
-            case 'application/excel':
-            case 'application/vnd.ms-powerpoint':
-            case 'application/vnd.oasis.opendocument.formula':
-            case 'application/vnd.oasis.opendocument.text-master':
-            case 'application/vnd.oasis.opendocument.database':
-            case 'application/vnd.oasis.opendocument.formula':
-            case 'application/vnd.oasis.opendocument.chart':
-            case 'application/vnd.oasis.opendocument.graphics':
-            case 'application/vnd.oasis.opendocument.presentation':
-            case 'application/vnd.oasis.opendocument.speadsheet':
-            case 'application/vnd.oasis.opendocument.text':
+            case $mime === 'text/plain':
+            case $mime === 'application/msword':
+            case $mime === 'application/access':
+            case $mime === 'application/pdf':
+            case $mime === 'application/excel':
+            case $mime === 'application/vnd.ms-powerpoint':
+            case $mime === 'application/vnd.oasis.opendocument.formula':
+            case $mime === 'application/vnd.oasis.opendocument.text-master':
+            case $mime === 'application/vnd.oasis.opendocument.database':
+            case $mime === 'application/vnd.oasis.opendocument.formula':
+            case $mime === 'application/vnd.oasis.opendocument.chart':
+            case $mime === 'application/vnd.oasis.opendocument.graphics':
+            case $mime === 'application/vnd.oasis.opendocument.presentation':
+            case $mime === 'application/vnd.oasis.opendocument.speadsheet':
+            case $mime === 'application/vnd.oasis.opendocument.text':
                 break;
 
             /**
              * @todo Implements Flash
              */
-            case 'application/x-shockwave-flash':
+            case $mime === 'application/x-shockwave-flash':
                 break;
 
             default:

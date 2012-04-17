@@ -41,7 +41,7 @@ class File extends SymfonyFile
         }
         catch (FileNotFoundException $e)
         {
-            throw new Exception\FileNotFoundException(sprintf('File %s not found', $file->getPathname()));
+            throw new Exception\FileNotFoundException(sprintf('File %s not found', $path));
         }
     }
 

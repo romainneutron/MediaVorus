@@ -275,9 +275,9 @@ class Image extends DefaultMedia
     }
 
     /**
-     * Returns one one the ORIENTATION_* constants
+     * Returns one one the ORIENTATION_* constants, the degrees value of Orientation
      *
-     * @return string
+     * @return int
      */
     public function getOrientation()
     {

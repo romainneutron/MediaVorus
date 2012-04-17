@@ -99,6 +99,7 @@ class MediaVorus
              * @todo Implements Audio
              */
             case strpos($mime, 'audio/') === 0:
+                return 'MediaVorus\Media\Audio';
                 break;
 
             /**

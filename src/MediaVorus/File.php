@@ -49,7 +49,7 @@ class File extends SymfonyFile
     {
         $guesser = MimeTypeGuesser::getInstance();
 
-        $guesser->register(new RawImageMimeTypeGuesser());
+        $guesser->register(new Utils\RawImageMimeTypeGuesser());
 
         return $guesser->guess($this->getPathname());
     }

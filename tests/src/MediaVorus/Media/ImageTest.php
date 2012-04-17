@@ -148,7 +148,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetColorSpace()
     {
-        $media = new \MediaVorus\Media\Image(__DIR__ . '/../../../files/Exiftool.jpg');
+        $media = new \MediaVorus\Media\Image(__DIR__ . '/../../../files/ExifTool.jpg');
 
         $this->assertEquals(\MediaVorus\Media\Image::COLORSPACE_SRGB, $media->getColorSpace());
     }

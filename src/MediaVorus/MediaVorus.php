@@ -22,7 +22,6 @@
 namespace MediaVorus;
 
 use MediaVorus\MediaCollection;
-use Symfony\Component\HttpFoundation\File\Exception\FileNotFoundException;
 
 /**
  *
@@ -43,14 +42,7 @@ class MediaVorus
     {
         if ( ! $file instanceof File)
         {
-            try
-            {
-                $file = new File($file->getPathname(), true);
-            }
-            catch (FileNotFoundException $e)
-            {
-                throw new Exception\FileNotFoundException(sprintf('File %s not found', $file->getPathname()));
-            }
+            $file = new File($file->getPathname());
         }
 
         $classname = static::guessFromMimeType($file->getMimeType());

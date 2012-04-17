@@ -22,6 +22,7 @@
 namespace MediaVorus;
 
 use MediaVorus\MediaCollection;
+use Symfony\Component\HttpFoundation\File\Exception\FileNotFoundException;
 
 /**
  *
@@ -31,107 +32,114 @@ use MediaVorus\MediaCollection;
 class MediaVorus
 {
 
-  /**
-   * Build a Media Object given a file
-   *
-   * @param \SplFileInfo $file
-   * @return \MediaVorus\Media\DefaultMedia
-   */
-  public static function guess(\SplFileInfo $file)
-  {
-
-    if ( ! $file instanceof File)
+    /**
+     * Build a Media Object given a file
+     *
+     * @param \SplFileInfo $file
+     * @return \MediaVorus\Media\Media
+     * @throws Exception\FileNotFoundException
+     */
+    public static function guess(\SplFileInfo $file)
     {
-      $file = new File($file->getPathname());
+        if ( ! $file instanceof File)
+        {
+            try
+            {
+                $file = new File($file->getPathname(), true);
+            }
+            catch (FileNotFoundException $e)
+            {
+                throw new Exception\FileNotFoundException(sprintf('File %s not found', $file->getPathname()));
+            }
+        }
+
+        $classname = static::guessFromMimeType($file->getMimeType());
+
+        return new $classname($file, new \PHPExiftool\Exiftool());
     }
 
-    $classname = static::guessFromMimeType($file->getMimeType());
-
-    return new $classname($file, new \PHPExiftool\Exiftool());
-  }
-
-  /**
-   *
-   * @param \SplFileInfo $dir
-   * @param type $recursive
-   * @return MediaCollection
-   */
-  public static function inspectDirectory(\SplFileInfo $dir, $recursive = false)
-  {
-    $exiftool = new \PHPExiftool\Exiftool();
-
-    $files = new MediaCollection();
-
-    foreach ($entities = $exiftool->readDirectory($dir, $recursive) as $entity)
+    /**
+     *
+     * @param \SplFileInfo $dir
+     * @param type $recursive
+     * @return MediaCollection
+     */
+    public static function inspectDirectory(\SplFileInfo $dir, $recursive = false)
     {
-      $file = new File($entity->getFile());
+        $exiftool = new \PHPExiftool\Exiftool();
 
-      $classname = static::guessFromMimeType($file->getMimeType());
+        $files = new MediaCollection();
 
-      $files[] = new $classname($file, $exiftool, $entity);
+        foreach ($entities = $exiftool->readDirectory($dir, $recursive) as $entity)
+        {
+            $file = new File($entity->getFile());
+
+            $classname = static::guessFromMimeType($file->getMimeType());
+
+            $files[] = new $classname($file, $exiftool, $entity);
+        }
+
+        return $files;
     }
 
-    return $files;
-  }
-
-  /**
-   * Return the corresponding \MediaVorus\Media\* class corresponding to a
-   * mimetype
-   *
-   * @param string $mime
-   * @return string The name of the MediaType class to use
-   */
-  protected static function guessFromMimeType($mime)
-  {
-    switch (true)
+    /**
+     * Return the corresponding \MediaVorus\Media\* class corresponding to a
+     * mimetype
+     *
+     * @param string $mime
+     * @return string The name of the MediaType class to use
+     */
+    protected static function guessFromMimeType($mime)
     {
-      case strpos($mime, 'image/') === 0:
-      case 'application/postscript':
-        return 'MediaVorus\Media\Image';
-        break;
+        switch (true)
+        {
+            case strpos($mime, 'image/') === 0:
+            case 'application/postscript':
+                return 'MediaVorus\Media\Image';
+                break;
 
-      case strpos($mime, 'video/') === 0:
-      case 'application/vnd.rn-realmedia':
-        return 'MediaVorus\Media\Video';
-        break;
+            case strpos($mime, 'video/') === 0:
+            case 'application/vnd.rn-realmedia':
+                return 'MediaVorus\Media\Video';
+                break;
 
-      /**
-       * @todo Implements Audio
-       */
-      case strpos($mime, 'audio/') === 0:
-        break;
+            /**
+             * @todo Implements Audio
+             */
+            case strpos($mime, 'audio/') === 0:
+                break;
 
-      /**
-       * @todo Implements Documents
-       */
-      case 'text/plain':
-      case 'application/msword':
-      case 'application/access':
-      case 'application/pdf':
-      case 'application/excel':
-      case 'application/vnd.ms-powerpoint':
-      case 'application/vnd.oasis.opendocument.formula':
-      case 'application/vnd.oasis.opendocument.text-master':
-      case 'application/vnd.oasis.opendocument.database':
-      case 'application/vnd.oasis.opendocument.formula':
-      case 'application/vnd.oasis.opendocument.chart':
-      case 'application/vnd.oasis.opendocument.graphics':
-      case 'application/vnd.oasis.opendocument.presentation':
-      case 'application/vnd.oasis.opendocument.speadsheet':
-      case 'application/vnd.oasis.opendocument.text':
-        break;
+            /**
+             * @todo Implements Documents
+             */
+            case 'text/plain':
+            case 'application/msword':
+            case 'application/access':
+            case 'application/pdf':
+            case 'application/excel':
+            case 'application/vnd.ms-powerpoint':
+            case 'application/vnd.oasis.opendocument.formula':
+            case 'application/vnd.oasis.opendocument.text-master':
+            case 'application/vnd.oasis.opendocument.database':
+            case 'application/vnd.oasis.opendocument.formula':
+            case 'application/vnd.oasis.opendocument.chart':
+            case 'application/vnd.oasis.opendocument.graphics':
+            case 'application/vnd.oasis.opendocument.presentation':
+            case 'application/vnd.oasis.opendocument.speadsheet':
+            case 'application/vnd.oasis.opendocument.text':
+                break;
 
-      /**
-       * @todo Implements Flash
-       */
-      case 'application/x-shockwave-flash':
-        break;
+            /**
+             * @todo Implements Flash
+             */
+            case 'application/x-shockwave-flash':
+                break;
 
-      default:
-        break;
+            default:
+                break;
+        }
+
+        return 'MediaVorus\Media\DefaultMedia';
     }
-
-    return 'MediaVorus\Media\DefaultMedia';
-  }
 
 }

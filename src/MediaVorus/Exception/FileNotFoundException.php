@@ -21,7 +21,7 @@
 
 namespace MediaVorus\Exception;
 
-class InvalidArgumentException extends \InvalidArgumentException
+class FileNotFoundException extends \Exception
 {
 
 }

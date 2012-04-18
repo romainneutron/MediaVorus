@@ -122,12 +122,14 @@ class MediaVorus
             case $mime === 'application/vnd.oasis.opendocument.presentation':
             case $mime === 'application/vnd.oasis.opendocument.speadsheet':
             case $mime === 'application/vnd.oasis.opendocument.text':
+                return 'MediaVorus\Media\Document';
                 break;
 
             /**
              * @todo Implements Flash
              */
             case $mime === 'application/x-shockwave-flash':
+                return 'MediaVorus\Media\Flash';
                 break;
 
             default:

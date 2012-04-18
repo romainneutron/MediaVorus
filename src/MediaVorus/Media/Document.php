@@ -21,22 +21,16 @@
 
 namespace MediaVorus\Media;
 
-/**
- *
- * @author      Romain Neutron - imprec@gmail.com
- * @license     http://opensource.org/licenses/MIT MIT
- */
-interface Media
+class Document extends Image
 {
 
-    const TYPE_AUDIO = 'Audio';
-    const TYPE_IMAGE = 'Image';
-    const TYPE_VIDEO = 'Video';
-    const TYPE_FLASH = 'Flash';
-    const TYPE_DOWUMENT = 'Document';
-
-    public function getFile();
-
-    public function getType();
+    /**
+     *
+     * @return string
+     */
+    public function getType()
+    {
+        return self::TYPE_DOWUMENT;
+    }
 
 }

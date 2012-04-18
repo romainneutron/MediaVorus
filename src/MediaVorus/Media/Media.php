@@ -33,7 +33,7 @@ interface Media
     const TYPE_IMAGE = 'Image';
     const TYPE_VIDEO = 'Video';
     const TYPE_FLASH = 'Flash';
-    const TYPE_DOWUMENT = 'Document';
+    const TYPE_DOCUMENT = 'Document';
 
     public function getFile();
 

@@ -19,40 +19,36 @@
  * IN THE SOFTWARE.
  */
 
-namespace MediaVorus;
+namespace MediaVorus\Utils;
 
-use Symfony\Component\HttpFoundation\File\File as SymfonyFile;
-use Symfony\Component\HttpFoundation\File\MimeType\MimeTypeGuesser;
-use Symfony\Component\HttpFoundation\File\Exception\FileNotFoundException;
+use Symfony\Component\HttpFoundation\File\MimeType\MimeTypeGuesserInterface;
 
 /**
  *
  * @author      Romain Neutron - imprec@gmail.com
  * @license     http://opensource.org/licenses/MIT MIT
  */
-class File extends SymfonyFile
+class VideoMimeTypeGuesser implements MimeTypeGuesserInterface
 {
 
-    public function __construct($path)
+    public static $videoMimeTypes = array(
+      'webm' => 'video/webm',
+      'ogv'  => 'video/ogg',
+    );
+
+    /**
+     * {@inheritdoc}
+     */
+    public function guess($path)
     {
-        try
+        $extension = strtolower(pathinfo(basename($path), PATHINFO_EXTENSION));
+
+        if (array_key_exists($extension, static::$videoMimeTypes))
         {
-            parent::__construct($path, true);
+            return static::$videoMimeTypes[$extension];
         }
-        catch (FileNotFoundException $e)
-        {
-            throw new Exception\FileNotFoundException(sprintf('File %s not found', $path));
-        }
-    }
 
-    public function getMimeType()
-    {
-        $guesser = MimeTypeGuesser::getInstance();
-
-        $guesser->register(new Utils\RawImageMimeTypeGuesser());
-        $guesser->register(new Utils\VideoMimeTypeGuesser());
-
-        return $guesser->guess($this->getPathname());
+        return null;
     }
 
 }

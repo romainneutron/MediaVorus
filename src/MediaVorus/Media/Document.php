@@ -30,7 +30,7 @@ class Document extends Image
      */
     public function getType()
     {
-        return self::TYPE_DOWUMENT;
+        return self::TYPE_DOCUMENT;
     }
 
 }

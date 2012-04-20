@@ -22,6 +22,7 @@
 namespace MediaVorus;
 
 use MediaVorus\MediaCollection;
+use PHPExiftool\Reader;
 
 /**
  *
@@ -47,10 +48,12 @@ class MediaVorus
 
         $classname = static::guessFromMimeType($file->getMimeType());
 
-        return new $classname($file, new \PHPExiftool\Exiftool());
+        return new $classname($file);
     }
 
     /**
+     *
+     * @todo take an exiftool reader as argument
      *
      * @param \SplFileInfo $dir
      * @param type $recursive
@@ -58,17 +61,24 @@ class MediaVorus
      */
     public static function inspectDirectory(\SplFileInfo $dir, $recursive = false)
     {
-        $exiftool = new \PHPExiftool\Exiftool();
+        $reader = new Reader();
+
+        $reader->in($dir->getPathname())->followSymLinks();
+
+        if(!$recursive)
+        {
+            $reader->notRecursive();
+        }
 
         $files = new MediaCollection();
 
-        foreach ($entities = $exiftool->readDirectory($dir, $recursive) as $entity)
+        foreach ($reader as $entity)
         {
             $file = new File($entity->getFile());
 
             $classname = static::guessFromMimeType($file->getMimeType());
 
-            $files[] = new $classname($file, $exiftool, $entity);
+            $files[] = new $classname($file, $entity);
         }
 
         return $files;

@@ -21,6 +21,8 @@
 
 namespace MediaVorus\Media;
 
+use PHPExiftool\FileEntity;
+
 /**
  *
  * @author      Romain Neutron - imprec@gmail.com
@@ -42,12 +44,6 @@ class DefaultMedia implements Media
 
     /**
      *
-     * @var \PHPExiftool\Exiftool
-     */
-    protected $exiftool;
-
-    /**
-     *
      * @var \PHPExiftool\FileEntity
      */
     protected $entity;
@@ -59,7 +55,7 @@ class DefaultMedia implements Media
      * @param \PHPExiftool\Exiftool $exiftool
      * @return \MediaVorus\Media\DefaultMedia
      */
-    public function __construct($file, \PHPExiftool\Exiftool $exiftool = null, \PHPExiftool\FileEntity $entity = null)
+    public function __construct($file, FileEntity $entity = null)
     {
         switch (true)
         {
@@ -76,13 +72,7 @@ class DefaultMedia implements Media
                 break;
         }
 
-        if ( ! $exiftool instanceof \PHPExiftool\Exiftool)
-        {
-            $exiftool = new \PHPExiftool\Exiftool();
-        }
-
         $this->file = $file;
-        $this->exiftool = $exiftool;
         $this->entity = $entity;
 
         return $this;
@@ -115,12 +105,12 @@ class DefaultMedia implements Media
     {
         if ($this->getMetadatas()->containsKey('GPS:GPSLongitude'))
         {
-            return $this->getMetadatas()->get('GPS:GPSLongitude')->getValue();
+            return $this->getMetadatas()->get('GPS:GPSLongitude')->getValue()->getValue();
         }
         if ($this->getMetadatas()->containsKey('Composite:GPSLongitude'))
         {
             $datas = $this->GPSCompositeExtract(
-              $this->getMetadatas()->get('Composite:GPSLongitude')->getValue()
+              $this->getMetadatas()->get('Composite:GPSLongitude')->getValue()->getValue()
             );
 
             if ($datas)
@@ -141,7 +131,7 @@ class DefaultMedia implements Media
     {
         if ($this->getMetadatas()->containsKey('GPS:GPSLongitudeRef'))
         {
-            switch (strtolower($this->getMetadatas()->get('GPS:GPSLongitudeRef')->getValue()))
+            switch (strtolower($this->getMetadatas()->get('GPS:GPSLongitudeRef')->getValue()->getValue()))
             {
                 case 'west':
                     return self::GPSREF_LONGITUDE_WEST;
@@ -154,7 +144,7 @@ class DefaultMedia implements Media
         if ($this->getMetadatas()->containsKey('Composite:GPSLongitude'))
         {
             $datas = $this->GPSCompositeExtract(
-              $this->getMetadatas()->get('Composite:GPSLongitude')->getValue()
+              $this->getMetadatas()->get('Composite:GPSLongitude')->getValue()->getValue()
             );
 
             if ($datas)
@@ -175,12 +165,12 @@ class DefaultMedia implements Media
     {
         if ($this->getMetadatas()->containsKey('GPS:GPSLatitude'))
         {
-            return $this->getMetadatas()->get('GPS:GPSLatitude')->getValue();
+            return $this->getMetadatas()->get('GPS:GPSLatitude')->getValue()->getValue();
         }
         if ($this->getMetadatas()->containsKey('Composite:GPSLatitude'))
         {
             $datas = $this->GPSCompositeExtract(
-              $this->getMetadatas()->get('Composite:GPSLatitude')->getValue()
+              $this->getMetadatas()->get('Composite:GPSLatitude')->getValue()->getValue()
             );
 
             if ($datas)
@@ -201,7 +191,7 @@ class DefaultMedia implements Media
     {
         if ($this->getMetadatas()->containsKey('GPS:GPSLatitudeRef'))
         {
-            switch (strtolower($this->getMetadatas()->get('GPS:GPSLatitudeRef')->getValue()))
+            switch (strtolower($this->getMetadatas()->get('GPS:GPSLatitudeRef')->getValue()->getValue()))
             {
                 case 'north':
                     return self::GPSREF_LATITUDE_NORTH;
@@ -214,7 +204,7 @@ class DefaultMedia implements Media
         if ($this->getMetadatas()->containsKey('Composite:GPSLatitude'))
         {
             $datas = $this->GPSCompositeExtract(
-              $this->getMetadatas()->get('Composite:GPSLatitude')->getValue()
+              $this->getMetadatas()->get('Composite:GPSLatitude')->getValue()->getValue()
             );
 
             if ($datas)
@@ -260,7 +250,6 @@ class DefaultMedia implements Media
      */
     protected function getMetadatas()
     {
-
         return $this->getEntity()->getMetadatas();
     }
 
@@ -268,7 +257,9 @@ class DefaultMedia implements Media
     {
         if ( ! $this->entity)
         {
-            $this->entity = $this->exiftool->read($this->file);
+            $reader = new \PHPExiftool\Reader();
+
+            $this->entity = $reader->files($this->file->getPathname())->first();
         }
 
         return $this->entity;
@@ -280,7 +271,7 @@ class DefaultMedia implements Media
         {
             if ($this->getMetadatas()->containsKey($source))
             {
-                return $this->getMetadatas()->get($source)->getValue();
+                return $this->getMetadatas()->get($source)->getValue()->getValue();
             }
         }
 

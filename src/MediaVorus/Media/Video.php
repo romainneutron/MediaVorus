@@ -160,13 +160,13 @@ class Video extends Image
     {
         if ($this->getMetadatas()->containsKey('RIFF:AudioCodec')
           && $this->getMetadatas()->containsKey('RIFF:Encoding')
-          && $this->getMetadatas()->get('RIFF:AudioCodec')->getValue() === '')
+          && $this->getMetadatas()->get('RIFF:AudioCodec')->getValue()->getValue() === '')
         {
-            return $this->getMetadatas()->get('RIFF:Encoding')->getValue();
+            return $this->getMetadatas()->get('RIFF:Encoding')->getValue()->getValue();
         }
         if ($this->getMetadatas()->containsKey('Flash:AudioEncoding'))
         {
-            return $this->getMetadatas()->get('Flash:AudioEncoding')->getValue();
+            return $this->getMetadatas()->get('Flash:AudioEncoding')->getValue()->getValue();
         }
         if (null !== $VideoCodec = $this->getEntity()->executeQuery('Track2:AudioFormat'))
         {

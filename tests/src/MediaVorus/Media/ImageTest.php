@@ -22,7 +22,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->object = new Image(new \SplFileInfo(__DIR__ . '/../../../files/ExifTool.jpg'), new \PHPExiftool\Exiftool());
+        $this->object = new Image(new \SplFileInfo(__DIR__ . '/../../../files/ExifTool.jpg'));
     }
 
     /**

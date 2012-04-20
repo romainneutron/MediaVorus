@@ -115,13 +115,13 @@ class Image extends DefaultMedia
     {
         if ($this->getMetadatas()->containsKey('File:ImageWidth'))
         {
-            return (int) $this->getMetadatas()->get('File:ImageWidth')->getValue();
+            return (int) $this->getMetadatas()->get('File:ImageWidth')->getValue()->getValue();
         }
 
         if ($this->getMetadatas()->containsKey('Composite:ImageSize'))
         {
             $dimensions = $this->extractFromDimensions(
-              $this->getMetadatas()->get('Composite:ImageSize')->getValue()
+              $this->getMetadatas()->get('Composite:ImageSize')->getValue()->getValue()
             );
 
             if ($dimensions)
@@ -144,13 +144,13 @@ class Image extends DefaultMedia
     {
         if ($this->getMetadatas()->containsKey('File:ImageHeight'))
         {
-            return (int) $this->getMetadatas()->get('File:ImageHeight')->getValue();
+            return (int) $this->getMetadatas()->get('File:ImageHeight')->getValue()->getValue();
         }
 
         if ($this->getMetadatas()->containsKey('Composite:ImageSize'))
         {
             $dimensions = $this->extractFromDimensions(
-              $this->getMetadatas()->get('Composite:ImageSize')->getValue()
+              $this->getMetadatas()->get('Composite:ImageSize')->getValue()->getValue()
             );
 
             if ($dimensions)
@@ -363,7 +363,7 @@ class Image extends DefaultMedia
 
         foreach ($this->getMetadatas()->filterKeysByRegExp($regexp) as $meta)
         {
-            switch (strtolower(trim($meta->getValue())))
+            switch (strtolower(trim($meta->getValue()->getValue())))
             {
                 case 'cmyk':
                     return self::COLORSPACE_CMYK;

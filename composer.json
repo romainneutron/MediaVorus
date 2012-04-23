@@ -14,7 +14,8 @@
     "require": {
         "php": ">=5.3.6",
         "symfony/http-foundation": ">2.0",
-        "phpexiftool/phpexiftool": "dev-master"
+        "phpexiftool/phpexiftool": "dev-master",
+        "php-ffmpeg/php-ffmpeg": "dev-master"
     },
     "autoload": {
         "psr-0": {

@@ -29,6 +29,16 @@ namespace MediaVorus\Media;
 class Video extends Image
 {
 
+    protected $ffprobe;
+    protected $duration;
+
+    public function __construct($file, FileEntity $entity = null)
+    {
+        parent::__construct($file, $entity);
+
+        $this->ffprobe = \FFMpeg\FFProbe::load();
+    }
+
     /**
      *
      * @return string
@@ -45,6 +55,11 @@ class Video extends Image
      */
     public function getDuration()
     {
+        if ($this->duration)
+        {
+            return $this->duration;
+        }
+
         $sources = array('Composite:Duration', 'Flash:Duration', 'QuickTime:Duration', 'Real-PROP:Duration');
 
         if (null !== $value = $this->findInSources($sources))
@@ -53,7 +68,7 @@ class Video extends Image
 
             if (count($matches) > 0)
             {
-                return (float) $matches[1];
+                return $this->duration = (float) $matches[1];
             }
 
             preg_match('/[0-9]+:[0-9]+:[0-9\.]+/', $value, $matches);
@@ -70,7 +85,18 @@ class Video extends Image
                     $factor *=60;
                 }
 
-                return (float) $duration;
+                return $this->duration = (float) $duration;
+            }
+        }
+
+
+        $result = $this->ffprobe->probeFormat($this->file->getPathname());
+
+        foreach (explode("\n", $result) as $line)
+        {
+            if (preg_match('/duration=([\d\.]+)/i', $line, $matches))
+            {
+                return $this->duration = (int) $matches[1];
             }
         }
 

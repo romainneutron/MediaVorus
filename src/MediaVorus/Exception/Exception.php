@@ -21,7 +21,7 @@
 
 namespace MediaVorus\Exception;
 
-class InvalidArgumentException extends \InvalidArgumentException implements Exception
+interface Exception
 {
 
 }

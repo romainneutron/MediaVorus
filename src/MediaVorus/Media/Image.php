@@ -115,13 +115,13 @@ class Image extends DefaultMedia
     {
         if ($this->getMetadatas()->containsKey('File:ImageWidth'))
         {
-            return (int) $this->getMetadatas()->get('File:ImageWidth')->getValue()->getValue();
+            return (int) $this->getMetadatas()->get('File:ImageWidth')->getValue()->asString();
         }
 
         if ($this->getMetadatas()->containsKey('Composite:ImageSize'))
         {
             $dimensions = $this->extractFromDimensions(
-              $this->getMetadatas()->get('Composite:ImageSize')->getValue()->getValue()
+              $this->getMetadatas()->get('Composite:ImageSize')->getValue()->asString()
             );
 
             if ($dimensions)
@@ -144,13 +144,13 @@ class Image extends DefaultMedia
     {
         if ($this->getMetadatas()->containsKey('File:ImageHeight'))
         {
-            return (int) $this->getMetadatas()->get('File:ImageHeight')->getValue()->getValue();
+            return (int) $this->getMetadatas()->get('File:ImageHeight')->getValue()->asString();
         }
 
         if ($this->getMetadatas()->containsKey('Composite:ImageSize'))
         {
             $dimensions = $this->extractFromDimensions(
-              $this->getMetadatas()->get('Composite:ImageSize')->getValue()->getValue()
+              $this->getMetadatas()->get('Composite:ImageSize')->getValue()->asString()
             );
 
             if ($dimensions)
@@ -363,7 +363,7 @@ class Image extends DefaultMedia
 
         foreach ($this->getMetadatas()->filterKeysByRegExp($regexp) as $meta)
         {
-            switch (strtolower(trim($meta->getValue()->getValue())))
+            switch (strtolower(trim($meta->getValue()->asString())))
             {
                 case 'cmyk':
                     return self::COLORSPACE_CMYK;

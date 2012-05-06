@@ -35,12 +35,9 @@ class File extends SymfonyFile
 
     public function __construct($path)
     {
-        try
-        {
+        try {
             parent::__construct($path, true);
-        }
-        catch (FileNotFoundException $e)
-        {
+        } catch (FileNotFoundException $e) {
             throw new Exception\FileNotFoundException(sprintf('File %s not found', $path));
         }
     }
@@ -54,5 +51,4 @@ class File extends SymfonyFile
 
         return $guesser->guess($this->getPathname());
     }
-
 }

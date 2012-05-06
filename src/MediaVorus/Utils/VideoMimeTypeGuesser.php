@@ -30,10 +30,9 @@ use Symfony\Component\HttpFoundation\File\MimeType\MimeTypeGuesserInterface;
  */
 class VideoMimeTypeGuesser implements MimeTypeGuesserInterface
 {
-
     public static $videoMimeTypes = array(
-      'webm' => 'video/webm',
-      'ogv'  => 'video/ogg',
+        'webm' => 'video/webm',
+        'ogv'  => 'video/ogg',
     );
 
     /**
@@ -43,12 +42,10 @@ class VideoMimeTypeGuesser implements MimeTypeGuesserInterface
     {
         $extension = strtolower(pathinfo(basename($path), PATHINFO_EXTENSION));
 
-        if (array_key_exists($extension, static::$videoMimeTypes))
-        {
+        if (array_key_exists($extension, static::$videoMimeTypes)) {
             return static::$videoMimeTypes[$extension];
         }
 
         return null;
     }
-
 }

@@ -33,5 +33,4 @@ interface Filter
      * Return a \Closure with {$key, Media $media} parameters and returns boolean
      */
     public function apply();
-
 }

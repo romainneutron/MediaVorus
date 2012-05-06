@@ -41,8 +41,7 @@ class MediaVorus
      */
     public static function guess(\SplFileInfo $file)
     {
-        if ( ! $file instanceof File)
-        {
+        if ( ! $file instanceof File) {
             $file = new File($file->getPathname());
         }
 
@@ -65,15 +64,13 @@ class MediaVorus
 
         $reader->in($dir->getPathname())->followSymLinks();
 
-        if(!$recursive)
-        {
+        if ( ! $recursive) {
             $reader->notRecursive();
         }
 
         $files = new MediaCollection();
 
-        foreach ($reader as $entity)
-        {
+        foreach ($reader as $entity) {
             $file = new File($entity->getFile());
 
             $classname = static::guessFromMimeType($file->getMimeType());
@@ -95,8 +92,7 @@ class MediaVorus
     {
         $mime = strtolower($mime);
 
-        switch (true)
-        {
+        switch (true) {
             case strpos($mime, 'image/') === 0:
             case $mime === 'application/postscript':
                 return 'MediaVorus\Media\Image';
@@ -148,5 +144,4 @@ class MediaVorus
 
         return 'MediaVorus\Media\DefaultMedia';
     }
-
 }

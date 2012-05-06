@@ -32,5 +32,4 @@ class Flash extends Image
     {
         return self::TYPE_FLASH;
     }
-
 }

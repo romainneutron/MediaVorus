@@ -32,5 +32,4 @@ class Document extends Image
     {
         return self::TYPE_DOCUMENT;
     }
-
 }

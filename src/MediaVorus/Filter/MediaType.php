@@ -30,7 +30,6 @@ use MediaVorus\Media\Media;
  */
 class MediaType implements Filter
 {
-
     protected $type;
 
     /**
@@ -50,10 +49,8 @@ class MediaType implements Filter
     {
         $type = $this->type;
 
-        return function($key, Media $media) use ($type)
-          {
-              $media->getType() === $type;
-          };
+        return function($key, Media $media) use ($type) {
+                $media->getType() === $type;
+            };
     }
-
 }

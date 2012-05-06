@@ -10,7 +10,6 @@ require_once dirname(__FILE__) . '/../../../../src/MediaVorus/Media/Image.php';
  */
 class ImageTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * @var Image
      */
@@ -57,8 +56,8 @@ class ImageTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetFocalLength()
     {
-        $this->assertTrue(is_string($this->object->getFocalLength()));
-        $this->assertEquals('6.0 mm', $this->object->getFocalLength());
+        $this->assertTrue(is_float($this->object->getFocalLength()));
+        $this->assertEquals(6.0, $this->object->getFocalLength());
     }
 
     /**
@@ -91,7 +90,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetAperture()
     {
-        $this->assertTrue(is_string($this->object->getAperture()));
+        $this->assertInternalType('float', $this->object->getAperture());
     }
 
     /**
@@ -99,7 +98,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetShutterSpeed()
     {
-        $this->assertTrue(is_string($this->object->getShutterSpeed()));
+        $this->assertInternalType('float', $this->object->getShutterSpeed());
     }
 
     /**
@@ -123,7 +122,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetHyperfocalDistance()
     {
-        $this->assertTrue(is_string($this->object->getHyperfocalDistance()));
+        $this->assertInternalType('float', $this->object->getHyperfocalDistance());
     }
 
     /**
@@ -140,7 +139,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetLightValue()
     {
-        $this->assertTrue(is_string($this->object->getLightValue()));
+        $this->assertInternalType('float', $this->object->getLightValue());
     }
 
     /**
@@ -150,7 +149,6 @@ class ImageTest extends \PHPUnit_Framework_TestCase
     {
         $media = new \MediaVorus\Media\Image(__DIR__ . '/../../../files/ExifTool.jpg');
 
-        $this->assertEquals(\MediaVorus\Media\Image::COLORSPACE_SRGB, $media->getColorSpace());
+        $this->assertEquals(\MediaVorus\Media\Image::COLORSPACE_RGB, $media->getColorSpace());
     }
-
 }

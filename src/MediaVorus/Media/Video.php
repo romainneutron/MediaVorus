@@ -28,7 +28,6 @@ namespace MediaVorus\Media;
  */
 class Video extends Image
 {
-
     protected $ffprobe;
     protected $duration;
 
@@ -55,48 +54,21 @@ class Video extends Image
      */
     public function getDuration()
     {
-        if ($this->duration)
-        {
+        if ($this->duration) {
             return $this->duration;
         }
 
         $sources = array('Composite:Duration', 'Flash:Duration', 'QuickTime:Duration', 'Real-PROP:Duration');
 
-        if (null !== $value = $this->findInSources($sources))
-        {
-            preg_match('/([0-9\.]+) s/', $value, $matches);
-
-            if (count($matches) > 0)
-            {
-                return $this->duration = (float) $matches[1];
-            }
-
-            preg_match('/[0-9]+:[0-9]+:[0-9\.]+/', $value, $matches);
-
-            if (count($matches) > 0)
-            {
-                $data = explode(':', $matches[0]);
-
-                $duration = 0;
-                $factor   = 1;
-                while ($segment  = array_pop($data))
-                {
-                    $duration += $segment * $factor;
-                    $factor *=60;
-                }
-
-                return $this->duration = (float) $duration;
-            }
+        if (null !== $value = $this->findInSources($sources)) {
+            return (float) $value;
         }
-
 
         $result = $this->ffprobe->probeFormat($this->file->getPathname());
 
-        foreach (explode("\n", $result) as $line)
-        {
-            if (preg_match('/duration=([\d\.]+)/i', $line, $matches))
-            {
-                return $this->duration = (int) $matches[1];
+        foreach (explode("\n", $result) as $line) {
+            if (preg_match('/duration=([\d\.]+)/i', $line, $matches)) {
+                return $this->duration = (float) $matches[1];
             }
         }
 
@@ -112,13 +84,11 @@ class Video extends Image
     {
         $sources = array('RIFF:FrameRate', 'RIFF:VideoFrameRate', 'Flash:FrameRate');
 
-        if (null !== $value = $this->findInSources($sources))
-        {
+        if (null !== $value = $this->findInSources($sources)) {
             return $value;
         }
 
-        if (null !== $value = $this->getEntity()->executeQuery('Track1:VideoFrameRate'))
-        {
+        if (null !== $value = $this->getEntity()->executeQuery('Track1:VideoFrameRate')) {
             return $value;
         }
 
@@ -134,13 +104,11 @@ class Video extends Image
     {
         $sources = array('RIFF:AudioSampleRate', 'Flash:AudioSampleRate');
 
-        if (null !== $value = $this->findInSources($sources))
-        {
+        if (null !== $value = $this->findInSources($sources)) {
             return $value;
         }
 
-        if (null !== $value = $this->getEntity()->executeQuery('Track2:AudioSampleRate'))
-        {
+        if (null !== $value = $this->getEntity()->executeQuery('Track2:AudioSampleRate')) {
             return $value;
         }
 
@@ -156,21 +124,17 @@ class Video extends Image
     {
         $sources = array('RIFF:AudioSampleRate', 'Flash:VideoEncoding');
 
-        if (null !== $value = $this->findInSources($sources))
-        {
+        if (null !== $value = $this->findInSources($sources)) {
             return $value;
         }
 
-        if (null !== $value = $this->getEntity()->executeQuery('QuickTime:ComAppleProappsOriginalFormat'))
-        {
+        if (null !== $value = $this->getEntity()->executeQuery('QuickTime:ComAppleProappsOriginalFormat')) {
             return $value;
         }
-        if (null !== $value = $this->getEntity()->executeQuery('Track1:CompressorName'))
-        {
+        if (null !== $value = $this->getEntity()->executeQuery('Track1:CompressorName')) {
             return $value;
         }
-        if (null !== $value = $this->getEntity()->executeQuery('Track1:CompressorID'))
-        {
+        if (null !== $value = $this->getEntity()->executeQuery('Track1:CompressorID')) {
             return $value;
         }
 
@@ -185,21 +149,17 @@ class Video extends Image
     public function getAudioCodec()
     {
         if ($this->getMetadatas()->containsKey('RIFF:AudioCodec')
-          && $this->getMetadatas()->containsKey('RIFF:Encoding')
-          && $this->getMetadatas()->get('RIFF:AudioCodec')->getValue()->asString() === '')
-        {
+            && $this->getMetadatas()->containsKey('RIFF:Encoding')
+            && $this->getMetadatas()->get('RIFF:AudioCodec')->getValue()->asString() === '') {
             return $this->getMetadatas()->get('RIFF:Encoding')->getValue()->asString();
         }
-        if ($this->getMetadatas()->containsKey('Flash:AudioEncoding'))
-        {
+        if ($this->getMetadatas()->containsKey('Flash:AudioEncoding')) {
             return $this->getMetadatas()->get('Flash:AudioEncoding')->getValue()->asString();
         }
-        if (null !== $VideoCodec = $this->getEntity()->executeQuery('Track2:AudioFormat'))
-        {
+        if (null !== $VideoCodec = $this->getEntity()->executeQuery('Track2:AudioFormat')) {
             return $VideoCodec;
         }
 
         return null;
     }
-
 }

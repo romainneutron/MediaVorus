@@ -32,36 +32,34 @@ use \MediaVorus\Utils\RawImageMimeTypeGuesser;
  */
 class Image extends DefaultMedia
 {
-
     /**
      * Orientation constant Horizontal (normal)
      */
-
-    const ORIENTATION_0        = 0;
+    const ORIENTATION_0 = 0;
     /**
      * Orientation constant Vertical (90 CW)
      */
-    const ORIENTATION_90       = 90;
+    const ORIENTATION_90 = 90;
     /**
      * Orientation constant Vertical (270 CW)
      */
-    const ORIENTATION_270      = 270;
+    const ORIENTATION_270 = 270;
     /**
      * Orientation constant Horizontal (reversed)
      */
-    const ORIENTATION_180      = 180;
+    const ORIENTATION_180 = 180;
     /**
      * Colorspace constant CMYK
      */
-    const COLORSPACE_CMYK      = 'CMYK';
+    const COLORSPACE_CMYK = 'CMYK';
     /**
      * Colorspace constant RGB
      */
-    const COLORSPACE_RGB       = 'RGB';
+    const COLORSPACE_RGB = 'RGB';
     /**
      * Colorspace constant sRGB
      */
-    const COLORSPACE_SRGB      = 'sRGB';
+    const COLORSPACE_SRGB = 'sRGB';
     /**
      * Colorspace constant Grayscale
      */
@@ -95,15 +93,15 @@ class Image extends DefaultMedia
     public function hasMultipleLayers()
     {
         return in_array($this->getFile()->getMimeType(), array(
-            'image/tiff',
-            'application/pdf',
-            'image/psd',
-            'image/vnd.adobe.photoshop',
-            'image/photoshop',
-            'image/ai',
-            'image/illustrator',
-            'image/vnd.adobe.illustrator'
-          ));
+                'image/tiff',
+                'application/pdf',
+                'image/psd',
+                'image/vnd.adobe.photoshop',
+                'image/photoshop',
+                'image/ai',
+                'image/illustrator',
+                'image/vnd.adobe.illustrator'
+            ));
     }
 
     /**
@@ -113,19 +111,16 @@ class Image extends DefaultMedia
      */
     public function getWidth()
     {
-        if ($this->getMetadatas()->containsKey('File:ImageWidth'))
-        {
+        if ($this->getMetadatas()->containsKey('File:ImageWidth')) {
             return (int) $this->getMetadatas()->get('File:ImageWidth')->getValue()->asString();
         }
 
-        if ($this->getMetadatas()->containsKey('Composite:ImageSize'))
-        {
+        if ($this->getMetadatas()->containsKey('Composite:ImageSize')) {
             $dimensions = $this->extractFromDimensions(
-              $this->getMetadatas()->get('Composite:ImageSize')->getValue()->asString()
+                $this->getMetadatas()->get('Composite:ImageSize')->getValue()->asString()
             );
 
-            if ($dimensions)
-            {
+            if ($dimensions) {
                 return (int) $dimensions['width'];
             }
         }
@@ -142,19 +137,16 @@ class Image extends DefaultMedia
      */
     public function getHeight()
     {
-        if ($this->getMetadatas()->containsKey('File:ImageHeight'))
-        {
+        if ($this->getMetadatas()->containsKey('File:ImageHeight')) {
             return (int) $this->getMetadatas()->get('File:ImageHeight')->getValue()->asString();
         }
 
-        if ($this->getMetadatas()->containsKey('Composite:ImageSize'))
-        {
+        if ($this->getMetadatas()->containsKey('Composite:ImageSize')) {
             $dimensions = $this->extractFromDimensions(
-              $this->getMetadatas()->get('Composite:ImageSize')->getValue()->asString()
+                $this->getMetadatas()->get('Composite:ImageSize')->getValue()->asString()
             );
 
-            if ($dimensions)
-            {
+            if ($dimensions) {
                 return (int) $dimensions['height'];
             }
         }
@@ -177,15 +169,15 @@ class Image extends DefaultMedia
     }
 
     /**
-     * Return the focal length used by the camera, null on error
+     * Return the focal length used by the camera in mm, null on error
      *
-     * @return string
+     * @return float
      */
     public function getFocalLength()
     {
         $sources = array('ExifIFD:FocalLength', 'XMP-exif:FocalLength');
 
-        return $this->findInSources($sources);
+        return (float) $this->findInSources($sources);
     }
 
     /**
@@ -220,26 +212,19 @@ class Image extends DefaultMedia
      */
     public function getFlashFired()
     {
-        if (null !== $value = strtolower($this->findInSources(array('ExifIFD:Flash'))))
-        {
-            switch (true)
-            {
-                case strpos($value, 'not fire') !== false:
-                case strpos($value, 'no flash') !== false:
-                case strpos($value, 'off,') === 0:
+        if (null !== $value = $this->findInSources(array('ExifIFD:Flash'))) {
+            switch ($value % 2) {
+                case 0: // not triggered
                     return false;
                     break;
-                case strpos($value, 'fired') !== false:
-                case strpos($value, 'on,') === 0:
+                case 1: // triggered
                     return true;
                     break;
             }
         }
 
-        if (null !== $value = strtolower($this->findInSources(array('XMP-exif:FlashFired'))))
-        {
-            switch (true)
-            {
+        if (null !== $value = strtolower($this->findInSources(array('XMP-exif:FlashFired')))) {
+            switch (true) {
                 case $value === 'true':
                     return true;
                     break;
@@ -260,18 +245,18 @@ class Image extends DefaultMedia
     public function getAperture()
     {
 
-        return $this->findInSources(array('Composite:Aperture'));
+        return $this->castValue($this->findInSources(array('Composite:Aperture')), 'float');
     }
 
     /**
-     * Get ShutterSpeed value
+     * Get ShutterSpeed value in seconds
      *
-     * @return string
+     * @return float
      */
     public function getShutterSpeed()
     {
 
-        return $this->findInSources(array('Composite:ShutterSpeed'));
+        return $this->castValue($this->findInSources(array('Composite:ShutterSpeed')), 'float');
     }
 
     /**
@@ -281,20 +266,19 @@ class Image extends DefaultMedia
      */
     public function getOrientation()
     {
-        if (null !== $orientation = strtolower($this->findInSources(array('IFD0:Orientation'))))
-        {
-            switch (true)
-            {
-                case strpos($orientation, '90 cw') !== false:
+        if (null !== $orientation = $this->findInSources(array('IFD0:Orientation'))) {
+            switch ($orientation) {
+                case 6:
                     return self::ORIENTATION_90;
                     break;
-                case strpos($orientation, '270 cw') !== false:
+                case 8:
                     return self::ORIENTATION_270;
                     break;
-                case strpos($orientation, 'horizontal (normal)') !== false:
+                case 1:
+                default:
                     return self::ORIENTATION_0;
                     break;
-                case strpos($orientation, '180') !== false:
+                case 3:
                     return self::ORIENTATION_180;
                     break;
             }
@@ -319,14 +303,14 @@ class Image extends DefaultMedia
     }
 
     /**
-     * Return the Hyperfocal Distance
+     * Return the Hyperfocal Distance in meters
      *
-     * @return string
+     * @return float
      */
     public function getHyperfocalDistance()
     {
 
-        return $this->findInSources(array('Composite:HyperfocalDistance'));
+        return $this->castValue($this->findInSources(array('Composite:HyperfocalDistance')), 'float');
     }
 
     /**
@@ -349,7 +333,7 @@ class Image extends DefaultMedia
     public function getLightValue()
     {
 
-        return $this->findInSources(array('Composite:LightValue'));
+        return $this->castValue($this->findInSources(array('Composite:LightValue')), 'float');
     }
 
     /**
@@ -361,10 +345,8 @@ class Image extends DefaultMedia
     {
         $regexp = '/.*:(colorspace|colormode|colorspacedata)/i';
 
-        foreach ($this->getMetadatas()->filterKeysByRegExp($regexp) as $meta)
-        {
-            switch (strtolower(trim($meta->getValue()->asString())))
-            {
+        foreach ($this->getMetadatas()->filterKeysByRegExp($regexp) as $meta) {
+            switch (strtolower(trim($meta->getValue()->asString()))) {
                 case 'cmyk':
                     return self::COLORSPACE_CMYK;
                     break;
@@ -394,12 +376,10 @@ class Image extends DefaultMedia
     {
         $values = explode('x', strtolower($WidthXHeight));
 
-        if (count($values) === 2 && ctype_digit($values[0]) && ctype_digit($values[1]))
-        {
+        if (count($values) === 2 && ctype_digit($values[0]) && ctype_digit($values[1])) {
             return array('width'  => $values[0], 'height' => $values[1]);
         }
 
         return null;
     }
-
 }

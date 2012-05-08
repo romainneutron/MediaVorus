@@ -202,24 +202,13 @@ class Image extends DefaultMedia
      */
     public function getFlashFired()
     {
-        if (null !== $value = $this->findInSources(array('ExifIFD:Flash'))) {
+        if (null !== $value = $this->findInSources(array('ExifIFD:Flash', 'Composite:Flash'))) {
             switch ($value % 2) {
                 case 0: // not triggered
                     return false;
                     break;
                 case 1: // triggered
                     return true;
-                    break;
-            }
-        }
-
-        if (null !== $value = strtolower($this->findInSources(array('XMP-exif:FlashFired')))) {
-            switch (true) {
-                case $value === 'true':
-                    return true;
-                    break;
-                case $value === 'false':
-                    return false;
                     break;
             }
         }
@@ -256,22 +245,19 @@ class Image extends DefaultMedia
      */
     public function getOrientation()
     {
-        if (null !== $orientation = $this->findInSources(array('IFD0:Orientation'))) {
-            switch ($orientation) {
-                case 6:
-                    return self::ORIENTATION_90;
-                    break;
-                case 8:
-                    return self::ORIENTATION_270;
-                    break;
-                case 1:
-                default:
-                    return self::ORIENTATION_0;
-                    break;
-                case 3:
-                    return self::ORIENTATION_180;
-                    break;
-            }
+        switch ($this->findInSources(array('IFD0:Orientation'))) {
+            case 6:
+                return self::ORIENTATION_90;
+                break;
+            case 8:
+                return self::ORIENTATION_270;
+                break;
+            case 1:
+                return self::ORIENTATION_0;
+                break;
+            case 3:
+                return self::ORIENTATION_180;
+                break;
         }
 
         return null;
@@ -350,6 +336,18 @@ class Image extends DefaultMedia
                     return self::COLORSPACE_GRAYSCALE;
                     break;
             }
+        }
+
+        switch ($this->findInSources(array('File:ColorComponents'))) {
+            case 1:
+                return self::COLORSPACE_GRAYSCALE;
+                break;
+            case 3:
+                return self::COLORSPACE_RGB;
+                break;
+            case 4:
+                return self::COLORSPACE_CMYK;
+                break;
         }
 
         return null;

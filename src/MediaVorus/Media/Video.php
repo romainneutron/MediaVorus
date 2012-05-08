@@ -11,6 +11,8 @@
 
 namespace MediaVorus\Media;
 
+use PHPExiftool\FileEntity;
+
 /**
  *
  * @author      Romain Neutron - imprec@gmail.com

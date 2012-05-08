@@ -27,7 +27,11 @@ class Video extends Image
     {
         parent::__construct($file, $entity);
 
-        $this->ffprobe = \FFMpeg\FFProbe::load();
+        try {
+            $this->ffprobe = \FFMpeg\FFProbe::load();
+        } catch (\FFMpeg\Exception\Exception $e) {
+
+        }
     }
 
     /**
@@ -56,8 +60,12 @@ class Video extends Image
             return (float) $value;
         }
 
-        $result = $this->ffprobe->probeFormat($this->file->getPathname());
-
+        if ($this->ffprobe) {
+            $result = $this->ffprobe->probeFormat($this->file->getPathname());
+        } else {
+            $result = '';
+        }
+        
         foreach (explode("\n", $result) as $line) {
             if (preg_match('/duration=([\d\.]+)/i', $line, $matches)) {
                 return $this->duration = (float) $matches[1];

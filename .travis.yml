@@ -1,6 +1,8 @@
 language: php
 
 before_script:
+  - sudo apt-get update
+  - sudo apt-get install ffmpeg
   - curl -s http://getcomposer.org/installer | php
   - php composer.phar install
 

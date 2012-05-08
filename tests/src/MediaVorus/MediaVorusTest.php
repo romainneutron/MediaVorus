@@ -52,7 +52,7 @@ class MediaVorusTest extends \PHPUnit_Framework_TestCase
     {
         $medias = MediaVorus::inspectDirectory(new \SplFileInfo(__DIR__ . '/../../files'));
         $this->assertInstanceOf('\\MediaVorus\\MediaCollection', $medias);
-        $this->assertEquals(14, count($medias));
+        $this->assertEquals(16, count($medias));
 
         foreach ($medias as $media) {
             if ($media->getType() === Media\Media::TYPE_IMAGE) {

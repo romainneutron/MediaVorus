@@ -129,7 +129,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
         $object = \MediaVorus\MediaVorus::guess(new \SplFileInfo(__DIR__ . '/../../../files/photoAutoNoFlash.jpg'));
         $this->assertFalse($object->getFlashFired());
 
-        $object = \MediaVorus\MediaVorus::guess(new \SplFileInfo(__DIR__ . '/../../../files/photoFlash.jpg'));
+        $object = \MediaVorus\MediaVorus::guess(new \SplFileInfo(__DIR__ . '/../../../files/PhotoFlash.jpg'));
         $this->assertTrue($object->getFlashFired());
 
         $object = \MediaVorus\MediaVorus::guess(new \SplFileInfo(__DIR__ . '/../../../files/videoFlashed.MOV'));
@@ -220,10 +220,10 @@ class ImageTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals(\MediaVorus\Media\Image::COLORSPACE_RGB, $media->getColorSpace());
 
-        $media = new \MediaVorus\Media\Image(__DIR__ . '/../../../files/plop/GRAYSCALE.jpg');
+        $media = new \MediaVorus\Media\Image(__DIR__ . '/../../../files/GRAYSCALE.jpg');
         $this->assertEquals(Image::COLORSPACE_GRAYSCALE, $media->getColorSpace());
 
-        $media = new \MediaVorus\Media\Image(__DIR__ . '/../../../files/plop/RVB.jpg');
+        $media = new \MediaVorus\Media\Image(__DIR__ . '/../../../files/RVB.jpg');
         $this->assertEquals(Image::COLORSPACE_RGB, $media->getColorSpace());
     }
 }

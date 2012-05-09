@@ -49,11 +49,10 @@ class ImageTest extends \PHPUnit_Framework_TestCase
                 if (in_array($object->getFile()->getFilename(), array('KyoceraRaw.raw', 'Font.dfont', 'XMP.svg'))) {
                     $this->assertNull($object->getWidth());
                 } else {
-                    $this->assertTrue(is_int($object->getWidth()));
+                    $this->assertTrue(is_int($object->getWidth()), $object->getFile()->getFilename() . " has int width");
                 }
             }
         }
-
     }
 
     /**
@@ -72,7 +71,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
                 if (in_array($object->getFile()->getFilename(), array('KyoceraRaw.raw', 'Font.dfont', 'XMP.svg'))) {
                     $this->assertNull($object->getHeight());
                 } else {
-                    $this->assertTrue(is_int($object->getHeight()));
+                    $this->assertTrue(is_int($object->getHeight()), $object->getFile()->getFilename() . " has int width");
                 }
             }
         }

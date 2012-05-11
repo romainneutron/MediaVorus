@@ -38,7 +38,7 @@ class Audio extends DefaultMedia
         $sources = array('Composite:Duration');
 
         if (null !== $value = $this->findInSources($sources)) {
-            return (float) $matches[1];
+            return (float) $value;
         }
 
         return null;

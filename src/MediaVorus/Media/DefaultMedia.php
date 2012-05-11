@@ -17,6 +17,8 @@ use PHPExiftool\FileEntity;
  *
  * @author      Romain Neutron - imprec@gmail.com
  * @license     http://opensource.org/licenses/MIT MIT
+ *
+ * @todo declarations of custom filters/getters
  */
 class DefaultMedia implements Media
 {

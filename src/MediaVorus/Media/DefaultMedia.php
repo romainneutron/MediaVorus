@@ -166,15 +166,11 @@ class DefaultMedia implements Media
     }
 
     /**
+     * Return the PHPExiftool entity related to the media
      *
-     * @return \PHPExiftool\Driver\Metadata\MetadataBag
+     * @return \PHPExiftool\FileEntity
      */
-    protected function getMetadatas()
-    {
-        return $this->getEntity()->getMetadatas();
-    }
-
-    protected function getEntity()
+    public function getEntity()
     {
         if ( ! $this->entity) {
             $reader = new \PHPExiftool\Reader();
@@ -183,6 +179,15 @@ class DefaultMedia implements Media
         }
 
         return $this->entity;
+    }
+
+    /**
+     *
+     * @return \PHPExiftool\Driver\Metadata\MetadataBag
+     */
+    protected function getMetadatas()
+    {
+        return $this->getEntity()->getMetadatas();
     }
 
     protected function findInSources(Array $sources)

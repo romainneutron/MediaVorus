@@ -16,6 +16,11 @@ class DefaultMediaTest extends \PHPUnit_Framework_TestCase
         $this->GPSobject = new DefaultMedia(new \SplFileInfo(__DIR__ . '/../../../files/GPS.jpg'));
     }
 
+    public function testGetHash()
+    {
+        $this->assertEquals('47684e05475e7591e15140449b12bd6e3e1c82c44a89f1803410e82051a2c88e', $this->object->getHash('sha256'));
+    }
+
     /**
      * @covers \MediaVorus\Media\DefaultMedia::getFile
      */

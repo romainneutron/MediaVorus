@@ -258,11 +258,19 @@ class DefaultMedia implements Media
 
         unlink($tmpFile);
 
-        $writer = new \PHPExiftool\Writer();
-        $writer->erase(true);
-        $writer->write($this->file->getPathname(), new \PHPExiftool\Driver\Metadata\MetadataBag(), $tmpFile);
+        try {
+            $writer = new \PHPExiftool\Writer();
+            $writer->erase(true);
+            $writer->write($this->file->getPathname(), new \PHPExiftool\Driver\Metadata\MetadataBag(), $tmpFile);
 
-        $this->temporaryFiles[] = $tmpFile;
+            $this->temporaryFiles[] = $tmpFile;
+        } catch (\PHPExiftool\Exception\Exception $e) {
+            /**
+             * Some files can not be written by exiftool
+             */
+            $tmpFile = $this->file->getPathname();
+        }
+
 
         return $tmpFile;
     }

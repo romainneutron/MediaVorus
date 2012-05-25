@@ -11,6 +11,10 @@
 
 namespace MediaVorus\Media;
 
+use FFMpeg\Exception\Exception as FFMpegException;
+use FFMpeg\FFProbe;
+use Monolog\Logger;
+use Monolog\Handler\NullHandler;
 use PHPExiftool\FileEntity;
 
 /**
@@ -27,9 +31,12 @@ class Video extends Image
     {
         parent::__construct($file, $entity);
 
+        $logger = new Logger('MediaVorus');
+        $logger->pushHandler(new NullHandler());
+
         try {
-            $this->ffprobe = \FFMpeg\FFProbe::load();
-        } catch (\FFMpeg\Exception\Exception $e) {
+            $this->ffprobe = FFProbe::load($logger);
+        } catch (FFMpegException $e) {
 
         }
     }
@@ -65,7 +72,7 @@ class Video extends Image
         } else {
             $result = '';
         }
-        
+
         foreach (explode("\n", $result) as $line) {
             if (preg_match('/duration=([\d\.]+)/i', $line, $matches)) {
                 return $this->duration = (float) $matches[1];

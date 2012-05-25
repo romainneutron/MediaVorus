@@ -1,5 +1,5 @@
 {
-    "hash": "0d87138fe3c974737f41dd459c203390",
+    "hash": "561c223b814d5ede0919089deac87cc1",
     "packages": [
         {
             "package": "doctrine/common",
@@ -13,7 +13,7 @@
         {
             "package": "php-ffmpeg/php-ffmpeg",
             "version": "dev-master",
-            "source-reference": "d024622a8ea025c11f200f311025b53c39f83ac3"
+            "source-reference": "e930f3a3598ecf62d424931b51b55ada30bfc419"
         },
         {
             "package": "phpexiftool/exiftool",
@@ -23,24 +23,29 @@
         {
             "package": "phpexiftool/phpexiftool",
             "version": "dev-master",
-            "source-reference": "553543fe3c95a79219c2e78f7de9950783d444d2"
+            "source-reference": "d456c37df4ee53d06383a5b85f072dcb49a97566"
+        },
+        {
+            "package": "pimple/pimple",
+            "version": "dev-master",
+            "source-reference": "v1.0.0"
         },
         {
             "package": "symfony/class-loader",
             "version": "dev-master",
-            "source-reference": "4ebd45f966d7925225c5daea827d9368f04fba12",
+            "source-reference": "c57e62c886899f8d88264efad23c857eb198dc09",
             "alias": "2.1.9999999.9999999-dev"
         },
         {
             "package": "symfony/console",
             "version": "dev-master",
-            "source-reference": "ec3d45fafea157507b7dce339ce5a7c29de7642d",
+            "source-reference": "1edd7b739561e87bde81ff1c2ce08bd89e92277e",
             "alias": "2.1.9999999.9999999-dev"
         },
         {
             "package": "symfony/css-selector",
             "version": "dev-master",
-            "source-reference": "0f355f52c811e23e08382df30829aa8bceeda439",
+            "source-reference": "b542ab7df00bc12b8fa7fe318e399522bc873485",
             "alias": "2.1.9999999.9999999-dev"
         },
         {
@@ -52,13 +57,13 @@
         {
             "package": "symfony/finder",
             "version": "dev-master",
-            "source-reference": "3c9379f3726401a1faf274204bd0ef3f5b24258a",
+            "source-reference": "a2cef64d5072b284b671ee8e06b8ebc38c2969e1",
             "alias": "2.1.9999999.9999999-dev"
         },
         {
             "package": "symfony/http-foundation",
             "version": "dev-master",
-            "source-reference": "cf8e8324c68ce584525502702866485f17f1c8a5"
+            "source-reference": "5b1581418381f46679604fd19efc8b518f2390ae"
         },
         {
             "package": "symfony/process",

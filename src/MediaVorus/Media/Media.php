@@ -24,7 +24,34 @@ interface Media
     const TYPE_FLASH = 'Flash';
     const TYPE_DOCUMENT = 'Document';
 
+    /**
+     * Return the hash of the `nude` file ; the file is first empty of all its 
+     * metadatas, then the hash is computed.
+     * 
+     * @see hash_algos()
+     * 
+     * @param type $algo    A valid hash algorithm, see hash_algos function for valid hash names
+     * 
+     * @return string
+     */
+    public function getHash($algo);
+
+    /**
+     * Return the type
+     * 
+     * @return string
+     */
+    public function getType();
+
     public function getFile();
 
-    public function getType();
+    public function getLongitude();
+
+    public function getLongitudeRef();
+
+    public function getLatitude();
+
+    public function getLatitudeRef();
+
+    public function getEntity();
 }

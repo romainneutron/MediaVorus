@@ -36,6 +36,7 @@ class File extends SymfonyFile
     {
         $guesser = MimeTypeGuesser::getInstance();
 
+        $guesser->register(new Utils\PostScriptMimeTypeGuesser());
         $guesser->register(new Utils\RawImageMimeTypeGuesser());
         $guesser->register(new Utils\AudioMimeTypeGuesser());
         $guesser->register(new Utils\VideoMimeTypeGuesser());

@@ -120,27 +120,35 @@ class ImageTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue(is_bool($this->object->getFlashFired()));
 
         $object = \MediaVorus\MediaVorus::guess(new \SplFileInfo(__DIR__ . '/../../../files/photo01.JPG'));
+        $this->assertInstanceOf('\MediaVorus\Media\Image', $object);
         $this->assertFalse($object->getFlashFired());
 
         $object = \MediaVorus\MediaVorus::guess(new \SplFileInfo(__DIR__ . '/../../../files/CanonRaw.cr2'));
+        $this->assertInstanceOf('\MediaVorus\Media\Image', $object);
         $this->assertFalse($object->getFlashFired());
 
         $object = \MediaVorus\MediaVorus::guess(new \SplFileInfo(__DIR__ . '/../../../files/photoAutoNoFlash.jpg'));
+        $this->assertInstanceOf('\MediaVorus\Media\Image', $object);
         $this->assertFalse($object->getFlashFired());
 
         $object = \MediaVorus\MediaVorus::guess(new \SplFileInfo(__DIR__ . '/../../../files/PhotoFlash.jpg'));
+        $this->assertInstanceOf('\MediaVorus\Media\Image', $object);
         $this->assertTrue($object->getFlashFired());
 
         $object = \MediaVorus\MediaVorus::guess(new \SplFileInfo(__DIR__ . '/../../../files/videoFlashed.MOV'));
+        $this->assertInstanceOf('\MediaVorus\Media\Image', $object);
         $this->assertNull($object->getFlashFired());
 
         $object = \MediaVorus\MediaVorus::guess(new \SplFileInfo(__DIR__ . '/../../../../vendor/phpexiftool/exiftool/t/images/XMP.xmp'));
+        $this->assertInstanceOf('\MediaVorus\Media\Image', $object);
         $this->assertFalse($object->getFlashFired());
 
         $object = \MediaVorus\MediaVorus::guess(new \SplFileInfo(__DIR__ . '/../../../../vendor/phpexiftool/exiftool/t/images/DNG.dng'));
+        $this->assertInstanceOf('\MediaVorus\Media\Image', $object);
         $this->assertFalse($object->getFlashFired());
 
         $object = \MediaVorus\MediaVorus::guess(new \SplFileInfo(__DIR__ . '/../../../../vendor/phpexiftool/exiftool/t/images/Panasonic.rw2'));
+        $this->assertInstanceOf('\MediaVorus\Media\Image', $object);
         $this->assertFalse($object->getFlashFired());
     }
 

@@ -167,7 +167,7 @@ class Image extends DefaultMedia
     {
         $sources = array('ExifIFD:FocalLength', 'XMP-exif:FocalLength');
 
-        return (float) $this->findInSources($sources);
+        return $this->castValue($this->findInSources($sources), 'float');
     }
 
     /**

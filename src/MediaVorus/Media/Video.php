@@ -70,12 +70,12 @@ class Video extends Image
         if ($this->ffprobe) {
             $result = $this->ffprobe->probeFormat($this->file->getPathname());
         } else {
-            $result = '';
+            $result = array();
         }
 
-        foreach (explode("\n", $result) as $line) {
-            if (preg_match('/duration=([\d\.]+)/i', $line, $matches)) {
-                return $this->duration = (float) $matches[1];
+        foreach ($result as $key => $value) {
+            if ($key == 'duration') {
+                return $this->duration = (float) $value;
             }
         }
 

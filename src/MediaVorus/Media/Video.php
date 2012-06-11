@@ -68,7 +68,7 @@ class Video extends Image
         }
 
         if ($this->ffprobe) {
-            $result = $this->ffprobe->probeFormat($this->file->getPathname());
+            $result = json_decode($this->ffprobe->probeFormat($this->file->getPathname()), true);
         } else {
             $result = array();
         }

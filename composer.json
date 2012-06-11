@@ -19,6 +19,9 @@
         "php-ffmpeg/php-ffmpeg": "dev-master",
         "monolog/monolog": "1.0.*"
     },
+    "require-dev": {
+        "fabpot/php-cs-fixer": "*"
+    },
     "autoload": {
         "psr-0": {
             "MediaVorus": "src"

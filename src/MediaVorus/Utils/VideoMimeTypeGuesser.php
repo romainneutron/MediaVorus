@@ -30,7 +30,7 @@ class VideoMimeTypeGuesser implements MimeTypeGuesserInterface
      */
     public function guess($path)
     {
-        $extension = strtolower(pathinfo(basename($path), PATHINFO_EXTENSION));
+        $extension = strtolower(pathinfo($path, PATHINFO_EXTENSION));
 
         if (array_key_exists($extension, static::$videoMimeTypes)) {
             return static::$videoMimeTypes[$extension];

@@ -29,12 +29,12 @@ class PostScriptMimeTypeGuesser implements MimeTypeGuesserInterface
      */
     public function guess($path)
     {
-        $extension = strtolower(pathinfo(basename($path), PATHINFO_EXTENSION));
+        $extension = strtolower(pathinfo($path, PATHINFO_EXTENSION));
 
         if (array_key_exists($extension, static::$postscriptMimeTypes)) {
             return static::$postscriptMimeTypes[$extension];
         }
-        
+
         return null;
     }
 }

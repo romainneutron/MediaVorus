@@ -8,10 +8,12 @@ class ImageTest extends \PHPUnit_Framework_TestCase
      * @var Image
      */
     protected $object;
+    protected $mediavorus;
 
     protected function setUp()
     {
         $this->object = new Image(new \SplFileInfo(__DIR__ . '/../../../files/ExifTool.jpg'));
+        $this->mediavorus = new \MediaVorus\MediaVorus();
     }
 
     /**
@@ -29,7 +31,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertFalse($this->object->isRawImage());
 
-        $object = \MediaVorus\MediaVorus::guess(new \SplFileInfo(__DIR__ . '/../../../files/CanonRaw.cr2'));
+        $object = $this->mediavorus->guess(new \SplFileInfo(__DIR__ . '/../../../files/CanonRaw.cr2'));
         $this->assertTrue($object->isRawImage());
     }
 
@@ -42,7 +44,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue(is_int($this->object->getWidth()));
         $this->assertEquals(8, $this->object->getWidth());
 
-        $objects = \MediaVorus\MediaVorus::inspectDirectory(new \SplFileInfo(__DIR__ . '/../../../../vendor/phpexiftool/exiftool/t/images/'));
+        $objects = $this->mediavorus->inspectDirectory(new \SplFileInfo(__DIR__ . '/../../../../vendor/phpexiftool/exiftool/t/images/'));
         foreach ($objects as $object) {
             if ($object->getType() == Media::TYPE_IMAGE) {
 
@@ -64,7 +66,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue(is_int($this->object->getHeight()));
         $this->assertEquals(8, $this->object->getHeight());
 
-        $objects = \MediaVorus\MediaVorus::inspectDirectory(new \SplFileInfo(__DIR__ . '/../../../../vendor/phpexiftool/exiftool/t/images/'));
+        $objects = $this->mediavorus->inspectDirectory(new \SplFileInfo(__DIR__ . '/../../../../vendor/phpexiftool/exiftool/t/images/'));
         foreach ($objects as $object) {
             if ($object->getType() == Media::TYPE_IMAGE) {
 
@@ -119,35 +121,35 @@ class ImageTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertTrue(is_bool($this->object->getFlashFired()));
 
-        $object = \MediaVorus\MediaVorus::guess(new \SplFileInfo(__DIR__ . '/../../../files/photo01.JPG'));
+        $object = $this->mediavorus->guess(new \SplFileInfo(__DIR__ . '/../../../files/photo01.JPG'));
         $this->assertInstanceOf('\MediaVorus\Media\Image', $object);
         $this->assertFalse($object->getFlashFired());
 
-        $object = \MediaVorus\MediaVorus::guess(new \SplFileInfo(__DIR__ . '/../../../files/CanonRaw.cr2'));
+        $object = $this->mediavorus->guess(new \SplFileInfo(__DIR__ . '/../../../files/CanonRaw.cr2'));
         $this->assertInstanceOf('\MediaVorus\Media\Image', $object);
         $this->assertFalse($object->getFlashFired());
 
-        $object = \MediaVorus\MediaVorus::guess(new \SplFileInfo(__DIR__ . '/../../../files/photoAutoNoFlash.jpg'));
+        $object = $this->mediavorus->guess(new \SplFileInfo(__DIR__ . '/../../../files/photoAutoNoFlash.jpg'));
         $this->assertInstanceOf('\MediaVorus\Media\Image', $object);
         $this->assertFalse($object->getFlashFired());
 
-        $object = \MediaVorus\MediaVorus::guess(new \SplFileInfo(__DIR__ . '/../../../files/PhotoFlash.jpg'));
+        $object = $this->mediavorus->guess(new \SplFileInfo(__DIR__ . '/../../../files/PhotoFlash.jpg'));
         $this->assertInstanceOf('\MediaVorus\Media\Image', $object);
         $this->assertTrue($object->getFlashFired());
 
-        $object = \MediaVorus\MediaVorus::guess(new \SplFileInfo(__DIR__ . '/../../../files/videoFlashed.MOV'));
+        $object = $this->mediavorus->guess(new \SplFileInfo(__DIR__ . '/../../../files/videoFlashed.MOV'));
         $this->assertInstanceOf('\MediaVorus\Media\Image', $object);
         $this->assertNull($object->getFlashFired());
 
-        $object = \MediaVorus\MediaVorus::guess(new \SplFileInfo(__DIR__ . '/../../../../vendor/phpexiftool/exiftool/t/images/XMP.xmp'));
+        $object = $this->mediavorus->guess(new \SplFileInfo(__DIR__ . '/../../../../vendor/phpexiftool/exiftool/t/images/XMP.xmp'));
         $this->assertInstanceOf('\MediaVorus\Media\Image', $object);
         $this->assertFalse($object->getFlashFired());
 
-        $object = \MediaVorus\MediaVorus::guess(new \SplFileInfo(__DIR__ . '/../../../../vendor/phpexiftool/exiftool/t/images/DNG.dng'));
+        $object = $this->mediavorus->guess(new \SplFileInfo(__DIR__ . '/../../../../vendor/phpexiftool/exiftool/t/images/DNG.dng'));
         $this->assertInstanceOf('\MediaVorus\Media\Image', $object);
         $this->assertFalse($object->getFlashFired());
 
-        $object = \MediaVorus\MediaVorus::guess(new \SplFileInfo(__DIR__ . '/../../../../vendor/phpexiftool/exiftool/t/images/Panasonic.rw2'));
+        $object = $this->mediavorus->guess(new \SplFileInfo(__DIR__ . '/../../../../vendor/phpexiftool/exiftool/t/images/Panasonic.rw2'));
         $this->assertInstanceOf('\MediaVorus\Media\Image', $object);
         $this->assertFalse($object->getFlashFired());
     }
@@ -173,10 +175,10 @@ class ImageTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetOrientation()
     {
-        $object1 = \MediaVorus\MediaVorus::guess(new \SplFileInfo(__DIR__ . '/../../../files/photo01.JPG'));
-        $object2 = \MediaVorus\MediaVorus::guess(new \SplFileInfo(__DIR__ . '/../../../files/photo02.JPG'));
-        $object3 = \MediaVorus\MediaVorus::guess(new \SplFileInfo(__DIR__ . '/../../../files/photo03.JPG'));
-        $object4 = \MediaVorus\MediaVorus::guess(new \SplFileInfo(__DIR__ . '/../../../files/Test.ogv'));
+        $object1 = $this->mediavorus->guess(new \SplFileInfo(__DIR__ . '/../../../files/photo01.JPG'));
+        $object2 = $this->mediavorus->guess(new \SplFileInfo(__DIR__ . '/../../../files/photo02.JPG'));
+        $object3 = $this->mediavorus->guess(new \SplFileInfo(__DIR__ . '/../../../files/photo03.JPG'));
+        $object4 = $this->mediavorus->guess(new \SplFileInfo(__DIR__ . '/../../../files/Test.ogv'));
 
         $this->assertEquals(Image::ORIENTATION_0, $this->object->getOrientation());
         $this->assertEquals(Image::ORIENTATION_90, $object1->getOrientation());

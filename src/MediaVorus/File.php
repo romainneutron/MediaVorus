@@ -31,16 +31,5 @@ class File extends SymfonyFile
             throw new Exception\FileNotFoundException(sprintf('File %s not found', $path));
         }
     }
-
-    public function getMimeType()
-    {
-        $guesser = MimeTypeGuesser::getInstance();
-
-        $guesser->register(new Utils\PostScriptMimeTypeGuesser());
-        $guesser->register(new Utils\RawImageMimeTypeGuesser());
-        $guesser->register(new Utils\AudioMimeTypeGuesser());
-        $guesser->register(new Utils\VideoMimeTypeGuesser());
-
-        return $guesser->guess($this->getPathname());
-    }
+    
 }

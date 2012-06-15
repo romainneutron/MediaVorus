@@ -9,6 +9,9 @@ class MediaVorusTest extends \PHPUnit_Framework_TestCase
      */
     protected $object;
 
+    /**
+     * @covers MediaVorus\MediaVorus::__construct 
+     */
     protected function setUp()
     {
         $this->object = new MediaVorus;
@@ -19,7 +22,7 @@ class MediaVorusTest extends \PHPUnit_Framework_TestCase
      */
     public function testGuess()
     {
-        $media = MediaVorus::guess(new \SplFileInfo(__DIR__ . '/../../files/ExifTool.jpg'));
+        $media = $this->object->guess(new \SplFileInfo(__DIR__ . '/../../files/ExifTool.jpg'));
         $this->assertInstanceOf('\\MediaVorus\\Media\\Media', $media);
     }
 
@@ -28,20 +31,20 @@ class MediaVorusTest extends \PHPUnit_Framework_TestCase
      */
     public function testGuessFromMimeType()
     {
-        $media = MediaVorus::guess(new \SplFileInfo(__DIR__ . '/../../files/ExifTool.jpg'));
+        $media = $this->object->guess(new \SplFileInfo(__DIR__ . '/../../files/ExifTool.jpg'));
         $this->assertInstanceOf('\\MediaVorus\\Media\\Image', $media);
-        $media = MediaVorus::guess(new \SplFileInfo(__DIR__ . '/../../files/CanonRaw.cr2'));
+        $media = $this->object->guess(new \SplFileInfo(__DIR__ . '/../../files/CanonRaw.cr2'));
         $this->assertInstanceOf('\\MediaVorus\\Media\\Image', $media);
-        $media = MediaVorus::guess(new \SplFileInfo(__DIR__ . '/../../files/APE.ape'));
+        $media = $this->object->guess(new \SplFileInfo(__DIR__ . '/../../files/APE.ape'));
         $this->assertInstanceOf('\\MediaVorus\\Media\\Audio', $media);
 
-        $media = MediaVorus::guess(new \SplFileInfo(__DIR__ . '/../../files/PDF.pdf'));
+        $media = $this->object->guess(new \SplFileInfo(__DIR__ . '/../../files/PDF.pdf'));
         $this->assertInstanceOf('\\MediaVorus\\Media\\Document', $media);
-        $media = MediaVorus::guess(new \SplFileInfo(__DIR__ . '/../../files/ZIP.gz'));
+        $media = $this->object->guess(new \SplFileInfo(__DIR__ . '/../../files/ZIP.gz'));
         $this->assertInstanceOf('\\MediaVorus\\Media\\DefaultMedia', $media);
-        $media = MediaVorus::guess(new \SplFileInfo(__DIR__ . '/../../files/Flash.swf'));
+        $media = $this->object->guess(new \SplFileInfo(__DIR__ . '/../../files/Flash.swf'));
         $this->assertInstanceOf('\\MediaVorus\\Media\\Flash', $media);
-        $media = MediaVorus::guess(new \SplFileInfo(__DIR__ . '/../../files/Test.ogv'));
+        $media = $this->object->guess(new \SplFileInfo(__DIR__ . '/../../files/Test.ogv'));
         $this->assertInstanceOf('\\MediaVorus\\Media\\Video', $media);
     }
 
@@ -50,7 +53,7 @@ class MediaVorusTest extends \PHPUnit_Framework_TestCase
      */
     public function testInspectDirectory()
     {
-        $medias = MediaVorus::inspectDirectory(new \SplFileInfo(__DIR__ . '/../../files'));
+        $medias = $this->object->inspectDirectory(new \SplFileInfo(__DIR__ . '/../../files'));
         $this->assertInstanceOf('\\MediaVorus\\MediaCollection', $medias);
         $this->assertEquals(16, count($medias));
 

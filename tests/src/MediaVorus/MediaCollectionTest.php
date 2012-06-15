@@ -10,13 +10,13 @@ class MediaCollectionTest extends \PHPUnit_Framework_TestCase
      */
     public function testMatch()
     {
-
-        $collection = MediaVorus::inspectDirectory(new \SplFileInfo(__DIR__ . '/../../'));
+        $mediavorus = new MediaVorus();
+        $collection = $mediavorus->inspectDirectory(new \SplFileInfo(__DIR__ . '/../../'));
 
         $audio = $collection->match(new Filter\MediaType(Media\Media::TYPE_AUDIO));
 
         $this->assertInstanceOf('\\Doctrine\\Common\\Collections\\ArrayCollection', $audio);
-        
+
         foreach ($audio as $audio) {
             $this->assertEquals(Media\Media::TYPE_AUDIO, $audio->getType());
         }

@@ -13,6 +13,7 @@ namespace MediaVorus;
 
 use MediaVorus\MediaCollection;
 use PHPExiftool\Reader;
+use Symfony\Component\HttpFoundation\File\MimeType\MimeTypeGuesser;
 
 /**
  *
@@ -22,6 +23,22 @@ use PHPExiftool\Reader;
 class MediaVorus
 {
 
+    public function __construct()
+    {
+        static $guesser_registered = false;
+
+        if ( ! $guesser_registered) {
+            $guesser = MimeTypeGuesser::getInstance();
+
+            $guesser->register(new Utils\RawImageMimeTypeGuesser());
+            $guesser->register(new Utils\PostScriptMimeTypeGuesser());
+            $guesser->register(new Utils\AudioMimeTypeGuesser());
+            $guesser->register(new Utils\VideoMimeTypeGuesser());
+
+            $guesser_registered = true;
+        }
+    }
+
     /**
      * Build a Media Object given a file
      *
@@ -29,26 +46,25 @@ class MediaVorus
      * @return \MediaVorus\Media\Media
      * @throws Exception\FileNotFoundException
      */
-    public static function guess(\SplFileInfo $file)
+    public function guess(\SplFileInfo $file)
     {
         if ( ! $file instanceof File) {
             $file = new File($file->getPathname());
         }
 
-        $classname = static::guessFromMimeType($file->getMimeType());
+        $classname = $this->guessFromMimeType($file->getMimeType());
 
         return new $classname($file);
     }
 
     /**
      *
-     * @todo take an exiftool reader as argument
-     *
      * @param \SplFileInfo $dir
      * @param type $recursive
+     * 
      * @return MediaCollection
      */
-    public static function inspectDirectory(\SplFileInfo $dir, $recursive = false)
+    public function inspectDirectory(\SplFileInfo $dir, $recursive = false)
     {
         $reader = new Reader();
 
@@ -58,15 +74,20 @@ class MediaVorus
             $reader->notRecursive();
         }
 
+        return $this->parseReaderResult($reader);
+    }
+
+    public function parseReaderResult(Reader $reader)
+    {
         $files = new MediaCollection();
 
         foreach ($reader as $entity) {
             $file = new File($entity->getFile());
-
-            $classname = static::guessFromMimeType($file->getMimeType());
-
+            $classname = $this->guessFromMimeType($file->getMimeType());
             $files[] = new $classname($file, $entity);
         }
+
+        unset($reader);
 
         return $files;
     }
@@ -78,7 +99,7 @@ class MediaVorus
      * @param string $mime
      * @return string The name of the MediaType class to use
      */
-    protected static function guessFromMimeType($mime)
+    protected function guessFromMimeType($mime)
     {
         $mime = strtolower($mime);
 

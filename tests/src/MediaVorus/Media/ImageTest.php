@@ -44,7 +44,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue(is_int($this->object->getWidth()));
         $this->assertEquals(8, $this->object->getWidth());
 
-        $objects = $this->mediavorus->inspectDirectory(new \SplFileInfo(__DIR__ . '/../../../../vendor/phpexiftool/exiftool/t/images/'));
+        $objects = $this->mediavorus->inspectDirectory(new \SplFileInfo(__DIR__ . '/../../../files/'));
         foreach ($objects as $object) {
             if ($object->getType() == Media::TYPE_IMAGE) {
 
@@ -66,7 +66,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue(is_int($this->object->getHeight()));
         $this->assertEquals(8, $this->object->getHeight());
 
-        $objects = $this->mediavorus->inspectDirectory(new \SplFileInfo(__DIR__ . '/../../../../vendor/phpexiftool/exiftool/t/images/'));
+        $objects = $this->mediavorus->inspectDirectory(new \SplFileInfo(__DIR__ . '/../../../files/'));
         foreach ($objects as $object) {
             if ($object->getType() == Media::TYPE_IMAGE) {
 
@@ -141,15 +141,15 @@ class ImageTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('\MediaVorus\Media\Image', $object);
         $this->assertNull($object->getFlashFired());
 
-        $object = $this->mediavorus->guess(new \SplFileInfo(__DIR__ . '/../../../../vendor/phpexiftool/exiftool/t/images/XMP.xmp'));
+        $object = $this->mediavorus->guess(new \SplFileInfo(__DIR__ . '/../../../files/XMP.xmp'));
         $this->assertInstanceOf('\MediaVorus\Media\Image', $object);
         $this->assertFalse($object->getFlashFired());
 
-        $object = $this->mediavorus->guess(new \SplFileInfo(__DIR__ . '/../../../../vendor/phpexiftool/exiftool/t/images/DNG.dng'));
+        $object = $this->mediavorus->guess(new \SplFileInfo(__DIR__ . '/../../../files/DNG.dng'));
         $this->assertInstanceOf('\MediaVorus\Media\Image', $object);
         $this->assertFalse($object->getFlashFired());
 
-        $object = $this->mediavorus->guess(new \SplFileInfo(__DIR__ . '/../../../../vendor/phpexiftool/exiftool/t/images/Panasonic.rw2'));
+        $object = $this->mediavorus->guess(new \SplFileInfo(__DIR__ . '/../../../files/Panasonic.rw2'));
         $this->assertInstanceOf('\MediaVorus\Media\Image', $object);
         $this->assertFalse($object->getFlashFired());
     }

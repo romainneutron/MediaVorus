@@ -22,7 +22,7 @@ class AudioMimeTypeGuesser implements MimeTypeGuesserInterface
 {
     public static $videoMimeTypes = array(
         'ape' => 'audio/x-monkeys-audio',
-        'mp3' => 'audio/mp3',
+        'mp3' => 'audio/mpeg',
     );
 
     /**

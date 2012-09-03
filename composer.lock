@@ -1,6 +1,12 @@
 {
-    "hash": "32f7308299adb99f8c9ead096fc4555f",
+    "hash": "e3ce2b22eed4792d1954e2cf8706809a",
     "packages": [
+        {
+            "package": "doctrine/common",
+            "version": "dev-master",
+            "alias-pretty-version": "2.4.x-dev",
+            "alias-version": "2.4.9999999.9999999-dev"
+        },
         {
             "package": "doctrine/common",
             "version": "dev-master",
@@ -14,8 +20,8 @@
         {
             "package": "php-ffmpeg/php-ffmpeg",
             "version": "dev-master",
-            "source-reference": "b6b8bd502131e0dd82f53517ccc84d3de2c09424",
-            "commit-date": "1340268165"
+            "source-reference": "ddedd4529cc0d3c501d1fe48fa8d2cb1e4aaabe7",
+            "commit-date": "1346680426"
         },
         {
             "package": "phpexiftool/exiftool",
@@ -44,6 +50,12 @@
         {
             "package": "symfony/http-foundation",
             "version": "dev-master",
+            "alias-pretty-version": "2.1.x-dev",
+            "alias-version": "2.1.9999999.9999999-dev"
+        },
+        {
+            "package": "symfony/http-foundation",
+            "version": "dev-master",
             "source-reference": "c61c023d2e9e9ad2edcc9227bd0ec5f79d616e18",
             "commit-date": "1346312580"
         },
@@ -60,13 +72,105 @@
             "commit-date": "1346330945"
         }
     ],
-    "packages-dev": null,
+    "packages-dev": [
+        {
+            "package": "fabpot/php-cs-fixer",
+            "version": "dev-master",
+            "source-reference": "55701d65622b72cbe0db8d8f9136d36e45b2f7f4",
+            "commit-date": "1343202851"
+        },
+        {
+            "package": "pimple/pimple",
+            "version": "dev-master",
+            "alias-pretty-version": "1.0.x-dev",
+            "alias-version": "1.0.9999999.9999999-dev"
+        },
+        {
+            "package": "pimple/pimple",
+            "version": "dev-master",
+            "source-reference": "db836b8cfadc0f39dacafa2bf311a1ab603600bb",
+            "commit-date": "1343051648"
+        },
+        {
+            "package": "silex/silex",
+            "version": "dev-master",
+            "alias-pretty-version": "1.0.x-dev",
+            "alias-version": "1.0.9999999.9999999-dev"
+        },
+        {
+            "package": "silex/silex",
+            "version": "dev-master",
+            "source-reference": "52c6480be194825489f316d30855645dafa7fae4",
+            "commit-date": "1346332220"
+        },
+        {
+            "package": "symfony/event-dispatcher",
+            "version": "dev-master",
+            "alias-pretty-version": "2.1.x-dev",
+            "alias-version": "2.1.9999999.9999999-dev"
+        },
+        {
+            "package": "symfony/event-dispatcher",
+            "version": "dev-master",
+            "source-reference": "v2.1.0-RC2",
+            "commit-date": "1345643321"
+        },
+        {
+            "package": "symfony/filesystem",
+            "version": "dev-master",
+            "alias-pretty-version": "2.1.x-dev",
+            "alias-version": "2.1.9999999.9999999-dev"
+        },
+        {
+            "package": "symfony/filesystem",
+            "version": "dev-master",
+            "source-reference": "v2.1.0-RC2",
+            "commit-date": "1345643321"
+        },
+        {
+            "package": "symfony/finder",
+            "version": "dev-master",
+            "alias-pretty-version": "2.1.x-dev",
+            "alias-version": "2.1.9999999.9999999-dev"
+        },
+        {
+            "package": "symfony/finder",
+            "version": "dev-master",
+            "source-reference": "v2.1.0-RC2",
+            "commit-date": "1345643321"
+        },
+        {
+            "package": "symfony/http-kernel",
+            "version": "dev-master",
+            "alias-pretty-version": "2.1.x-dev",
+            "alias-version": "2.1.9999999.9999999-dev"
+        },
+        {
+            "package": "symfony/http-kernel",
+            "version": "dev-master",
+            "source-reference": "aeffdc93a69b65dad2f61c917f73c84b8e387ba4",
+            "commit-date": "1346143430"
+        },
+        {
+            "package": "symfony/routing",
+            "version": "dev-master",
+            "alias-pretty-version": "2.1.x-dev",
+            "alias-version": "2.1.9999999.9999999-dev"
+        },
+        {
+            "package": "symfony/routing",
+            "version": "dev-master",
+            "source-reference": "475c0550543c882a7e31b9aca7a5dc0615f59547",
+            "commit-date": "1346394981"
+        }
+    ],
     "aliases": [
 
     ],
     "minimum-stability": "dev",
     "stability-flags": {
         "phpexiftool/phpexiftool": 20,
-        "php-ffmpeg/php-ffmpeg": 20
+        "php-ffmpeg/php-ffmpeg": 20,
+        "silex/silex": 20
     }
 }

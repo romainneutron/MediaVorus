@@ -21,7 +21,8 @@
     },
     "minimum-stability": "dev",
     "require-dev": {
-        "fabpot/php-cs-fixer": "*"
+        "fabpot/php-cs-fixer": "*",
+        "silex/silex": "dev-master"
     },
     "autoload": {
         "psr-0": {

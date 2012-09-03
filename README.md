@@ -10,17 +10,20 @@ This lib is under heavy development !
 ```php
 <?php
 
+use MediaVorus\MediaVorus;
 use MediaVorus\Media\Image;
 use MediaVorus\Media\Video;
 
-$Image = new Image('RawCanon.cr2');
+$mediavorus = MediaVorus::create();
+
+$Image = $mediavorus->guess('RawCanon.cr2');
 
 echo sprintf("File dimensions are %d x %d", $Image->getWidth(), $Image->getHeight());
 echo sprintf("Photo as been taken at %s Shutter Speed", $Image->getShutterSpeed());
 
-$Video = new Video('Movie.mpeg');
+$Video = $mediavorus->guess('Movie.mpeg');
 
-echo sprintf("Movie duration is %s ", $Video->getDuration());
+echo sprintf("Movie duration last %s s.", $Video->getDuration());
 echo sprintf("Movie has been shot at longitude %s, latitude %s", $Video->getLongitude(), $Video->getLatitude());
 
 ```

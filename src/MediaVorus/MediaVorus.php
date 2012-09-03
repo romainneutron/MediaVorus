@@ -19,6 +19,8 @@ use MediaVorus\Utils\RawImageMimeTypeGuesser;
 use MediaVorus\Utils\PostScriptMimeTypeGuesser;
 use MediaVorus\Utils\AudioMimeTypeGuesser;
 use MediaVorus\Utils\VideoMimeTypeGuesser;
+use Monolog\Logger;
+use Monolog\Handler\NullHandler;
 use PHPExiftool\Reader;
 use PHPExiftool\Writer;
 use Symfony\Component\HttpFoundation\File\MimeType\MimeTypeGuesser;
@@ -96,6 +98,19 @@ class MediaVorus
         }
 
         return $files;
+    }
+
+    /**
+     * Create MediaVorus
+     *
+     * @return MediaVorus
+     */
+    public static function create()
+    {
+        $logger = new Logger('MediaVorus');
+        $logger->pushHandler(new NullHandler());
+
+        return new MediaVorus(Reader::create(), Writer::create(), FFProbe::load($logger));
     }
 
     /**

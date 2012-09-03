@@ -15,19 +15,20 @@ Example
     <?php
 
     use MediaVorus\MediaVorus;
+    use MediaVorus\MediaVorus;
     use MediaVorus\Media\Image;
 
-    $Media = MediaVorus::guess('tests/files/ExifTool.jpg');
+    $mediavorus = MediaVorus::create();
+    $Media = $mediavorus->guess('tests/files/CanonRaw.CR2');
 
     if($Media instanceof Image)
     {
-        echo sprintf("Found a file with dimensions : %dx%d", $Media->getWidth(), $Media->getHeight());
+        echo sprintf("Image was taken with a %f shutter speed", $Media->getShutterSpeed());
     }
 
 
 Goals
 -----
-
 
 MediaVorus is a small PHP library wich provide a set of tools to deal with
 multimedia files
@@ -45,6 +46,31 @@ First, the need is to analyze multimedia files and get their properties.
 In a very next future, we would add metadata mapper to handle various
 configurations.
 
+Silex Service Provider
+----------------------
+
+MediaVorus comes bundled with its `Silex Service Provider <silex.sensiolabs.org>`_.
+As MediaVorus relies on `PHP-Exiftool <https://github.com/romainneutron/PHPExiftool>`_
+and `FFProbe <http://ffmpeg-php.readthedocs.org/>`_, you'll have to register
+both bundles to use it :
+
+.. code-block:: php
+
+    <?php
+
+    use FFMpeg\FFMpegServiceProvider;
+    use MediaVorus\MediaVorusServiceProvider;
+    use PHPExiftool\PHPExiftoolServiceProvider;
+    use Silex\Application;
+
+    $app = new Application();
+
+    $app->register(new MediaVorusServiceProvider());
+    $app->register(new PHPExiftoolServiceProvider());
+    $app->register(new FFMpegServiceProvider());
+
+    // you will now have access to $app['mediavorus']
+    $video = $app['mediavorus']->guess('/path/to/video/file');
 
 API
 ===

@@ -2,15 +2,24 @@
 
 namespace MediaVorus;
 
+use FFMpeg\FFProbe;
+use Monolog\Logger;
+use Monolog\Handler\NullHandler;
+use PHPExiftool\Reader;
+use PHPExiftool\Writer;
+
 class FileTest extends \PHPUnit_Framework_TestCase
 {
 
     /**
-     * Instantiate mediavorus to register the mime types 
+     * Instantiate mediavorus to register the mime types
      */
     public function setUp()
     {
-        $mediavorus = new MediaVorus();
+        $logger = new Logger('test');
+        $logger->pushHandler(new NullHandler());
+
+        $mediavorus = new MediaVorus(Reader::create(), Writer::create(), FFProbe::load($logger));
     }
 
     /**
@@ -35,7 +44,7 @@ class FileTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @covers MediaVorus\File::__construct
-     * @covers MediaVorus\Exception\Exception
+     * @covers MediaVorus\Exception\ExceptionInterface
      * @covers MediaVorus\Exception\FileNotFoundException
      * @expectedException MediaVorus\Exception\FileNotFoundException
      */

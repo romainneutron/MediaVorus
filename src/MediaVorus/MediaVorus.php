@@ -11,8 +11,16 @@
 
 namespace MediaVorus;
 
+use FFMpeg\FFProbe;
 use MediaVorus\MediaCollection;
+use MediaVorus\Exception\FileNotFoundException;
+use MediaVorus\Media\MediaInterface;
+use MediaVorus\Utils\RawImageMimeTypeGuesser;
+use MediaVorus\Utils\PostScriptMimeTypeGuesser;
+use MediaVorus\Utils\AudioMimeTypeGuesser;
+use MediaVorus\Utils\VideoMimeTypeGuesser;
 use PHPExiftool\Reader;
+use PHPExiftool\Writer;
 use Symfony\Component\HttpFoundation\File\MimeType\MimeTypeGuesser;
 
 /**
@@ -22,72 +30,70 @@ use Symfony\Component\HttpFoundation\File\MimeType\MimeTypeGuesser;
  */
 class MediaVorus
 {
+    private $reader;
+    private $writer;
+    private $ffprobe;
 
-    public function __construct()
+    public function __construct(Reader $reader, Writer $writer, FFProbe $ffprobe)
     {
         static $guesser_registered = false;
 
         if ( ! $guesser_registered) {
             $guesser = MimeTypeGuesser::getInstance();
 
-            $guesser->register(new Utils\RawImageMimeTypeGuesser());
-            $guesser->register(new Utils\PostScriptMimeTypeGuesser());
-            $guesser->register(new Utils\AudioMimeTypeGuesser());
-            $guesser->register(new Utils\VideoMimeTypeGuesser());
+            $guesser->register(new RawImageMimeTypeGuesser());
+            $guesser->register(new PostScriptMimeTypeGuesser());
+            $guesser->register(new AudioMimeTypeGuesser());
+            $guesser->register(new VideoMimeTypeGuesser());
 
             $guesser_registered = true;
         }
+
+        $this->reader = $reader;
+        $this->writer = $writer;
+        $this->ffprobe = $ffprobe;
     }
 
     /**
      * Build a Media Object given a file
      *
-     * @param \SplFileInfo $file
-     * @return \MediaVorus\Media\Media
-     * @throws Exception\FileNotFoundException
+     * @param string $file
+     * @return MediaInterface
+     * @throws FileNotFoundException
      */
-    public function guess(\SplFileInfo $file)
+    public function guess($file)
     {
-        if ( ! $file instanceof File) {
-            $file = new File($file->getPathname());
-        }
+        $fileObj = new File($file);
+        $classname = $this->guessFromMimeType($fileObj->getMimeType());
 
-        $classname = $this->guessFromMimeType($file->getMimeType());
-
-        return new $classname($file);
+        return new $classname($fileObj, $this->reader->reset()->files($file)->first(), $this->writer, $this->ffprobe);
     }
 
     /**
      *
      * @param \SplFileInfo $dir
      * @param type $recursive
-     * 
+     *
      * @return MediaCollection
      */
-    public function inspectDirectory(\SplFileInfo $dir, $recursive = false)
+    public function inspectDirectory($dir, $recursive = false)
     {
-        $reader = new Reader();
-
-        $reader->in($dir->getPathname())->followSymLinks();
+        $this->reader
+            ->reset()
+            ->in($dir)
+            ->followSymLinks();
 
         if ( ! $recursive) {
-            $reader->notRecursive();
+            $this->reader->notRecursive();
         }
 
-        return $this->parseReaderResult($reader);
-    }
-
-    public function parseReaderResult(Reader $reader)
-    {
         $files = new MediaCollection();
 
-        foreach ($reader as $entity) {
+        foreach ($this->reader as $entity) {
             $file = new File($entity->getFile());
             $classname = $this->guessFromMimeType($file->getMimeType());
-            $files[] = new $classname($file, $entity);
+            $files[] = new $classname($file, $entity, $this->writer, $this->ffprobe);
         }
-
-        unset($reader);
 
         return $files;
     }

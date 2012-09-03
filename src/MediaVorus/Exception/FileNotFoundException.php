@@ -11,7 +11,7 @@
 
 namespace MediaVorus\Exception;
 
-class FileNotFoundException extends \Exception implements Exception
+class FileNotFoundException extends \Exception implements ExceptionInterface
 {
 
 }

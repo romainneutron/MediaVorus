@@ -11,7 +11,7 @@
 
 namespace MediaVorus\Exception;
 
-interface Exception
+interface ExceptionInterface
 {
 
 }

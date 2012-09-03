@@ -2,6 +2,10 @@
 
 namespace MediaVorus\Media;
 
+use MediaVorus\File;
+use PHPExiftool\Reader;
+use PHPExiftool\Writer;
+
 class DefaultMediaTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -12,8 +16,14 @@ class DefaultMediaTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->object = new DefaultMedia(new \SplFileInfo(__DIR__ . '/../../../files/ExifTool.jpg'));
-        $this->GPSobject = new DefaultMedia(new \SplFileInfo(__DIR__ . '/../../../files/GPS.jpg'));
+        $reader = Reader::create();
+        $writer = Writer::create();
+
+        $file = __DIR__ . '/../../../files/ExifTool.jpg';
+        $this->object = new DefaultMedia(new File($file), $reader->reset()->files($file)->first(), $writer);
+
+        $file = __DIR__ . '/../../../files/GPS.jpg';
+        $this->GPSobject = new DefaultMedia(new File($file), $reader->reset()->files($file)->first(), $writer);
     }
 
     public function testGetHash()

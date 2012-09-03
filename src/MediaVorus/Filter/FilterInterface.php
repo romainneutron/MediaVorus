@@ -16,7 +16,7 @@ namespace MediaVorus\Filter;
  * @author      Romain Neutron - imprec@gmail.com
  * @license     http://opensource.org/licenses/MIT MIT
  */
-interface Filter
+interface FilterInterface
 {
 
     /**

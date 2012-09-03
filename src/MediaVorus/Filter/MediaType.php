@@ -18,7 +18,7 @@ use MediaVorus\Media\Media;
  * @author      Romain Neutron - imprec@gmail.com
  * @license     http://opensource.org/licenses/MIT MIT
  */
-class MediaType implements Filter
+class MediaType implements FilterInterface
 {
     protected $type;
 

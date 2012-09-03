@@ -11,9 +11,9 @@
 
 namespace MediaVorus;
 
+use MediaVorus\Exception\FileNotFoundException;
 use Symfony\Component\HttpFoundation\File\File as SymfonyFile;
-use Symfony\Component\HttpFoundation\File\MimeType\MimeTypeGuesser;
-use Symfony\Component\HttpFoundation\File\Exception\FileNotFoundException;
+use Symfony\Component\HttpFoundation\File\Exception\FileNotFoundException as SFFileNotFoundException;
 
 /**
  *
@@ -27,9 +27,9 @@ class File extends SymfonyFile
     {
         try {
             parent::__construct($path, true);
-        } catch (FileNotFoundException $e) {
-            throw new Exception\FileNotFoundException(sprintf('File %s not found', $path));
+        } catch (SFFileNotFoundException $e) {
+            throw new FileNotFoundException(sprintf('File %s not found', $path));
         }
     }
-    
+
 }

@@ -13,8 +13,8 @@ namespace MediaVorus\Media;
 
 use FFMpeg\Exception\Exception as FFMpegException;
 use FFMpeg\FFProbe;
-use Monolog\Logger;
-use Monolog\Handler\NullHandler;
+use MediaVorus\File;
+use PHPExiftool\Writer;
 use PHPExiftool\FileEntity;
 
 /**
@@ -27,18 +27,10 @@ class Video extends Image
     protected $ffprobe;
     protected $duration;
 
-    public function __construct($file, FileEntity $entity = null)
+    public function __construct(File $file, FileEntity $entity, Writer $writer, FFProbe $ffprobe = null)
     {
-        parent::__construct($file, $entity);
-
-        $logger = new Logger('MediaVorus');
-        $logger->pushHandler(new NullHandler());
-
-        try {
-            $this->ffprobe = FFProbe::load($logger);
-        } catch (FFMpegException $e) {
-
-        }
+        parent::__construct($file, $entity, $writer);
+        $this->ffprobe = $ffprobe;
     }
 
     /**
@@ -95,7 +87,7 @@ class Video extends Image
             return $value;
         }
 
-        if (null !== $value = $this->getEntity()->executeQuery('Track1:VideoFrameRate')) {
+        if (null !== $value = $this->entity->executeQuery('Track1:VideoFrameRate')) {
             return $value;
         }
 
@@ -115,7 +107,7 @@ class Video extends Image
             return $value;
         }
 
-        if (null !== $value = $this->getEntity()->executeQuery('Track2:AudioSampleRate')) {
+        if (null !== $value = $this->entity->executeQuery('Track2:AudioSampleRate')) {
             return $value;
         }
 
@@ -135,13 +127,13 @@ class Video extends Image
             return $value;
         }
 
-        if (null !== $value = $this->getEntity()->executeQuery('QuickTime:ComAppleProappsOriginalFormat')) {
+        if (null !== $value = $this->entity->executeQuery('QuickTime:ComAppleProappsOriginalFormat')) {
             return $value;
         }
-        if (null !== $value = $this->getEntity()->executeQuery('Track1:CompressorName')) {
+        if (null !== $value = $this->entity->executeQuery('Track1:CompressorName')) {
             return $value;
         }
-        if (null !== $value = $this->getEntity()->executeQuery('Track1:CompressorID')) {
+        if (null !== $value = $this->entity->executeQuery('Track1:CompressorID')) {
             return $value;
         }
 
@@ -163,7 +155,7 @@ class Video extends Image
         if ($this->getMetadatas()->containsKey('Flash:AudioEncoding')) {
             return $this->getMetadatas()->get('Flash:AudioEncoding')->getValue()->asString();
         }
-        if (null !== $VideoCodec = $this->getEntity()->executeQuery('Track2:AudioFormat')) {
+        if (null !== $VideoCodec = $this->entity->executeQuery('Track2:AudioFormat')) {
             return $VideoCodec;
         }
 

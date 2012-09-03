@@ -2,6 +2,14 @@
 
 namespace MediaVorus;
 
+use FFMpeg\FFProbe;
+use MediaVorus\Media\MediaInterface;
+use MediaVorus\Filter\MediaType;
+use Monolog\Logger;
+use Monolog\Handler\NullHandler;
+use PHPExiftool\Writer;
+use PHPExiftool\Reader;
+
 class MediaCollectionTest extends \PHPUnit_Framework_TestCase
 {
 
@@ -10,10 +18,13 @@ class MediaCollectionTest extends \PHPUnit_Framework_TestCase
      */
     public function testMatch()
     {
-        $mediavorus = new MediaVorus();
-        $collection = $mediavorus->inspectDirectory(new \SplFileInfo(__DIR__ . '/../../'));
+        $logger = new Logger('test');
+        $logger->pushHandler(new NullHandler());
 
-        $audio = $collection->match(new Filter\MediaType(Media\Media::TYPE_AUDIO));
+        $mediavorus = new MediaVorus(Reader::create(), Writer::create(), FFProbe::load($logger));
+
+        $collection = $mediavorus->inspectDirectory(__DIR__ . '/../../');
+        $audio = $collection->match(new MediaType(MediaInterface::TYPE_AUDIO));
 
         $this->assertInstanceOf('\\Doctrine\\Common\\Collections\\ArrayCollection', $audio);
 
@@ -21,7 +32,7 @@ class MediaCollectionTest extends \PHPUnit_Framework_TestCase
             $this->assertEquals(Media\Media::TYPE_AUDIO, $audio->getType());
         }
 
-        $notAudio = $collection->match(new Filter\MediaType(Media\Media::TYPE_AUDIO), true);
+        $notAudio = $collection->match(new MediaType(MediaInterface::TYPE_AUDIO), true);
 
         $this->assertInstanceOf('\\Doctrine\\Common\\Collections\\ArrayCollection', $notAudio);
 

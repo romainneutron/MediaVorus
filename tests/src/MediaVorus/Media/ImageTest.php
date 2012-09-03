@@ -2,6 +2,15 @@
 
 namespace MediaVorus\Media;
 
+use FFMpeg\FFProbe;
+use MediaVorus\File;
+use MediaVorus\MediaVorus;
+use MediaVorus\Media\MediaInterface;
+use Monolog\Logger;
+use Monolog\Handler\NullHandler;
+use PHPExiftool\Reader;
+use PHPExiftool\Writer;
+
 class ImageTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -9,11 +18,23 @@ class ImageTest extends \PHPUnit_Framework_TestCase
      */
     protected $object;
     protected $mediavorus;
+    protected $reader;
+    protected $writer;
+    protected $ffprobe;
 
     protected function setUp()
     {
-        $this->object = new Image(new \SplFileInfo(__DIR__ . '/../../../files/ExifTool.jpg'));
-        $this->mediavorus = new \MediaVorus\MediaVorus();
+        $this->reader = Reader::create();
+        $this->writer = Writer::create();
+        $file = __DIR__ . '/../../../files/ExifTool.jpg';
+
+        $this->object = new Image(new File($file), $this->reader->reset()->files($file)->first(), $this->writer);
+
+        $logger = new Logger('test');
+        $logger->pushHandler(new NullHandler());
+        $this->ffprobe = FFProbe::load($logger);
+
+        $this->mediavorus = new MediaVorus($this->reader, $this->writer, $this->ffprobe);
     }
 
     /**
@@ -21,7 +42,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetType()
     {
-        $this->assertEquals(Media::TYPE_IMAGE, $this->object->getType());
+        $this->assertEquals(MediaInterface::TYPE_IMAGE, $this->object->getType());
     }
 
     /**
@@ -31,7 +52,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertFalse($this->object->isRawImage());
 
-        $object = $this->mediavorus->guess(new \SplFileInfo(__DIR__ . '/../../../files/CanonRaw.cr2'));
+        $object = $this->mediavorus->guess(__DIR__ . '/../../../files/CanonRaw.cr2');
         $this->assertTrue($object->isRawImage());
     }
 
@@ -44,9 +65,9 @@ class ImageTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue(is_int($this->object->getWidth()));
         $this->assertEquals(8, $this->object->getWidth());
 
-        $objects = $this->mediavorus->inspectDirectory(new \SplFileInfo(__DIR__ . '/../../../files/'));
+        $objects = $this->mediavorus->inspectDirectory(__DIR__ . '/../../../files/');
         foreach ($objects as $object) {
-            if ($object->getType() == Media::TYPE_IMAGE) {
+            if ($object->getType() == MediaInterface::TYPE_IMAGE) {
 
                 if (in_array($object->getFile()->getFilename(), array('KyoceraRaw.raw', 'Font.dfont', 'XMP.svg'))) {
                     $this->assertNull($object->getWidth());
@@ -66,9 +87,9 @@ class ImageTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue(is_int($this->object->getHeight()));
         $this->assertEquals(8, $this->object->getHeight());
 
-        $objects = $this->mediavorus->inspectDirectory(new \SplFileInfo(__DIR__ . '/../../../files/'));
+        $objects = $this->mediavorus->inspectDirectory(__DIR__ . '/../../../files/');
         foreach ($objects as $object) {
-            if ($object->getType() == Media::TYPE_IMAGE) {
+            if ($object->getType() == MediaInterface::TYPE_IMAGE) {
 
                 if (in_array($object->getFile()->getFilename(), array('KyoceraRaw.raw', 'Font.dfont', 'XMP.svg'))) {
                     $this->assertNull($object->getHeight());
@@ -121,35 +142,35 @@ class ImageTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertTrue(is_bool($this->object->getFlashFired()));
 
-        $object = $this->mediavorus->guess(new \SplFileInfo(__DIR__ . '/../../../files/photo01.JPG'));
+        $object = $this->mediavorus->guess(__DIR__ . '/../../../files/photo01.JPG');
         $this->assertInstanceOf('\MediaVorus\Media\Image', $object);
         $this->assertFalse($object->getFlashFired());
 
-        $object = $this->mediavorus->guess(new \SplFileInfo(__DIR__ . '/../../../files/CanonRaw.cr2'));
+        $object = $this->mediavorus->guess(__DIR__ . '/../../../files/CanonRaw.cr2');
         $this->assertInstanceOf('\MediaVorus\Media\Image', $object);
         $this->assertFalse($object->getFlashFired());
 
-        $object = $this->mediavorus->guess(new \SplFileInfo(__DIR__ . '/../../../files/photoAutoNoFlash.jpg'));
+        $object = $this->mediavorus->guess(__DIR__ . '/../../../files/photoAutoNoFlash.jpg');
         $this->assertInstanceOf('\MediaVorus\Media\Image', $object);
         $this->assertFalse($object->getFlashFired());
 
-        $object = $this->mediavorus->guess(new \SplFileInfo(__DIR__ . '/../../../files/PhotoFlash.jpg'));
+        $object = $this->mediavorus->guess(__DIR__ . '/../../../files/PhotoFlash.jpg');
         $this->assertInstanceOf('\MediaVorus\Media\Image', $object);
         $this->assertTrue($object->getFlashFired());
 
-        $object = $this->mediavorus->guess(new \SplFileInfo(__DIR__ . '/../../../files/videoFlashed.MOV'));
+        $object = $this->mediavorus->guess(__DIR__ . '/../../../files/videoFlashed.MOV');
         $this->assertInstanceOf('\MediaVorus\Media\Image', $object);
         $this->assertNull($object->getFlashFired());
 
-        $object = $this->mediavorus->guess(new \SplFileInfo(__DIR__ . '/../../../files/XMP.xmp'));
+        $object = $this->mediavorus->guess(__DIR__ . '/../../../files/XMP.xmp');
         $this->assertInstanceOf('\MediaVorus\Media\Image', $object);
         $this->assertFalse($object->getFlashFired());
 
-        $object = $this->mediavorus->guess(new \SplFileInfo(__DIR__ . '/../../../files/DNG.dng'));
+        $object = $this->mediavorus->guess(__DIR__ . '/../../../files/DNG.dng');
         $this->assertInstanceOf('\MediaVorus\Media\Image', $object);
         $this->assertFalse($object->getFlashFired());
 
-        $object = $this->mediavorus->guess(new \SplFileInfo(__DIR__ . '/../../../files/Panasonic.rw2'));
+        $object = $this->mediavorus->guess(__DIR__ . '/../../../files/Panasonic.rw2');
         $this->assertInstanceOf('\MediaVorus\Media\Image', $object);
         $this->assertFalse($object->getFlashFired());
     }
@@ -175,10 +196,10 @@ class ImageTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetOrientation()
     {
-        $object1 = $this->mediavorus->guess(new \SplFileInfo(__DIR__ . '/../../../files/photo01.JPG'));
-        $object2 = $this->mediavorus->guess(new \SplFileInfo(__DIR__ . '/../../../files/photo02.JPG'));
-        $object3 = $this->mediavorus->guess(new \SplFileInfo(__DIR__ . '/../../../files/photo03.JPG'));
-        $object4 = $this->mediavorus->guess(new \SplFileInfo(__DIR__ . '/../../../files/Test.ogv'));
+        $object1 = $this->mediavorus->guess(__DIR__ . '/../../../files/photo01.JPG');
+        $object2 = $this->mediavorus->guess(__DIR__ . '/../../../files/photo02.JPG');
+        $object3 = $this->mediavorus->guess(__DIR__ . '/../../../files/photo03.JPG');
+        $object4 = $this->mediavorus->guess(__DIR__ . '/../../../files/Test.ogv');
 
         $this->assertEquals(Image::ORIENTATION_0, $this->object->getOrientation());
         $this->assertEquals(Image::ORIENTATION_90, $object1->getOrientation());
@@ -225,14 +246,16 @@ class ImageTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetColorSpace()
     {
-        $media = new \MediaVorus\Media\Image(__DIR__ . '/../../../files/ExifTool.jpg');
+        $file = __DIR__ . '/../../../files/ExifTool.jpg';
+        $media = new Image(new File($file), $this->reader->reset()->files($file)->first(), $this->writer);
+        $this->assertEquals(Image::COLORSPACE_RGB, $media->getColorSpace());
 
-        $this->assertEquals(\MediaVorus\Media\Image::COLORSPACE_RGB, $media->getColorSpace());
-
-        $media = new \MediaVorus\Media\Image(__DIR__ . '/../../../files/GRAYSCALE.jpg');
+        $file = __DIR__ . '/../../../files/GRAYSCALE.jpg';
+        $media = new Image(new File($file), $this->reader->reset()->files($file)->first(), $this->writer);
         $this->assertEquals(Image::COLORSPACE_GRAYSCALE, $media->getColorSpace());
 
-        $media = new \MediaVorus\Media\Image(__DIR__ . '/../../../files/RVB.jpg');
+        $file = __DIR__ . '/../../../files/RVB.jpg';
+        $media = new Image(new File($file), $this->reader->reset()->files($file)->first(), $this->writer);
         $this->assertEquals(Image::COLORSPACE_RGB, $media->getColorSpace());
     }
 }

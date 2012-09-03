@@ -2,6 +2,13 @@
 
 namespace MediaVorus;
 
+use PHPExiftool\Reader;
+use PHPExiftool\Writer;
+use FFMpeg\FFProbe;
+use Monolog\Logger;
+use Monolog\Handler\NullHandler;
+use MediaVorus\Media\MediaInterface;
+
 class MediaVorusTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -14,7 +21,10 @@ class MediaVorusTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->object = new MediaVorus;
+        $logger = new Logger('test');
+        $logger->pushHandler(new NullHandler());
+
+        $this->object = new MediaVorus(Reader::create(), Writer::create(), FFProbe::load($logger));
     }
 
     /**
@@ -22,8 +32,8 @@ class MediaVorusTest extends \PHPUnit_Framework_TestCase
      */
     public function testGuess()
     {
-        $media = $this->object->guess(new \SplFileInfo(__DIR__ . '/../../files/ExifTool.jpg'));
-        $this->assertInstanceOf('\\MediaVorus\\Media\\Media', $media);
+        $media = $this->object->guess(__DIR__ . '/../../files/ExifTool.jpg');
+        $this->assertInstanceOf('\\MediaVorus\\Media\\MediaInterface', $media);
     }
 
     /**
@@ -31,20 +41,20 @@ class MediaVorusTest extends \PHPUnit_Framework_TestCase
      */
     public function testGuessFromMimeType()
     {
-        $media = $this->object->guess(new \SplFileInfo(__DIR__ . '/../../files/ExifTool.jpg'));
+        $media = $this->object->guess(__DIR__ . '/../../files/ExifTool.jpg');
         $this->assertInstanceOf('\\MediaVorus\\Media\\Image', $media);
-        $media = $this->object->guess(new \SplFileInfo(__DIR__ . '/../../files/CanonRaw.cr2'));
+        $media = $this->object->guess(__DIR__ . '/../../files/CanonRaw.cr2');
         $this->assertInstanceOf('\\MediaVorus\\Media\\Image', $media);
-        $media = $this->object->guess(new \SplFileInfo(__DIR__ . '/../../files/APE.ape'));
+        $media = $this->object->guess(__DIR__ . '/../../files/APE.ape');
         $this->assertInstanceOf('\\MediaVorus\\Media\\Audio', $media);
 
-        $media = $this->object->guess(new \SplFileInfo(__DIR__ . '/../../files/PDF.pdf'));
+        $media = $this->object->guess(__DIR__ . '/../../files/PDF.pdf');
         $this->assertInstanceOf('\\MediaVorus\\Media\\Document', $media);
-        $media = $this->object->guess(new \SplFileInfo(__DIR__ . '/../../files/ZIP.gz'));
+        $media = $this->object->guess(__DIR__ . '/../../files/ZIP.gz');
         $this->assertInstanceOf('\\MediaVorus\\Media\\DefaultMedia', $media);
-        $media = $this->object->guess(new \SplFileInfo(__DIR__ . '/../../files/Flash.swf'));
+        $media = $this->object->guess(__DIR__ . '/../../files/Flash.swf');
         $this->assertInstanceOf('\\MediaVorus\\Media\\Flash', $media);
-        $media = $this->object->guess(new \SplFileInfo(__DIR__ . '/../../files/Test.ogv'));
+        $media = $this->object->guess(__DIR__ . '/../../files/Test.ogv');
         $this->assertInstanceOf('\\MediaVorus\\Media\\Video', $media);
     }
 
@@ -53,13 +63,19 @@ class MediaVorusTest extends \PHPUnit_Framework_TestCase
      */
     public function testInspectDirectory()
     {
-        $medias = $this->object->inspectDirectory(new \SplFileInfo(__DIR__ . '/../../files'));
+        $medias = $this->object->inspectDirectory(__DIR__ . '/../../files');
         $this->assertInstanceOf('\\MediaVorus\\MediaCollection', $medias);
         $this->assertEquals(22, count($medias));
 
         foreach ($medias as $media) {
-            if ($media->getType() === Media\Media::TYPE_IMAGE) {
-                $this->assertTrue(is_int($media->getWidth()));
+            if ($media->getFile()->getFilename() === 'KyoceraRaw.raw') {
+                continue;
+            }
+            if ($media->getFile()->getFilename() === 'XMP.svg') {
+                continue;
+            }
+            if ($media->getType() === MediaInterface::TYPE_IMAGE) {
+                $this->assertInternalType('integer', $media->getWidth());
             }
         }
     }

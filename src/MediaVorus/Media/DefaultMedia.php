@@ -194,7 +194,7 @@ class DefaultMedia implements MediaInterface
      *
      * @return MetadataBag
      */
-    protected function getMetadatas()
+    public function getMetadatas()
     {
         return $this->entity->getMetadatas();
     }

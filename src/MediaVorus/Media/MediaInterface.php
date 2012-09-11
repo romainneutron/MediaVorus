@@ -45,6 +45,8 @@ interface MediaInterface
 
     public function getFile();
 
+    public function getMetadatas();
+
     public function getLongitude();
 
     public function getLongitudeRef();

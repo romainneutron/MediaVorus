@@ -21,11 +21,17 @@
     },
     "minimum-stability": "dev",
     "require-dev": {
-        "fabpot/php-cs-fixer": "*"
+        "fabpot/php-cs-fixer": "*",
+        "silex/silex": "dev-master"
     },
     "autoload": {
         "psr-0": {
             "MediaVorus": "src"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "0.1.x-dev"
         }
     }
 }

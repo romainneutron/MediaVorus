@@ -127,6 +127,7 @@ class MediaVorus
         switch (true) {
             case strpos($mime, 'image/') === 0:
             case $mime === 'application/postscript':
+            case $mime === 'application/illustrator':
                 return 'MediaVorus\Media\Image';
                 break;
 

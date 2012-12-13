@@ -78,7 +78,7 @@ class Video extends Image
         foreach ($data as $stream) {
             foreach ($stream as $key => $value) {
                 if ($key == 'width') {
-                    return $this->width = (float) $value;
+                    return $this->width = (int) $value;
                 }
             }
         }
@@ -109,7 +109,7 @@ class Video extends Image
         foreach ($data as $stream) {
             foreach ($stream as $key => $value) {
                 if ($key == 'height') {
-                    return $this->height = (float) $value;
+                    return $this->height = (int) $value;
                 }
             }
         }

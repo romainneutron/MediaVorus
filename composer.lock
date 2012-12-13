@@ -1,103 +1,416 @@
 {
-    "hash": "32f7308299adb99f8c9ead096fc4555f",
+    "hash": "0089df0be65311d607497be03a858c6e",
     "packages": [
         {
-            "package": "doctrine/common",
-            "version": "2.2.x-dev",
-            "source-reference": "1e0aa60d109c630d19543d999f12e2852ef8f932",
-            "commit-date": "1334303204"
-        },
-        {
-            "package": "monolog/monolog",
-            "version": "1.0.2"
-        },
-        {
-            "package": "php-ffmpeg/php-ffmpeg",
+            "name": "doctrine/common",
             "version": "dev-master",
-            "source-reference": "b6b8bd502131e0dd82f53517ccc84d3de2c09424",
-            "commit-date": "1340268165"
+            "source": {
+                "type": "git",
+                "url": "https://github.com/doctrine/common",
+                "reference": "1e0aa60d109c630d19543d999f12e2852ef8f932"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://github.com/doctrine/common/archive/1e0aa60d109c630d19543d999f12e2852ef8f932.zip",
+                "reference": "1e0aa60d109c630d19543d999f12e2852ef8f932",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.2"
+            },
+            "time": "2012-12-05 12:03:39",
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.4.x-dev"
+                }
+            },
+            "installation-source": "source",
+            "autoload": {
+                "psr-0": {
+                    "Doctrine\\Common\\": "lib/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jonathan Wage",
+                    "email": "jonwage@gmail.com",
+                    "homepage": "http://www.jwage.com/"
+                },
+                {
+                    "name": "Guilherme Blanco",
+                    "email": "guilhermeblanco@gmail.com",
+                    "homepage": "http://www.instaclick.com"
+                },
+                {
+                    "name": "Roman Borschel",
+                    "email": "roman@code-factory.org"
+                },
+                {
+                    "name": "Benjamin Eberlei",
+                    "email": "kontakt@beberlei.de"
+                },
+                {
+                    "name": "Johannes Schmitt",
+                    "email": "schmittjoh@gmail.com",
+                    "homepage": "http://jmsyst.com",
+                    "role": "Developer of wrapped JMSSerializerBundle"
+                }
+            ],
+            "description": "Common Library for Doctrine projects",
+            "homepage": "http://www.doctrine-project.org",
+            "keywords": [
+                "collections",
+                "spl",
+                "eventmanager",
+                "annotations",
+                "persistence"
+            ]
         },
         {
-            "package": "phpexiftool/exiftool",
-            "version": "dev-master",
-            "source-reference": "999e660215b25a12fd3409df9a31883b6c617570",
-            "commit-date": "1339513761"
+            "name": "monolog/monolog",
+            "version": "1.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Seldaek/monolog",
+                "reference": "1.0.2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://github.com/Seldaek/monolog/zipball/1.0.2",
+                "reference": "1.0.2",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "time": "2011-10-24 02:39:02",
+            "type": "library",
+            "installation-source": "dist",
+            "autoload": {
+                "psr-0": {
+                    "Monolog": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jordi Boggiano",
+                    "email": "j.boggiano@seld.be",
+                    "homepage": "http://seld.be",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Logging for PHP 5.3",
+            "homepage": "http://github.com/Seldaek/monolog",
+            "keywords": [
+                "log",
+                "logging"
+            ]
         },
         {
-            "package": "phpexiftool/phpexiftool",
+            "name": "php-ffmpeg/php-ffmpeg",
             "version": "dev-master",
-            "source-reference": "5dc6e9a21e4b0faf6809070bc4f1cc4fef06ead6",
-            "commit-date": "1339680734"
+            "source": {
+                "type": "git",
+                "url": "https://github.com/alchemy-fr/PHP-FFmpeg",
+                "reference": "b6b8bd502131e0dd82f53517ccc84d3de2c09424"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://github.com/alchemy-fr/PHP-FFmpeg/archive/b6b8bd502131e0dd82f53517ccc84d3de2c09424.zip",
+                "reference": "b6b8bd502131e0dd82f53517ccc84d3de2c09424",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3",
+                "symfony/process": ">=2.0,<=2.2",
+                "monolog/monolog": "1.*"
+            },
+            "require-dev": {
+                "fabpot/php-cs-fixer": "master",
+                "sami/sami": "dev-master",
+                "silex/silex": "dev-master",
+                "phpunit/phpunit": "3.7.*"
+            },
+            "suggest": {
+                "php-ffmpeg/extras": "A compilation of common audio & video drivers for PHP-FFMpeg"
+            },
+            "time": "2012-12-13 17:26:20",
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "0.2.x-dev"
+                }
+            },
+            "installation-source": "source",
+            "autoload": {
+                "psr-0": {
+                    "FFMpeg": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Romain Neutron",
+                    "email": "imprec@gmail.com",
+                    "homepage": "http://www.lickmychip.com/"
+                },
+                {
+                    "name": "Phraseanet Team",
+                    "email": "info@alchemy.fr",
+                    "homepage": "http://www.phraseanet.com/"
+                }
+            ],
+            "description": "FFMpeg PHP, an Object Oriented library to communicate with AVconv / ffmpeg",
+            "keywords": [
+                "audio",
+                "video processing",
+                "video",
+                "audio processing",
+                "avconv",
+                "ffmpeg",
+                "avprobe",
+                "ffprobe"
+            ]
         },
         {
-            "package": "symfony/console",
+            "name": "phpexiftool/exiftool",
             "version": "dev-master",
-            "alias-pretty-version": "2.1.x-dev",
-            "alias-version": "2.1.9999999.9999999-dev"
+            "source": {
+                "type": "git",
+                "url": "https://github.com/alchemy-fr/exiftool",
+                "reference": "999e660215b25a12fd3409df9a31883b6c617570"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://github.com/alchemy-fr/exiftool/archive/999e660215b25a12fd3409df9a31883b6c617570.zip",
+                "reference": "999e660215b25a12fd3409df9a31883b6c617570",
+                "shasum": ""
+            },
+            "require": {
+                "phpexiftool/phpexiftool": "*"
+            },
+            "time": "2012-08-29 16:01:26",
+            "type": "library",
+            "installation-source": "source",
+            "license": [
+                "Perl Licensing"
+            ],
+            "authors": [
+                {
+                    "name": "Phil Harvey",
+                    "email": "phil@owl.phy.queensu.ca",
+                    "homepage": "http://www.sno.phy.queensu.ca/~phil/exiftool/"
+                }
+            ],
+            "description": "Exiftool is a library for reading, writing and editing meta information. This package is not PHP, but required for the main PHP driver : PHP Exiftool",
+            "keywords": [
+                "exiftool",
+                "metadatas"
+            ]
         },
         {
-            "package": "symfony/console",
+            "name": "phpexiftool/phpexiftool",
             "version": "dev-master",
-            "source-reference": "v2.1.0-BETA3",
-            "commit-date": "1342347231"
+            "source": {
+                "type": "git",
+                "url": "https://github.com/romainneutron/PHPExiftool",
+                "reference": "5dc6e9a21e4b0faf6809070bc4f1cc4fef06ead6"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://github.com/romainneutron/PHPExiftool/archive/5dc6e9a21e4b0faf6809070bc4f1cc4fef06ead6.zip",
+                "reference": "5dc6e9a21e4b0faf6809070bc4f1cc4fef06ead6",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3",
+                "doctrine/common": ">=2.2",
+                "phpexiftool/exiftool": "dev-master",
+                "symfony/process": "2.1.*"
+            },
+            "require-dev": {
+                "symfony/css-selector": "2.1.*",
+                "symfony/finder": "2.1.*",
+                "symfony/console": "2.1.*",
+                "symfony/dom-crawler": "2.1.*",
+                "fabpot/php-cs-fixer": "dev-master",
+                "sami/sami": "dev-master",
+                "silex/silex": "dev-master"
+            },
+            "time": "2012-09-03 14:06:48",
+            "type": "library",
+            "installation-source": "source",
+            "autoload": {
+                "psr-0": {
+                    "PHPExiftool": "lib"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Romain Neutron",
+                    "email": "imprec@gmail.com",
+                    "homepage": "http://www.lickmychip.com/"
+                }
+            ],
+            "description": "Exiftool driver for PHP",
+            "keywords": [
+                "metadata",
+                "exiftool"
+            ]
         },
         {
-            "package": "symfony/http-foundation",
-            "version": "dev-master",
-            "source-reference": "v2.1.0-BETA3",
-            "commit-date": "1342347231"
+            "name": "symfony/console",
+            "version": "2.1.x-dev",
+            "target-dir": "Symfony/Component/Console",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/Console",
+                "reference": "ccfd7da81aa8a353bbd8acbe1abc69f14df64c79"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://github.com/symfony/Console/archive/ccfd7da81aa8a353bbd8acbe1abc69f14df64c79.zip",
+                "reference": "ccfd7da81aa8a353bbd8acbe1abc69f14df64c79",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3"
+            },
+            "time": "2012-12-11 10:40:22",
+            "type": "library",
+            "installation-source": "source",
+            "autoload": {
+                "psr-0": {
+                    "Symfony\\Component\\Console": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "http://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony Console Component",
+            "homepage": "http://symfony.com"
         },
         {
-            "package": "symfony/process",
-            "version": "dev-master",
-            "alias-pretty-version": "2.1.x-dev",
-            "alias-version": "2.1.9999999.9999999-dev"
+            "name": "symfony/http-foundation",
+            "version": "2.1.x-dev",
+            "target-dir": "Symfony/Component/HttpFoundation",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/HttpFoundation",
+                "reference": "ca61913ce6b24802d0e5751fd52fb56345af09dd"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://github.com/symfony/HttpFoundation/archive/ca61913ce6b24802d0e5751fd52fb56345af09dd.zip",
+                "reference": "ca61913ce6b24802d0e5751fd52fb56345af09dd",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3"
+            },
+            "time": "2012-12-11 10:40:22",
+            "type": "library",
+            "installation-source": "source",
+            "autoload": {
+                "psr-0": {
+                    "Symfony\\Component\\HttpFoundation": "",
+                    "SessionHandlerInterface": "Symfony/Component/HttpFoundation/Resources/stubs"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "http://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony HttpFoundation Component",
+            "homepage": "http://symfony.com"
         },
         {
-            "package": "symfony/process",
-            "version": "dev-master",
-            "source-reference": "v2.1.0-BETA3",
-            "commit-date": "1342347231"
+            "name": "symfony/process",
+            "version": "2.1.x-dev",
+            "target-dir": "Symfony/Component/Process",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/Process",
+                "reference": "7468a4995e421741e37467613889765f0b21c329"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://github.com/symfony/Process/archive/7468a4995e421741e37467613889765f0b21c329.zip",
+                "reference": "7468a4995e421741e37467613889765f0b21c329",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3"
+            },
+            "time": "2012-12-11 10:40:22",
+            "type": "library",
+            "installation-source": "source",
+            "autoload": {
+                "psr-0": {
+                    "Symfony\\Component\\Process": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "http://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony Process Component",
+            "homepage": "http://symfony.com"
         }
     ],
-    "packages-dev": [
-        {
-            "package": "fabpot/php-cs-fixer",
-            "version": "dev-master",
-            "source-reference": "9b13373840537c91bf830b1b45e39b223e5dd438",
-            "commit-date": "1341582702"
-        },
-        {
-            "package": "symfony/filesystem",
-            "version": "dev-master",
-            "alias-pretty-version": "2.1.x-dev",
-            "alias-version": "2.1.9999999.9999999-dev"
-        },
-        {
-            "package": "symfony/filesystem",
-            "version": "dev-master",
-            "source-reference": "v2.1.0-BETA3",
-            "commit-date": "1342347231"
-        },
-        {
-            "package": "symfony/finder",
-            "version": "dev-master",
-            "alias-pretty-version": "2.1.x-dev",
-            "alias-version": "2.1.9999999.9999999-dev"
-        },
-        {
-            "package": "symfony/finder",
-            "version": "dev-master",
-            "source-reference": "v2.1.0-BETA3",
-            "commit-date": "1342347231"
-        }
-    ],
+    "packages-dev": null,
     "aliases": [
 
     ],
     "minimum-stability": "dev",
     "stability-flags": {
         "phpexiftool/phpexiftool": 20,
-        "php-ffmpeg/php-ffmpeg": 20
+        "php-ffmpeg/php-ffmpeg": 20,
+        "silex/silex": 20
     }
 }

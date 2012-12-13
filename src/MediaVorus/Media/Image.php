@@ -118,7 +118,7 @@ class Image extends DefaultMedia
         $sources = array('SubIFD:ImageWidth', 'IFD0:ImageWidth', 'ExifIFD:ExifImageWidth');
 
         return $this->castValue($this->findInSources($sources), 'int');
-        }
+    }
 
     /**
      * Return the height, null on error

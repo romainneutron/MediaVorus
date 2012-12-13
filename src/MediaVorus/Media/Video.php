@@ -11,7 +11,7 @@
 
 namespace MediaVorus\Media;
 
-use FFMpeg\Exception\Exception as FFMpegException;
+use FFMpeg\Exception\ExceptionInterface as FFMpegException;
 use FFMpeg\FFProbe;
 use Monolog\Logger;
 use Monolog\Handler\NullHandler;
@@ -24,8 +24,13 @@ use PHPExiftool\FileEntity;
  */
 class Video extends Image
 {
+    /**
+     * @var FFProbe
+     */
     protected $ffprobe;
-    protected $duration;
+    private $duration;
+    private $width;
+    private $height;
 
     public function __construct($file, FileEntity $entity = null)
     {
@@ -50,6 +55,68 @@ class Video extends Image
         return self::TYPE_VIDEO;
     }
 
+    public function getWidth()
+    {
+        if ($this->width) {
+            return $this->width;
+        }
+
+        if (null !== $result = parent::getWidth()) {
+            return $result;
+        }
+
+        if ($this->ffprobe) {
+            try {
+                $data = json_decode($this->ffprobe->probeStreams($this->file->getPathname()), true);
+            } catch (FFMpegException $e) {
+                $data = array();
+            }
+        } else {
+            $data = array();
+        }
+
+        foreach ($data as $stream) {
+            foreach ($stream as $key => $value) {
+                if ($key == 'width') {
+                    return $this->width = (float) $value;
+                }
+            }
+        }
+
+        return null;
+    }
+
+    public function getHeight()
+    {
+        if ($this->height) {
+            return $this->height;
+        }
+
+        if (null !== $result = parent::getHeight()) {
+            return $result;
+        }
+
+        if ($this->ffprobe) {
+            try {
+                $data = json_decode($this->ffprobe->probeStreams($this->file->getPathname()), true);
+            } catch (FFMpegException $e) {
+                $data = array();
+            }
+        } else {
+            $data = array();
+        }
+
+        foreach ($data as $stream) {
+            foreach ($stream as $key => $value) {
+                if ($key == 'height') {
+                    return $this->height = (float) $value;
+                }
+            }
+        }
+
+        return null;
+    }
+
     /**
      * Get the duration of the video in seconds, null if unavailable
      *
@@ -68,7 +135,11 @@ class Video extends Image
         }
 
         if ($this->ffprobe) {
-            $result = json_decode($this->ffprobe->probeFormat($this->file->getPathname()), true);
+            try {
+                $result = json_decode($this->ffprobe->probeFormat($this->file->getPathname()), true);
+            } catch (FFMpegException $e) {
+                $result = array();
+            }
         } else {
             $result = array();
         }

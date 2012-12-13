@@ -11,7 +11,7 @@
 
 namespace MediaVorus\Media;
 
-use FFMpeg\Exception\ExceptionInterface as FFMpegException;
+use FFMpeg\Exception\Exception as FFMpegException;
 use FFMpeg\FFProbe;
 use MediaVorus\File;
 use PHPExiftool\Writer;

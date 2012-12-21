@@ -17,7 +17,7 @@
         "symfony/console": ">2.0,<=2.2",
         "phpexiftool/phpexiftool": "dev-master",
         "php-ffmpeg/php-ffmpeg": "dev-master",
-        "monolog/monolog": "1.0.*"
+        "monolog/monolog": "1.*"
     },
     "minimum-stability": "dev",
     "require-dev": {

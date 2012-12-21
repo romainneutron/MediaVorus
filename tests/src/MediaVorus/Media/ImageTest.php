@@ -24,8 +24,11 @@ class ImageTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->reader = Reader::create();
-        $this->writer = Writer::create();
+        $logger = new Logger('Tests');
+        $logger->pushHandler(new NullHandler());
+
+        $this->reader = Reader::create($logger);
+        $this->writer = Writer::create($logger);
         $file = __DIR__ . '/../../../files/ExifTool.jpg';
 
         $this->object = new Image(new File($file), $this->reader->reset()->files($file)->first(), $this->writer);

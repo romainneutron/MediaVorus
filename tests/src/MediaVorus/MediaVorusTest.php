@@ -24,7 +24,7 @@ class MediaVorusTest extends \PHPUnit_Framework_TestCase
         $logger = new Logger('test');
         $logger->pushHandler(new NullHandler());
 
-        $this->object = new MediaVorus(Reader::create(), Writer::create(), FFProbe::load($logger));
+        $this->object = new MediaVorus(Reader::create($logger), Writer::create($logger), FFProbe::load($logger));
     }
 
     /**

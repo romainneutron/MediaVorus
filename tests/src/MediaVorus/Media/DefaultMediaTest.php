@@ -3,6 +3,8 @@
 namespace MediaVorus\Media;
 
 use MediaVorus\File;
+use Monolog\Logger;
+use Monolog\Handler\NullHandler;
 use PHPExiftool\Reader;
 use PHPExiftool\Writer;
 
@@ -16,8 +18,11 @@ class DefaultMediaTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $reader = Reader::create();
-        $writer = Writer::create();
+        $logger = new Logger('Tests');
+        $logger->pushHandler(new NullHandler());
+
+        $reader = Reader::create($logger);
+        $writer = Writer::create($logger);
 
         $file = __DIR__ . '/../../../files/ExifTool.jpg';
         $this->object = new DefaultMedia(new File($file), $reader->reset()->files($file)->first(), $writer);

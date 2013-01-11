@@ -1,9 +1,14 @@
 CHANGELOG
 ---------
 
-* 0.2.x
+* 0.2.1 (12-21-2012)
+
+  * Support of the latest PHPExiftool API.
+
+* 0.2.0 (12-14-2012)
 
   * Update API.
+  * Add support of videos Width/Height via FFProbe
 
 * 0.1.1 (12-14-2012)
 

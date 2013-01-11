@@ -11,6 +11,9 @@
 
 namespace MediaVorus\Media;
 
+use JMS\Serializer\Annotation\ExclusionPolicy;
+use JMS\Serializer\Annotation\VirtualProperty;
+use JMS\Serializer\Annotation\Exclude;
 use FFMpeg\Exception\ExceptionInterface as FFMpegException;
 use FFMpeg\FFProbe;
 use MediaVorus\File;
@@ -18,6 +21,7 @@ use PHPExiftool\Writer;
 use PHPExiftool\FileEntity;
 
 /**
+ * @ExclusionPolicy("all")
  *
  * @author      Romain Neutron - imprec@gmail.com
  * @license     http://opensource.org/licenses/MIT MIT
@@ -39,6 +43,7 @@ class Video extends Image
     }
 
     /**
+     * @VirtualProperty
      *
      * @return string
      */
@@ -47,6 +52,11 @@ class Video extends Image
         return self::TYPE_VIDEO;
     }
 
+    /**
+     * @VirtualProperty
+     *
+     * @return Integer
+     */
     public function getWidth()
     {
         if ($this->width) {
@@ -78,6 +88,11 @@ class Video extends Image
         return null;
     }
 
+    /**
+     * @VirtualProperty
+     *
+     * @return Integer
+     */
     public function getHeight()
     {
         if ($this->height) {
@@ -111,6 +126,8 @@ class Video extends Image
 
     /**
      * Get the duration of the video in seconds, null if unavailable
+     *
+     * @VirtualProperty
      *
      * @return float
      */
@@ -148,6 +165,8 @@ class Video extends Image
     /**
      * Returns the value of video frame rate, null if not available
      *
+     * @VirtualProperty
+     *
      * @return string
      */
     public function getFrameRate()
@@ -155,11 +174,15 @@ class Video extends Image
         $sources = array('RIFF:FrameRate', 'RIFF:VideoFrameRate', 'Flash:FrameRate');
 
         if (null !== $value = $this->findInSources($sources)) {
-            return $value;
+            return $this->castValue($value, 'float');
         }
 
         if (null !== $value = $this->entity->executeQuery('Track1:VideoFrameRate')) {
-            return $value;
+            return $this->castValue($value->asString(), 'float');
+        }
+
+        if (null !== $value = $this->entity->executeQuery('Track2:VideoFrameRate')) {
+            return $this->castValue($value->asString(), 'float');
         }
 
         return null;
@@ -168,6 +191,8 @@ class Video extends Image
     /**
      * Returns the value of audio samplerate, null if not available
      *
+     * @VirtualProperty
+     *
      * @return string
      */
     public function getAudioSampleRate()
@@ -175,11 +200,15 @@ class Video extends Image
         $sources = array('RIFF:AudioSampleRate', 'Flash:AudioSampleRate');
 
         if (null !== $value = $this->findInSources($sources)) {
-            return $value;
+            return $this->castValue($value->asString(), 'int');
+        }
+
+        if (null !== $value = $this->entity->executeQuery('Track1:AudioSampleRate')) {
+            return $this->castValue($value->asString(), 'int');
         }
 
         if (null !== $value = $this->entity->executeQuery('Track2:AudioSampleRate')) {
-            return $value;
+            return $this->castValue($value->asString(), 'int');
         }
 
         return null;
@@ -187,6 +216,8 @@ class Video extends Image
 
     /**
      * Returns the name of video codec, null if not available
+     *
+     * @VirtualProperty
      *
      * @return string
      */
@@ -199,13 +230,23 @@ class Video extends Image
         }
 
         if (null !== $value = $this->entity->executeQuery('QuickTime:ComAppleProappsOriginalFormat')) {
-            return $value;
+            return $this->castValue($value->asString(), 'string');
         }
+
         if (null !== $value = $this->entity->executeQuery('Track1:CompressorName')) {
-            return $value;
+            return $this->castValue($value->asString(), 'string');
         }
+
+        if (null !== $value = $this->entity->executeQuery('Track2:CompressorName')) {
+            return $this->castValue($value->asString(), 'string');
+        }
+
         if (null !== $value = $this->entity->executeQuery('Track1:CompressorID')) {
-            return $value;
+            return $this->castValue($value->asString(), 'string');
+        }
+
+        if (null !== $value = $this->entity->executeQuery('Track2:CompressorID')) {
+            return $this->castValue($value->asString(), 'string');
         }
 
         return null;
@@ -213,6 +254,8 @@ class Video extends Image
 
     /**
      * Returns the name of audio codec, null if not available
+     *
+     * @VirtualProperty
      *
      * @return string
      */
@@ -223,11 +266,17 @@ class Video extends Image
             && $this->getMetadatas()->get('RIFF:AudioCodec')->getValue()->asString() === '') {
             return $this->getMetadatas()->get('RIFF:Encoding')->getValue()->asString();
         }
-        if ($this->getMetadatas()->containsKey('Flash:AudioEncoding')) {
-            return $this->getMetadatas()->get('Flash:AudioEncoding')->getValue()->asString();
+
+        if (null !== $value = $this->findInSources(array('Flash:AudioEncoding'))) {
+            return $this->castValue($value, 'string');
         }
+
+        if (null !== $VideoCodec = $this->entity->executeQuery('Track1:AudioFormat')) {
+            return $this->castValue($VideoCodec->asString(), 'string');
+        }
+
         if (null !== $VideoCodec = $this->entity->executeQuery('Track2:AudioFormat')) {
-            return $VideoCodec;
+            return $this->castValue($VideoCodec->asString(), 'string');
         }
 
         return null;

@@ -79,4 +79,12 @@ class MediaVorusTest extends \PHPUnit_Framework_TestCase
             }
         }
     }
+
+    /**
+     * @covers MediaVorus\MediaVorus::create
+     */
+    public function testCreate()
+    {
+        $this->assertInstanceOf('MediaVorus\\MediaVorus', MediaVorus::create());
+    }
 }

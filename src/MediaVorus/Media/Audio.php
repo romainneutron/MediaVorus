@@ -11,6 +11,8 @@
 
 namespace MediaVorus\Media;
 
+use JMS\Serializer\Annotation\VirtualProperty;
+
 /**
  *
  * @author      Romain Neutron - imprec@gmail.com
@@ -19,6 +21,7 @@ namespace MediaVorus\Media;
 class Audio extends DefaultMedia
 {
     /**
+     * @VirtualProperty
      *
      * @return string
      */
@@ -29,6 +32,8 @@ class Audio extends DefaultMedia
 
     /**
      * Get the duration of the audio in seconds, null if unavailable
+     *
+     * @VirtualProperty
      *
      * @return float
      */

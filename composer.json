@@ -13,16 +13,23 @@
     ],
     "require": {
         "php": ">=5.3.0",
+        "doctrine/common": ">=2.2, <=2.3.x-dev",
         "symfony/http-foundation": ">2.0,<=2.2",
         "symfony/console": ">2.0,<=2.2",
         "phpexiftool/phpexiftool": "dev-master",
         "php-ffmpeg/php-ffmpeg": "dev-master",
         "monolog/monolog": "1.*"
     },
+    "suggest": {
+        "jms/serializer": "To serialize Medias",
+        "symfony/yaml": "To serialize Medias in Yaml format"
+    },
     "minimum-stability": "dev",
     "require-dev": {
         "fabpot/php-cs-fixer": "*",
-        "silex/silex": "1.0.*-dev"
+        "silex/silex": "1.0.*-dev",
+        "symfony/yaml": "*",
+        "jms/serializer": "1.0.x-dev"
     },
     "autoload": {
         "psr-0": {

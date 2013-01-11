@@ -11,7 +11,7 @@
 
 namespace MediaVorus\Filter;
 
-use MediaVorus\Media\Media;
+use MediaVorus\Media\MediaInterface;
 
 /**
  *
@@ -39,8 +39,8 @@ class MediaType implements FilterInterface
     {
         $type = $this->type;
 
-        return function($key, Media $media) use ($type) {
-            $media->getType() === $type;
+        return function($key, MediaInterface $media) use ($type) {
+            return $media->getType() === $type;
         };
     }
 }

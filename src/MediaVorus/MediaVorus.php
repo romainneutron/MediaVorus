@@ -136,16 +136,10 @@ class MediaVorus
                 return 'MediaVorus\Media\Video';
                 break;
 
-            /**
-             * @todo Implements Audio
-             */
             case strpos($mime, 'audio/') === 0:
                 return 'MediaVorus\Media\Audio';
                 break;
 
-            /**
-             * @todo Implements Documents
-             */
             case $mime === 'text/plain':
             case $mime === 'application/msword':
             case $mime === 'application/access':
@@ -164,9 +158,6 @@ class MediaVorus
                 return 'MediaVorus\Media\Document';
                 break;
 
-            /**
-             * @todo Implements Flash
-             */
             case $mime === 'application/x-shockwave-flash':
                 return 'MediaVorus\Media\Flash';
                 break;

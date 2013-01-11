@@ -17,7 +17,9 @@ use Silex\ServiceProviderInterface;
 
 class MediaVorusServiceProvider implements ServiceProviderInterface
 {
-
+    /**
+     * {@inheritdoc}
+     */
     public function register(Application $app)
     {
         $app['mediavorus'] = $app->share(function(Application $app) {
@@ -34,8 +36,10 @@ class MediaVorusServiceProvider implements ServiceProviderInterface
         });
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function boot(Application $app)
     {
-
     }
 }

@@ -18,7 +18,6 @@ namespace MediaVorus\Media;
  */
 class Audio extends DefaultMedia
 {
-
     /**
      *
      * @return string

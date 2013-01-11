@@ -40,7 +40,7 @@ class MediaType implements FilterInterface
         $type = $this->type;
 
         return function($key, Media $media) use ($type) {
-                $media->getType() === $type;
-            };
+            $media->getType() === $type;
+        };
     }
 }

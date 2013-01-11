@@ -13,7 +13,6 @@ namespace MediaVorus\Media;
 
 class Document extends Image
 {
-
     /**
      *
      * @return string

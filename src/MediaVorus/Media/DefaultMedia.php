@@ -50,6 +50,7 @@ class DefaultMedia implements MediaInterface
      * @var Writer
      */
     protected $writer;
+
     /**
      * @var type
      */

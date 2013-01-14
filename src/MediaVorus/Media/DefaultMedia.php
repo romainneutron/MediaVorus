@@ -11,6 +11,9 @@
 
 namespace MediaVorus\Media;
 
+
+use JMS\Serializer\Annotation\ExclusionPolicy;
+use JMS\Serializer\Annotation\VirtualProperty;
 use MediaVorus\File;
 use MediaVorus\Exception\InvalidArgumentException;
 use PHPExiftool\Driver\Metadata\MetadataBag;
@@ -23,6 +26,7 @@ use PHPExiftool\FileEntity;
  * @author      Romain Neutron - imprec@gmail.com
  * @license     http://opensource.org/licenses/MIT MIT
  *
+ * @ExclusionPolicy("all")
  * @todo declarations of custom filters/getters
  */
 class DefaultMedia implements MediaInterface
@@ -33,22 +37,23 @@ class DefaultMedia implements MediaInterface
     const GPSREF_LATITUDE_SOUTH = 'S';
 
     /**
-     *
      * @var File
      */
     protected $file;
 
     /**
-     *
      * @var FileEntity
      */
     protected $entity;
 
     /**
-     *
      * @var Writer
      */
     protected $writer;
+
+    /**
+     * @var type
+     */
     protected $temporaryFiles = array();
 
     /**
@@ -103,6 +108,7 @@ class DefaultMedia implements MediaInterface
     }
 
     /**
+     * @VirtualProperty
      *
      * @return string
      */
@@ -123,6 +129,8 @@ class DefaultMedia implements MediaInterface
     /**
      * Get Longitude value
      *
+     * @VirtualProperty
+     *
      * @return float
      */
     public function getLongitude()
@@ -136,6 +144,8 @@ class DefaultMedia implements MediaInterface
 
     /**
      * Get Longitude Reference value, one of the GPSREF_LONGITUDE_*
+     *
+     * @VirtualProperty
      *
      * @return string|null
      */
@@ -158,6 +168,8 @@ class DefaultMedia implements MediaInterface
     /**
      * Get Latitude value
      *
+     * @VirtualProperty
+     *
      * @return float
      */
     public function getLatitude()
@@ -171,6 +183,8 @@ class DefaultMedia implements MediaInterface
 
     /**
      * Get Latitude Reference value, one of the GPSREF_LATITUDE_*
+     *
+     * @VirtualProperty
      *
      * @return string|null
      */
@@ -218,10 +232,14 @@ class DefaultMedia implements MediaInterface
 
         switch ($type) {
             case 'int':
+            case 'integer':
                 return (int) $value;
                 break;
             case 'float':
                 return (float) $value;
+                break;
+            case 'string':
+                return (string) $value;
                 break;
             default:
                 return $value;

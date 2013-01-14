@@ -13,7 +13,6 @@ namespace MediaVorus\Media;
 
 class Flash extends Image
 {
-
     /**
      *
      * @return string

@@ -23,21 +23,23 @@ class MediaCollectionTest extends \PHPUnit_Framework_TestCase
 
         $mediavorus = new MediaVorus(Reader::create($logger), Writer::create($logger), FFProbe::load($logger));
 
-        $collection = $mediavorus->inspectDirectory(__DIR__ . '/../../');
+        $collection = $mediavorus->inspectDirectory(__DIR__ . '/../../files/');
         $audio = $collection->match(new MediaType(MediaInterface::TYPE_AUDIO));
 
         $this->assertInstanceOf('\\Doctrine\\Common\\Collections\\ArrayCollection', $audio);
+        $this->assertGreaterThan(0, $audio->count());
 
         foreach ($audio as $audio) {
-            $this->assertEquals(Media\Media::TYPE_AUDIO, $audio->getType());
+            $this->assertEquals(MediaInterface::TYPE_AUDIO, $audio->getType());
         }
 
         $notAudio = $collection->match(new MediaType(MediaInterface::TYPE_AUDIO), true);
+        $this->assertGreaterThan(0, $notAudio->count());
 
         $this->assertInstanceOf('\\Doctrine\\Common\\Collections\\ArrayCollection', $notAudio);
 
         foreach ($notAudio as $audio) {
-            $this->assertFalse(Media\Media::TYPE_AUDIO === $audio->getType());
+            $this->assertFalse(MediaInterface::TYPE_AUDIO === $audio->getType());
         }
     }
 }

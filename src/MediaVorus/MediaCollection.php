@@ -26,12 +26,8 @@ class MediaCollection extends ArrayCollection
      */
     public function match(FilterInterface $filter, $invert_match = false)
     {
-        if ($invert_match) {
-            $partitions = $this->partition($filter->apply());
+        list($with, $without) = $this->partition($filter->apply());
 
-            return array_pop($partitions);
-        } else {
-            return $this->filter($filter->apply());
-        }
+        return $invert_match ? $without : $with;
     }
 }

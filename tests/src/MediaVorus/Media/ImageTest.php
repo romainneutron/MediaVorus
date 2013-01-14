@@ -11,7 +11,7 @@ use Monolog\Handler\NullHandler;
 use PHPExiftool\Reader;
 use PHPExiftool\Writer;
 
-class ImageTest extends \PHPUnit_Framework_TestCase
+class ImageTest extends MediaTestCase
 {
     /**
      * @var Image
@@ -260,5 +260,16 @@ class ImageTest extends \PHPUnit_Framework_TestCase
         $file = __DIR__ . '/../../../files/RVB.jpg';
         $media = new Image(new File($file), $this->reader->reset()->files($file)->first(), $this->writer);
         $this->assertEquals(Image::COLORSPACE_RGB, $media->getColorSpace());
+    }
+
+    public function testSerialize()
+    {
+        $json = $this->getSerializer()->serialize($this->object, 'json');
+
+        $data = json_decode($json, true);
+
+        $this->assertArrayHasKey('type', $data);
+        $this->assertArrayHasKey('height', $data);
+        $this->assertArrayHasKey('width', $data);
     }
 }

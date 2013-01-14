@@ -1,11 +1,8 @@
 Presentation
 ============
 
-
-This lib is under heavy development !
-
-MediaVorus is a small PHP library wich provide a set of tools to deal with
-multimedia files
+MediaVorus is a small PHP library wich provide a set of tools to extract every
+technical information from multimedia files.
 
 Example
 -------
@@ -31,46 +28,15 @@ Goals
 -----
 
 MediaVorus is a small PHP library wich provide a set of tools to deal with
-multimedia files
+multimedia files.
 
 The aim is to provide an abstract layer between the program and the multimedia
 file.
-
-This library is built with the Symfony\HttpFoundation component
-and PHPExiftool.
-Doctrine Common Package is also required to take advantage of the powerful
-ArrayCollection.
 
 First, the need is to analyze multimedia files and get their properties.
 
 In a very next future, we would add metadata mapper to handle various
 configurations.
-
-Silex Service Provider
-----------------------
-
-MediaVorus comes bundled with its `Silex Service Provider <silex.sensiolabs.org>`_.
-As MediaVorus relies on `PHP-Exiftool <https://github.com/romainneutron/PHPExiftool>`_
-and `FFProbe <http://ffmpeg-php.readthedocs.org/>`_, you'll have to register
-both bundles to use it :
-
-.. code-block:: php
-
-    <?php
-
-    use FFMpeg\FFMpegServiceProvider;
-    use MediaVorus\MediaVorusServiceProvider;
-    use PHPExiftool\PHPExiftoolServiceProvider;
-    use Silex\Application;
-
-    $app = new Application();
-
-    $app->register(new MediaVorusServiceProvider());
-    $app->register(new PHPExiftoolServiceProvider());
-    $app->register(new FFMpegServiceProvider());
-
-    // you will now have access to $app['mediavorus']
-    $video = $app['mediavorus']->guess('/path/to/video/file');
 
 API
 ===
@@ -212,7 +178,82 @@ It has much more methods and provides the following informations :
         $Media->getLightValue();
     }
 
+Media serialization
+-------------------
 
+All medias are serializable with `JMS Serializer <http://jmsyst.com/libs/serializer>`_.
+For example :
+
+.. code-block:: php
+
+    <?php
+
+    use Doctrine\Common\Annotations\AnnotationRegistry;
+    use JMS\Serializer\SerializerBuilder;
+    use MediaVorus\MediaVorus;
+
+    AnnotationRegistry::registerAutoloadNamespace(
+        'JMS\Serializer\Annotation', __DIR__.'/vendor/jms/serializer/src'
+    );
+
+    $serializer = SerializerBuilder::create()
+        ->setCacheDir(__DIR__ . '/cache')
+        ->build();
+
+    $mediavorus = MediaVorus::create();
+    print($serializer->serialize($mediavorus->guess('image.jpg'), 'json'));
+
+would result in the following output :
+
+.. code-block:: json
+
+    {
+      "type": "Image",
+      "raw_image": false,
+      "multiple_layers": false,
+      "width": 3264,
+      "height": 2448,
+      "channels": 3,
+      "focal_length": 4.28,
+      "color_depth": 8,
+      "camera_model": "iPhone 4S",
+      "flash_fired": false,
+      "aperture": 2.4,
+      "shutter_speed": 0.05,
+      "orientation": 90,
+      "creation_date": "2012:03:16 16:29:09",
+      "hyperfocal_distance": 2.0773522348635,
+      "ISO": 400,
+      "light_value": 4.847996906555,
+      "color_space": "RGB"
+    }
+
+
+Silex Service Provider
+----------------------
+
+MediaVorus comes bundled with its `Silex Service Provider <silex.sensiolabs.org>`_.
+As MediaVorus relies on `PHP-Exiftool <https://github.com/romainneutron/PHPExiftool>`_
+and `FFProbe <http://ffmpeg-php.readthedocs.org/>`_, you'll have to register
+both bundles to use it :
+
+.. code-block:: php
+
+    <?php
+
+    use FFMpeg\FFMpegServiceProvider;
+    use MediaVorus\MediaVorusServiceProvider;
+    use PHPExiftool\PHPExiftoolServiceProvider;
+    use Silex\Application;
+
+    $app = new Application();
+
+    $app->register(new MediaVorusServiceProvider());
+    $app->register(new PHPExiftoolServiceProvider());
+    $app->register(new FFMpegServiceProvider());
+
+    // you will now have access to $app['mediavorus']
+    $video = $app['mediavorus']->guess('/path/to/video/file');
 
 
 .. toctree::

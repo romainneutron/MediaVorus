@@ -11,10 +11,11 @@
 
 namespace MediaVorus\Media;
 
-use \MediaVorus\Utils\RawImageMimeTypeGuesser;
+use JMS\Serializer\Annotation\SerializedName;
+use JMS\Serializer\Annotation\VirtualProperty;
+use MediaVorus\Utils\RawImageMimeTypeGuesser;
 
 /**
- *
  * @author      Romain Neutron - imprec@gmail.com
  * @license     http://opensource.org/licenses/MIT MIT
  *
@@ -56,6 +57,7 @@ class Image extends DefaultMedia
     const COLORSPACE_GRAYSCALE = 'Grayscale';
 
     /**
+     * @VirtualProperty
      *
      * @return string
      */
@@ -67,6 +69,9 @@ class Image extends DefaultMedia
     /**
      * Returns true if the document is a "Raw" image
      *
+     * @VirtualProperty
+     * @SerializedName("raw_image")
+     *
      * @return boolean
      */
     public function isRawImage()
@@ -77,6 +82,9 @@ class Image extends DefaultMedia
     /**
      * Returns true if the document has multiple layers.
      * This method is supposed to be used to extract layer 0 with ImageMagick
+     *
+     * @VirtualProperty
+     * @SerializedName("multiple_layers")
      *
      * @return type
      */
@@ -96,6 +104,8 @@ class Image extends DefaultMedia
 
     /**
      * Return the width, null on error
+     *
+     * @VirtualProperty
      *
      * @return int
      */
@@ -123,6 +133,8 @@ class Image extends DefaultMedia
     /**
      * Return the height, null on error
      *
+     * @VirtualProperty
+     *
      * @return int
      */
     public function getHeight()
@@ -149,6 +161,8 @@ class Image extends DefaultMedia
     /**
      * Return the number of channels (samples per pixel), null on error
      *
+     * @VirtualProperty
+     *
      * @return int
      */
     public function getChannels()
@@ -160,6 +174,8 @@ class Image extends DefaultMedia
 
     /**
      * Return the focal length used by the camera in mm, null on error
+     *
+     * @VirtualProperty
      *
      * @return float
      */
@@ -173,6 +189,8 @@ class Image extends DefaultMedia
     /**
      * Return the color depth (bits per sample), null on error
      *
+     * @VirtualProperty
+     *
      * @return int
      */
     public function getColorDepth()
@@ -184,6 +202,8 @@ class Image extends DefaultMedia
 
     /**
      * Return the camera model, null on error
+     *
+     * @VirtualProperty
      *
      * @return string
      */
@@ -197,6 +217,8 @@ class Image extends DefaultMedia
     /**
      * Return true if the Flash has been fired, false if it has not been
      * fired, null if does not know
+     *
+     * @VirtualProperty
      *
      * @return boolean
      */
@@ -219,27 +241,31 @@ class Image extends DefaultMedia
     /**
      * Get Aperture value
      *
+     * @VirtualProperty
+     *
      * @return float
      */
     public function getAperture()
     {
-
         return $this->castValue($this->findInSources(array('Composite:Aperture')), 'float');
     }
 
     /**
      * Get ShutterSpeed value in seconds
      *
+     * @VirtualProperty
+     *
      * @return float
      */
     public function getShutterSpeed()
     {
-
         return $this->castValue($this->findInSources(array('Composite:ShutterSpeed')), 'float');
     }
 
     /**
      * Returns one one the ORIENTATION_* constants, the degrees value of Orientation
+     *
+     * @VirtualProperty
      *
      * @return int
      */
@@ -269,6 +295,8 @@ class Image extends DefaultMedia
      * @todo rename in getDateTaken to avoid conflicts with the original file
      * properties, return a DateTime object
      *
+     * @VirtualProperty
+     *
      * @return string
      */
     public function getCreationDate()
@@ -281,6 +309,8 @@ class Image extends DefaultMedia
     /**
      * Return the Hyperfocal Distance in meters
      *
+     * @VirtualProperty
+     *
      * @return float
      */
     public function getHyperfocalDistance()
@@ -291,6 +321,9 @@ class Image extends DefaultMedia
 
     /**
      * Return the ISO value
+     *
+     * @VirtualProperty
+     * @SerializedName("ISO")
      *
      * @return int
      */
@@ -304,6 +337,8 @@ class Image extends DefaultMedia
     /**
      * Return the Light Value
      *
+     * @VirtualProperty
+     *
      * @return float
      */
     public function getLightValue()
@@ -314,6 +349,8 @@ class Image extends DefaultMedia
 
     /**
      * Returns the colorspace as one of the COLORSPACE_* constants
+     *
+     * @VirtualProperty
      *
      * @return string
      */

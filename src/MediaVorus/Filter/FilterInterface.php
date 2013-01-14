@@ -18,7 +18,6 @@ namespace MediaVorus\Filter;
  */
 interface FilterInterface
 {
-
     /**
      * Return a \Closure with {$key, Media $media} parameters and returns boolean
      */

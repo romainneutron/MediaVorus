@@ -100,8 +100,5 @@ class VideoTest extends MediaTestCase
         $this->assertArrayHasKey('height', $data);
         $this->assertArrayHasKey('width', $data);
         $this->assertArrayHasKey('duration', $data);
-        $this->assertArrayHasKey('sha1', $data);
-        $this->assertArrayHasKey('sha256', $data);
-        $this->assertArrayHasKey('md5', $data);
     }
 }

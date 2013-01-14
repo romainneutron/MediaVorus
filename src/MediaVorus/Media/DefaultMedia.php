@@ -112,36 +112,6 @@ class DefaultMedia implements MediaInterface
      *
      * @return string
      */
-    public function getSha256()
-    {
-        return $this->getHash('sha256');
-    }
-
-    /**
-     * @VirtualProperty
-     *
-     * @return string
-     */
-    public function getMd5()
-    {
-        return $this->getHash('md5');
-    }
-
-    /**
-     * @VirtualProperty
-     *
-     * @return string
-     */
-    public function getSha1()
-    {
-        return $this->getHash('sha1');
-    }
-
-    /**
-     * @VirtualProperty
-     *
-     * @return string
-     */
     public function getType()
     {
         return 'DefaultMedia';

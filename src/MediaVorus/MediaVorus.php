@@ -140,12 +140,18 @@ class MediaVorus
                 return 'MediaVorus\Media\Audio';
                 break;
 
-            case $mime === 'text/plain':
+            /**
+             * @todo Implements Documents
+             */
+            case strpos($mime, 'text/*') === 0:
             case $mime === 'application/msword':
             case $mime === 'application/access':
             case $mime === 'application/pdf':
             case $mime === 'application/excel':
+            case $mime === 'application/msword':
+            case $mime === 'application/powerpoint':
             case $mime === 'application/vnd.ms-powerpoint':
+            case $mime === 'application/vnd.ms-excel':
             case $mime === 'application/vnd.oasis.opendocument.formula':
             case $mime === 'application/vnd.oasis.opendocument.text-master':
             case $mime === 'application/vnd.oasis.opendocument.database':

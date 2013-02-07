@@ -61,7 +61,7 @@ class MediaVorus
      *
      * @param \SplFileInfo $dir
      * @param type $recursive
-     * 
+     *
      * @return MediaCollection
      */
     public function inspectDirectory(\SplFileInfo $dir, $recursive = false)
@@ -125,12 +125,15 @@ class MediaVorus
             /**
              * @todo Implements Documents
              */
-            case $mime === 'text/plain':
+            case strpos($mime, 'text/*') === 0:
             case $mime === 'application/msword':
             case $mime === 'application/access':
             case $mime === 'application/pdf':
             case $mime === 'application/excel':
+            case $mime === 'application/msword':
+            case $mime === 'application/powerpoint':
             case $mime === 'application/vnd.ms-powerpoint':
+            case $mime === 'application/vnd.ms-excel':
             case $mime === 'application/vnd.oasis.opendocument.formula':
             case $mime === 'application/vnd.oasis.opendocument.text-master':
             case $mime === 'application/vnd.oasis.opendocument.database':

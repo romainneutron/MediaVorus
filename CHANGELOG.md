@@ -12,7 +12,11 @@ CHANGELOG
 * 0.2.0 (12-14-2012)
 
   * Update API.
-  * Add support of videos Width/Height via FFProbe
+  * Add support of videos Width/Height via FFProbe.
+
+* 0.1.2 (02-07-2013)
+
+  * Add more mime types to match the document format.
 
 * 0.1.1 (12-14-2012)
 

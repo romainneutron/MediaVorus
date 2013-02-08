@@ -75,7 +75,7 @@ class MediaVorusTest extends \PHPUnit_Framework_TestCase
                 continue;
             }
             if ($media->getType() === MediaInterface::TYPE_IMAGE) {
-                $this->assertInternalType('integer', $media->getWidth());
+                $this->assertInternalType('integer', $media->getWidth(), sprintf('Test width of %s', $media->getFile()->getFilename()));
             }
         }
     }

@@ -71,7 +71,7 @@ class MediaVorusTest extends \PHPUnit_Framework_TestCase
             if ($media->getFile()->getFilename() === 'KyoceraRaw.raw') {
                 continue;
             }
-            if ($media->getFile()->getFilename() === 'XMP.svg') {
+            if (in_array($media->getFile()->getFilename(), array('XMP.svg', 'Font.dfont'))) {
                 continue;
             }
             if ($media->getType() === MediaInterface::TYPE_IMAGE) {

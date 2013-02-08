@@ -24,6 +24,7 @@ use Monolog\Handler\NullHandler;
 use PHPExiftool\Reader;
 use PHPExiftool\Writer;
 use Symfony\Component\HttpFoundation\File\MimeType\MimeTypeGuesser;
+use Symfony\Component\HttpFoundation\File\MimeType\FileBinaryMimeTypeGuesser;
 
 /**
  *
@@ -43,6 +44,7 @@ class MediaVorus
         if ( ! $guesser_registered) {
             $guesser = MimeTypeGuesser::getInstance();
 
+            $guesser->register(new FileBinaryMimeTypeGuesser());
             $guesser->register(new RawImageMimeTypeGuesser());
             $guesser->register(new PostScriptMimeTypeGuesser());
             $guesser->register(new AudioMimeTypeGuesser());

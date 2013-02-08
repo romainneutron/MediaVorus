@@ -143,7 +143,7 @@ class MediaVorus
             /**
              * @todo Implements Documents
              */
-            case strpos($mime, 'text/*') === 0:
+            case strpos($mime, 'text/') === 0:
             case $mime === 'application/msword':
             case $mime === 'application/access':
             case $mime === 'application/pdf':

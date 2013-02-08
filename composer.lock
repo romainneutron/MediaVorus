@@ -1,5 +1,5 @@
 {
-    "hash": "ae5d321cd8e0f0de240aa86a80687d44",
+    "hash": "7165fff1d477079eb4e8f620873f98f6",
     "packages": [
         {
             "name": "doctrine/collections",
@@ -196,16 +196,16 @@
         },
         {
             "name": "php-ffmpeg/php-ffmpeg",
-            "version": "0.2.0",
+            "version": "0.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/alchemy-fr/PHP-FFmpeg",
-                "reference": "0.2.0"
+                "reference": "0.2.1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/alchemy-fr/PHP-FFmpeg/archive/0.2.0.zip",
-                "reference": "0.2.0",
+                "url": "https://api.github.com/repos/alchemy-fr/PHP-FFmpeg/zipball/0.2.1",
+                "reference": "0.2.1",
                 "shasum": ""
             },
             "require": {
@@ -222,7 +222,7 @@
             "suggest": {
                 "php-ffmpeg/extras": "A compilation of common audio & video drivers for PHP-FFMpeg"
             },
-            "time": "2012-12-13 12:05:15",
+            "time": "2013-02-04 11:49:20",
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -520,53 +520,6 @@
     ],
     "packages-dev": [
         {
-            "name": "fabpot/php-cs-fixer",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/fabpot/PHP-CS-Fixer.git",
-                "reference": "2377b9ea383ac7939e563c3dd6ee2be9ee2d3183"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://github.com/fabpot/PHP-CS-Fixer/archive/2377b9ea383ac7939e563c3dd6ee2be9ee2d3183.zip",
-                "reference": "2377b9ea383ac7939e563c3dd6ee2be9ee2d3183",
-                "shasum": ""
-            },
-            "require": {
-                "symfony/console": "2.1.*",
-                "symfony/filesystem": "2.1.*",
-                "symfony/finder": "2.1.*",
-                "php": ">=5.3.3"
-            },
-            "time": "2013-01-04 16:55:35",
-            "bin": [
-                "php-cs-fixer"
-            ],
-            "type": "application",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "0.1.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-0": {
-                    "Symfony\\CS": "."
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Fabien Potencier",
-                    "email": "fabien@symfony.com"
-                }
-            ],
-            "description": "A script to automatically fix Symfony Coding Standard"
-        },
-        {
             "name": "jms/metadata",
             "version": "1.1.1",
             "source": {
@@ -863,12 +816,12 @@
             "source": {
                 "type": "git",
                 "url": "git://github.com/fabpot/Silex.git",
-                "reference": "a23c221e609a17dfc2923066e1680149b7678cf9"
+                "reference": "e69e9f002c89a381d88f5a756d9a5f0dd76bea6d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/fabpot/Silex/archive/a23c221e609a17dfc2923066e1680149b7678cf9.zip",
-                "reference": "a23c221e609a17dfc2923066e1680149b7678cf9",
+                "url": "https://api.github.com/repos/fabpot/Silex/zipball/e69e9f002c89a381d88f5a756d9a5f0dd76bea6d",
+                "reference": "e69e9f002c89a381d88f5a756d9a5f0dd76bea6d",
                 "shasum": ""
             },
             "require": {
@@ -904,7 +857,7 @@
                 "symfony/css-selector": ">=2.1,<2.3-dev",
                 "symfony/dom-crawler": ">=2.1,<2.3-dev"
             },
-            "time": "2013-01-25 06:59:19",
+            "time": "2013-02-07 15:54:50",
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -984,90 +937,6 @@
                 }
             ],
             "description": "Symfony EventDispatcher Component",
-            "homepage": "http://symfony.com"
-        },
-        {
-            "name": "symfony/filesystem",
-            "version": "v2.1.7",
-            "target-dir": "Symfony/Component/Filesystem",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/Filesystem",
-                "reference": "v2.1.7"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://github.com/symfony/Filesystem/archive/v2.1.7.zip",
-                "reference": "v2.1.7",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.3"
-            },
-            "time": "2013-01-09 08:51:07",
-            "type": "library",
-            "autoload": {
-                "psr-0": {
-                    "Symfony\\Component\\Filesystem": ""
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Fabien Potencier",
-                    "email": "fabien@symfony.com"
-                },
-                {
-                    "name": "Symfony Community",
-                    "homepage": "http://symfony.com/contributors"
-                }
-            ],
-            "description": "Symfony Filesystem Component",
-            "homepage": "http://symfony.com"
-        },
-        {
-            "name": "symfony/finder",
-            "version": "v2.1.7",
-            "target-dir": "Symfony/Component/Finder",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/Finder",
-                "reference": "v2.1.7"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://github.com/symfony/Finder/archive/v2.1.7.zip",
-                "reference": "v2.1.7",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.3"
-            },
-            "time": "2013-01-09 08:51:07",
-            "type": "library",
-            "autoload": {
-                "psr-0": {
-                    "Symfony\\Component\\Finder": ""
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Fabien Potencier",
-                    "email": "fabien@symfony.com"
-                },
-                {
-                    "name": "Symfony Community",
-                    "homepage": "http://symfony.com/contributors"
-                }
-            ],
-            "description": "Symfony Finder Component",
             "homepage": "http://symfony.com"
         },
         {
@@ -1234,7 +1103,6 @@
     "minimum-stability": "stable",
     "stability-flags": {
         "phpexiftool/exiftool": 20,
-        "fabpot/php-cs-fixer": 20,
         "silex/silex": 20,
         "jms/serializer": 20
     }

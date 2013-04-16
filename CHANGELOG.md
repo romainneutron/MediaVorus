@@ -1,6 +1,11 @@
 CHANGELOG
 ---------
 
+* 0.3.1 (01-31-2012)
+
+  * Merge with 0.1.2
+  * Register FileBinaryMimeTypeGuesser prior to FileInfoMimetypeGuesser
+
 * 0.3.0 (01-14-2013)
 
   * Add support for media serialization via JMS serializer.

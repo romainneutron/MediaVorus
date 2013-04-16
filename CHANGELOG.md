@@ -1,7 +1,11 @@
 CHANGELOG
 ---------
 
-* 0.3.1 (01-31-2012)
+* 0.3.2 (04-16-2013)
+
+  * Cleanup JMS Serializer / exiftool / PHPExiftool version dependencies
+
+* 0.3.1 (01-31-2013)
 
   * Merge with 0.1.2
   * Register FileBinaryMimeTypeGuesser prior to FileInfoMimetypeGuesser

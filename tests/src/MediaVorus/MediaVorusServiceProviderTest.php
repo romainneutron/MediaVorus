@@ -37,7 +37,7 @@ class MediaVorusServiceProvideTest extends \PHPUnit_Framework_TestCase
         $app->register(new MediaVorusServiceProvider());
         $app->register(new PHPExiftoolServiceProvider());
 
-        $app['mediavorus'];
+        $app->boot();
     }
 
     /**
@@ -50,6 +50,6 @@ class MediaVorusServiceProvideTest extends \PHPUnit_Framework_TestCase
         $app->register(new MediaVorusServiceProvider());
         $app->register(new FFMpegServiceProvider());
 
-        $app['mediavorus'];
+        $app->boot();
     }
 }

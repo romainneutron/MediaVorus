@@ -21,7 +21,7 @@ class MediaCollectionTest extends \PHPUnit_Framework_TestCase
         $logger = new Logger('test');
         $logger->pushHandler(new NullHandler());
 
-        $mediavorus = new MediaVorus(Reader::create($logger), Writer::create($logger), FFProbe::load($logger));
+        $mediavorus = new MediaVorus(Reader::create($logger), Writer::create($logger), FFProbe::create());
 
         $collection = $mediavorus->inspectDirectory(__DIR__ . '/../../files/');
         $audio = $collection->match(new MediaType(MediaInterface::TYPE_AUDIO));

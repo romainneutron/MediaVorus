@@ -112,7 +112,7 @@ class MediaVorus
         $logger = new Logger('MediaVorus');
         $logger->pushHandler(new NullHandler());
 
-        return new static(Reader::create($logger), Writer::create($logger), FFProbe::load($logger));
+        return new static(Reader::create($logger), Writer::create($logger), FFProbe::create(array(), $logger));
     }
 
     /**

@@ -33,8 +33,6 @@ class Video extends Image
      */
     protected $ffprobe;
     private $duration;
-    private $width;
-    private $height;
 
     public function __construct(File $file, FileEntity $entity, Writer $writer, FFProbe $ffprobe = null)
     {
@@ -59,30 +57,24 @@ class Video extends Image
      */
     public function getWidth()
     {
-        if ($this->width) {
-            return $this->width;
-        }
-
         if (null !== $result = parent::getWidth()) {
             return $result;
         }
 
-        if ($this->ffprobe) {
-            try {
-                $data = json_decode($this->ffprobe->probeStreams($this->file->getPathname()), true);
-            } catch (FFMpegException $e) {
-                $data = array();
-            }
-        } else {
-            $data = array();
+        if (!$this->ffprobe) {
+            return null;
         }
 
-        foreach ($data as $stream) {
-            foreach ($stream as $key => $value) {
-                if ($key == 'width') {
-                    return $this->width = (int) $value;
-                }
+        try {
+            $video = $this->ffprobe
+                ->streams($this->file->getPathname())
+                ->videos()
+                ->first();
+            if ($video->has('width')) {
+                return (int) $video->get('width');
             }
+        } catch (FFMpegException $e) {
+
         }
 
         return null;
@@ -95,30 +87,24 @@ class Video extends Image
      */
     public function getHeight()
     {
-        if ($this->height) {
-            return $this->height;
-        }
-
         if (null !== $result = parent::getHeight()) {
             return $result;
         }
 
-        if ($this->ffprobe) {
-            try {
-                $data = json_decode($this->ffprobe->probeStreams($this->file->getPathname()), true);
-            } catch (FFMpegException $e) {
-                $data = array();
-            }
-        } else {
-            $data = array();
+        if (!$this->ffprobe) {
+            return null;
         }
 
-        foreach ($data as $stream) {
-            foreach ($stream as $key => $value) {
-                if ($key == 'height') {
-                    return $this->height = (int) $value;
-                }
+        try {
+            $video = $this->ffprobe
+                ->streams($this->file->getPathname())
+                ->videos()
+                ->first();
+            if ($video->has('height')) {
+                return (int) $video->get('height');
             }
+        } catch (FFMpegException $e) {
+
         }
 
         return null;

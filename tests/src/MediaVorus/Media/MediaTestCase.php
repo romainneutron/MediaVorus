@@ -14,7 +14,7 @@ class MediaTestCase extends \PHPUnit_Framework_TestCase
         );
 
         return SerializerBuilder::create()
-            ->setCacheDir(__DIR__ . '/../../../cache')
+            ->setCacheDir(__DIR__ . '/../../../../cache')
             ->setDebug(true)
             ->build();
     }

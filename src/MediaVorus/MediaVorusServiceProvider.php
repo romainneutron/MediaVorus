@@ -23,15 +23,6 @@ class MediaVorusServiceProvider implements ServiceProviderInterface
     public function register(Application $app)
     {
         $app['mediavorus'] = $app->share(function(Application $app) {
-
-            if ( ! isset($app['exiftool.reader']) || ! isset($app['exiftool.writer'])) {
-                throw new RuntimeException('MediaVorus Service Provider requires Exiftool Service Provider');
-            }
-
-            if ( ! isset($app['ffmpeg.ffprobe'])) {
-                throw new RuntimeException('MediaVorus Service Provider requires FFMpeg Service Provider');
-            }
-
             return new MediaVorus($app['exiftool.reader'], $app['exiftool.writer'], $app['ffmpeg.ffprobe']);
         });
     }
@@ -41,5 +32,12 @@ class MediaVorusServiceProvider implements ServiceProviderInterface
      */
     public function boot(Application $app)
     {
+        if (!isset($app['exiftool.reader']) || ! isset($app['exiftool.writer'])) {
+            throw new RuntimeException('MediaVorus Service Provider requires Exiftool Service Provider');
+        }
+
+        if (!isset($app['ffmpeg.ffprobe'])) {
+            throw new RuntimeException('MediaVorus Service Provider requires FFMpeg Service Provider');
+        }
     }
 }

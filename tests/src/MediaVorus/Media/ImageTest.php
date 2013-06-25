@@ -35,7 +35,7 @@ class ImageTest extends MediaTestCase
 
         $logger = new Logger('test');
         $logger->pushHandler(new NullHandler());
-        $this->ffprobe = FFProbe::load($logger);
+        $this->ffprobe = FFProbe::create();
 
         $this->mediavorus = new MediaVorus($this->reader, $this->writer, $this->ffprobe);
     }

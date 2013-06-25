@@ -1,6 +1,10 @@
 CHANGELOG
 ---------
 
+* 0.3.3 (xx-xx-2013)
+
+  * Add compatibility with PHP-FFMpeg 0.3.
+
 * 0.3.2 (04-16-2013)
 
   * Cleanup JMS Serializer / exiftool / PHPExiftool version dependencies

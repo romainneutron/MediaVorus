@@ -32,7 +32,6 @@ class Video extends Image
      * @var FFProbe
      */
     protected $ffprobe;
-    private $duration;
 
     public function __construct(File $file, FileEntity $entity, Writer $writer, FFProbe $ffprobe = null)
     {
@@ -119,30 +118,20 @@ class Video extends Image
      */
     public function getDuration()
     {
-        if ($this->duration) {
-            return $this->duration;
-        }
-
         $sources = array('Composite:Duration', 'Flash:Duration', 'QuickTime:Duration', 'Real-PROP:Duration');
 
         if (null !== $value = $this->findInSources($sources)) {
             return (float) $value;
         }
 
-        if ($this->ffprobe) {
-            try {
-                $result = json_decode($this->ffprobe->probeFormat($this->file->getPathname()), true);
-            } catch (FFMpegException $e) {
-                $result = array();
-            }
-        } else {
-            $result = array();
+        if (!$this->ffprobe) {
+            return null;
         }
 
-        foreach ($result as $key => $value) {
-            if ($key == 'duration') {
-                return $this->duration = (float) $value;
-            }
+        $format = $this->ffprobe->format($this->file->getPathname());
+
+        if ($format->has('duration')) {
+            return (float) $format->get('duration');
         }
 
         return null;

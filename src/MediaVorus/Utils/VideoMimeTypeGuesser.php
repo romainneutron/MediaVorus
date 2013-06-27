@@ -23,6 +23,7 @@ class VideoMimeTypeGuesser implements MimeTypeGuesserInterface
     public static $videoMimeTypes = array(
         'webm' => 'video/webm',
         'ogv'  => 'video/ogg',
+        'mts'  => 'video/m2ts',
     );
 
     /**

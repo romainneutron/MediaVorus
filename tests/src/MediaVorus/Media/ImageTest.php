@@ -22,8 +22,9 @@ class ImageTest extends MediaTestCase
     protected $writer;
     protected $ffprobe;
 
-    protected function setUp()
+    public function setUp()
     {
+        parent::setUp();
         $logger = new Logger('Tests');
         $logger->pushHandler(new NullHandler());
 

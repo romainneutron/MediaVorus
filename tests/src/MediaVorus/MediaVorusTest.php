@@ -9,7 +9,7 @@ use Monolog\Logger;
 use Monolog\Handler\NullHandler;
 use MediaVorus\Media\MediaInterface;
 
-class MediaVorusTest extends \PHPUnit_Framework_TestCase
+class MediaVorusTest extends TestCase
 {
     /**
      * @var MediaVorus
@@ -19,8 +19,9 @@ class MediaVorusTest extends \PHPUnit_Framework_TestCase
     /**
      * @covers MediaVorus\MediaVorus::__construct
      */
-    protected function setUp()
+    public function setUp()
     {
+        parent::setUp();
         $logger = new Logger('test');
         $logger->pushHandler(new NullHandler());
 

@@ -15,16 +15,10 @@ use FFMpeg\FFProbe;
 use MediaVorus\MediaCollection;
 use MediaVorus\Exception\FileNotFoundException;
 use MediaVorus\Media\MediaInterface;
-use MediaVorus\Utils\RawImageMimeTypeGuesser;
-use MediaVorus\Utils\PostScriptMimeTypeGuesser;
-use MediaVorus\Utils\AudioMimeTypeGuesser;
-use MediaVorus\Utils\VideoMimeTypeGuesser;
 use Monolog\Logger;
 use Monolog\Handler\NullHandler;
 use PHPExiftool\Reader;
 use PHPExiftool\Writer;
-use Symfony\Component\HttpFoundation\File\MimeType\MimeTypeGuesser;
-use Symfony\Component\HttpFoundation\File\MimeType\FileBinaryMimeTypeGuesser;
 
 /**
  *
@@ -39,20 +33,6 @@ class MediaVorus
 
     public function __construct(Reader $reader, Writer $writer, FFProbe $ffprobe)
     {
-        static $guesser_registered = false;
-
-        if ( ! $guesser_registered) {
-            $guesser = MimeTypeGuesser::getInstance();
-
-            $guesser->register(new FileBinaryMimeTypeGuesser());
-            $guesser->register(new RawImageMimeTypeGuesser());
-            $guesser->register(new PostScriptMimeTypeGuesser());
-            $guesser->register(new AudioMimeTypeGuesser());
-            $guesser->register(new VideoMimeTypeGuesser());
-
-            $guesser_registered = true;
-        }
-
         $this->reader = $reader;
         $this->writer = $writer;
         $this->ffprobe = $ffprobe;

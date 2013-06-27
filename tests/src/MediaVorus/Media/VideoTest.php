@@ -13,8 +13,9 @@ class VideoTest extends MediaTestCase
     protected $object;
     protected $mediavorus;
 
-    protected function setUp()
+    public function setUp()
     {
+        parent::setUp();
         $this->mediavorus = MediaVorus::create();
         $this->file = __DIR__ . '/../../../files/videoFlashed.MOV';
         $this->object = $this->mediavorus->guess($this->file);

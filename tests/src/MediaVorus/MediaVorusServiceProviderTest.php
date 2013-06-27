@@ -6,7 +6,7 @@ use FFMpeg\FFMpegServiceProvider;
 use PHPExiftool\PHPExiftoolServiceProvider;
 use Silex\Application;
 
-class MediaVorusServiceProvideTest extends \PHPUnit_Framework_TestCase
+class MediaVorusServiceProvideTest extends TestCase
 {
     private function getApplication()
     {

@@ -4,6 +4,8 @@ CHANGELOG
 * 0.3.3 (xx-xx-2013)
 
   * Add compatibility with PHP-FFMpeg 0.3.
+  * BC Break : Implementation must now explicitely registered MediaVorus
+    mimetype guessers as they are not automatically registered anymore.
 
 * 0.3.2 (04-16-2013)
 

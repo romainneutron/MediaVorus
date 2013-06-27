@@ -4,8 +4,9 @@ namespace MediaVorus\Media;
 
 use Doctrine\Common\Annotations\AnnotationRegistry;
 use JMS\Serializer\SerializerBuilder;
+use MediaVorus\TestCase;
 
-class MediaTestCase extends \PHPUnit_Framework_TestCase
+class MediaTestCase extends TestCase
 {
     protected function getSerializer()
     {

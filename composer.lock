@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "49e94b21f99f77664152bc66d5f49e9a",
+    "hash": "4a11993da10ec412f22a5926a8515c6e",
     "packages": [
         {
             "name": "alchemy/binary-driver",
@@ -294,16 +294,16 @@
         },
         {
             "name": "php-ffmpeg/php-ffmpeg",
-            "version": "0.3.x-dev",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/alchemy-fr/PHP-FFmpeg.git",
-                "reference": "0887d9088c2154806031386d7e7024319e671250"
+                "reference": "a39d8939dbc9992e290c5c0525964662c934eb9c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/alchemy-fr/PHP-FFmpeg/zipball/0887d9088c2154806031386d7e7024319e671250",
-                "reference": "0887d9088c2154806031386d7e7024319e671250",
+                "url": "https://api.github.com/repos/alchemy-fr/PHP-FFmpeg/zipball/a39d8939dbc9992e290c5c0525964662c934eb9c",
+                "reference": "a39d8939dbc9992e290c5c0525964662c934eb9c",
                 "shasum": ""
             },
             "require": {
@@ -321,6 +321,11 @@
                 "php-ffmpeg/extras": "A compilation of common audio & video drivers for PHP-FFMpeg"
             },
             "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "0.3-dev"
+                }
+            },
             "autoload": {
                 "psr-0": {
                     "FFMpeg": "src"
@@ -353,7 +358,7 @@
                 "video",
                 "video processing"
             ],
-            "time": "2013-06-25 08:40:20"
+            "time": "2013-06-26 13:17:16"
         },
         {
             "name": "phpexiftool/exiftool",

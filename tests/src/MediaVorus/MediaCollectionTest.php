@@ -10,7 +10,7 @@ use Monolog\Handler\NullHandler;
 use PHPExiftool\Writer;
 use PHPExiftool\Reader;
 
-class MediaCollectionTest extends \PHPUnit_Framework_TestCase
+class MediaCollectionTest extends TestCase
 {
 
     /**

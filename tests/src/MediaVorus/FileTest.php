@@ -8,7 +8,7 @@ use Monolog\Handler\NullHandler;
 use PHPExiftool\Reader;
 use PHPExiftool\Writer;
 
-class FileTest extends \PHPUnit_Framework_TestCase
+class FileTest extends TestCase
 {
 
     /**
@@ -16,6 +16,7 @@ class FileTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
+        parent::setUp();
         $logger = new Logger('test');
         $logger->pushHandler(new NullHandler());
 

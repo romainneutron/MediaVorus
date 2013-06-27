@@ -3,12 +3,13 @@
 namespace MediaVorus\Media;
 
 use MediaVorus\File;
+use MediaVorus\TestCase;
 use Monolog\Logger;
 use Monolog\Handler\NullHandler;
 use PHPExiftool\Reader;
 use PHPExiftool\Writer;
 
-class DefaultMediaTest extends \PHPUnit_Framework_TestCase
+class DefaultMediaTest extends TestCase
 {
     /**
      * @var DefaultMedia
@@ -16,8 +17,9 @@ class DefaultMediaTest extends \PHPUnit_Framework_TestCase
     protected $object;
     protected $GPSobject;
 
-    protected function setUp()
+    public function setUp()
     {
+        parent::setUp();
         $logger = new Logger('Tests');
         $logger->pushHandler(new NullHandler());
 

@@ -31,11 +31,35 @@ class MediaVorus
     private $writer;
     private $ffprobe;
 
-    public function __construct(Reader $reader, Writer $writer, FFProbe $ffprobe)
+    public function __construct(Reader $reader, Writer $writer, FFProbe $ffprobe = null)
     {
         $this->reader = $reader;
         $this->writer = $writer;
         $this->ffprobe = $ffprobe;
+    }
+
+    /**
+     * @return Reader
+     */
+    public function getReader()
+    {
+        return $this->reader;
+    }
+
+    /**
+     * @return Writer
+     */
+    public function getWriter()
+    {
+        return $this->writer;
+    }
+
+    /**
+     * @return FFProbe
+     */
+    public function getFFProbe()
+    {
+        return $this->ffprobe;
     }
 
     /**

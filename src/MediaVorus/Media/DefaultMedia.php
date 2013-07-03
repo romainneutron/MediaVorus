@@ -12,6 +12,7 @@
 namespace MediaVorus\Media;
 
 
+use FFMpeg\FFProbe;
 use JMS\Serializer\Annotation\ExclusionPolicy;
 use JMS\Serializer\Annotation\VirtualProperty;
 use MediaVorus\File;
@@ -57,17 +58,23 @@ class DefaultMedia implements MediaInterface
     protected $temporaryFiles = array();
 
     /**
+     * @var FFProbe
+     */
+    protected $ffprobe;
+
+    /**
      * Constructor for Medias
      *
      * @param File $file
      * @param FileEntity $entity
      * @return MediaInterface
      */
-    public function __construct(File $file, FileEntity $entity, Writer $writer)
+    public function __construct(File $file, FileEntity $entity, Writer $writer, FFProbe $ffprobe = null)
     {
         $this->file = $file;
         $this->entity = $entity;
         $this->writer = $writer;
+        $this->ffprobe = $ffprobe;
 
         return $this;
     }

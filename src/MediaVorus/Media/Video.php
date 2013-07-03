@@ -29,17 +29,6 @@ use PHPExiftool\FileEntity;
 class Video extends Image
 {
     /**
-     * @var FFProbe
-     */
-    protected $ffprobe;
-
-    public function __construct(File $file, FileEntity $entity, Writer $writer, FFProbe $ffprobe = null)
-    {
-        parent::__construct($file, $entity, $writer);
-        $this->ffprobe = $ffprobe;
-    }
-
-    /**
      * @VirtualProperty
      *
      * @return string
@@ -60,7 +49,7 @@ class Video extends Image
             return $result;
         }
 
-        if (!$this->ffprobe) {
+        if (null === $this->ffprobe) {
             return null;
         }
 
@@ -90,7 +79,7 @@ class Video extends Image
             return $result;
         }
 
-        if (!$this->ffprobe) {
+        if (null === $this->ffprobe) {
             return null;
         }
 
@@ -124,7 +113,7 @@ class Video extends Image
             return (float) $value;
         }
 
-        if (!$this->ffprobe) {
+        if (null === $this->ffprobe) {
             return null;
         }
 

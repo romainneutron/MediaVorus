@@ -1,7 +1,7 @@
 CHANGELOG
 ---------
 
-* 0.3.3 (xx-xx-2013)
+* 0.4.0 (xx-xx-2013)
 
   * Add compatibility with PHP-FFMpeg 0.3.
   * BC Break : Implementation must now explicitely registered MediaVorus

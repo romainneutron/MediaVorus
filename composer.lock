@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "4a11993da10ec412f22a5926a8515c6e",
+    "hash": "d5077859494eb7e31cfd2e4fc458c5ec",
     "packages": [
         {
             "name": "alchemy/binary-driver",
@@ -294,16 +294,16 @@
         },
         {
             "name": "php-ffmpeg/php-ffmpeg",
-            "version": "dev-master",
+            "version": "0.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/alchemy-fr/PHP-FFmpeg.git",
-                "reference": "8e87d243d9096e8bec832c781a8aeaca9056f268"
+                "reference": "0.3.0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/alchemy-fr/PHP-FFmpeg/zipball/8e87d243d9096e8bec832c781a8aeaca9056f268",
-                "reference": "8e87d243d9096e8bec832c781a8aeaca9056f268",
+                "url": "https://api.github.com/repos/alchemy-fr/PHP-FFmpeg/zipball/0.3.0",
+                "reference": "0.3.0",
                 "shasum": ""
             },
             "require": {
@@ -358,7 +358,7 @@
                 "video",
                 "video processing"
             ],
-            "time": "2013-07-03 12:13:29"
+            "time": "2013-07-03 18:53:12"
         },
         {
             "name": "phpexiftool/exiftool",
@@ -1427,57 +1427,58 @@
         },
         {
             "name": "silex/silex",
-            "version": "v1.0.0",
+            "version": "v1.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/fabpot/Silex.git",
-                "reference": "v1.0.0"
+                "reference": "v1.1.0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fabpot/Silex/zipball/v1.0.0",
-                "reference": "v1.0.0",
+                "url": "https://api.github.com/repos/fabpot/Silex/zipball/v1.1.0",
+                "reference": "v1.1.0",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.3",
                 "pimple/pimple": "1.*",
-                "symfony/event-dispatcher": ">=2.1,<2.4-dev",
-                "symfony/http-foundation": ">=2.1,<2.4-dev",
-                "symfony/http-kernel": ">=2.1,<2.4-dev",
-                "symfony/routing": ">=2.1,<2.4-dev"
+                "symfony/event-dispatcher": ">=2.3,<2.4-dev",
+                "symfony/http-foundation": ">=2.3,<2.4-dev",
+                "symfony/http-kernel": ">=2.3,<2.4-dev",
+                "symfony/routing": ">=2.3,<2.4-dev"
             },
             "require-dev": {
                 "doctrine/dbal": ">=2.2.0,<2.4.0-dev",
-                "monolog/monolog": ">=1.4,<2.0,>=1.4.1",
+                "monolog/monolog": "~1.4,>=1.4.1",
+                "phpunit/phpunit": "~3.7",
                 "swiftmailer/swiftmailer": "5.*",
-                "symfony/browser-kit": ">=2.1,<2.4-dev",
-                "symfony/config": ">=2.1,<2.4-dev",
-                "symfony/css-selector": ">=2.1,<2.4-dev",
-                "symfony/dom-crawler": ">=2.1,<2.4-dev",
-                "symfony/finder": ">=2.1,<2.4-dev",
-                "symfony/form": ">=2.1.4,<2.4-dev",
-                "symfony/locale": ">=2.1,<2.4-dev",
-                "symfony/monolog-bridge": ">=2.1,<2.4-dev",
-                "symfony/options-resolver": ">=2.1,<2.4-dev",
-                "symfony/process": ">=2.1,<2.4-dev",
-                "symfony/security": ">=2.1,<2.4-dev",
-                "symfony/serializer": ">=2.1,<2.4-dev",
-                "symfony/translation": ">=2.1,<2.4-dev",
-                "symfony/twig-bridge": ">=2.1,<2.4-dev",
-                "symfony/validator": ">=2.1,<2.4-dev",
+                "symfony/browser-kit": ">=2.3,<2.4-dev",
+                "symfony/config": ">=2.3,<2.4-dev",
+                "symfony/css-selector": ">=2.3,<2.4-dev",
+                "symfony/dom-crawler": ">=2.3,<2.4-dev",
+                "symfony/finder": ">=2.3,<2.4-dev",
+                "symfony/form": ">=2.3,<2.4-dev",
+                "symfony/locale": ">=2.3,<2.4-dev",
+                "symfony/monolog-bridge": ">=2.3,<2.4-dev",
+                "symfony/options-resolver": ">=2.3,<2.4-dev",
+                "symfony/process": ">=2.3,<2.4-dev",
+                "symfony/security": ">=2.3,<2.4-dev",
+                "symfony/serializer": ">=2.3,<2.4-dev",
+                "symfony/translation": ">=2.3,<2.4-dev",
+                "symfony/twig-bridge": ">=2.3,<2.4-dev",
+                "symfony/validator": ">=2.3,<2.4-dev",
                 "twig/twig": ">=1.8.0,<2.0-dev"
             },
             "suggest": {
-                "symfony/browser-kit": ">=2.1,<2.4-dev",
-                "symfony/css-selector": ">=2.1,<2.4-dev",
-                "symfony/dom-crawler": ">=2.1,<2.4-dev",
-                "symfony/form": ">= 2.1.4,<2.4-dev"
+                "symfony/browser-kit": ">=2.3,<2.4-dev",
+                "symfony/css-selector": ">=2.3,<2.4-dev",
+                "symfony/dom-crawler": ">=2.3,<2.4-dev",
+                "symfony/form": ">=2.3,<2.4-dev"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.0.x-dev"
+                    "dev-master": "1.1.x-dev"
                 }
             },
             "autoload": {
@@ -1505,7 +1506,7 @@
             "keywords": [
                 "microframework"
             ],
-            "time": "2013-05-03 16:49:57"
+            "time": "2013-07-04 07:15:36"
         },
         {
             "name": "symfony/debug",
@@ -1797,9 +1798,9 @@
 
     ],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "php-ffmpeg/php-ffmpeg": 20
-    },
+    "stability-flags": [
+
+    ],
     "platform": {
         "php": ">=5.3.0"
     },

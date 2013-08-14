@@ -25,3 +25,7 @@ Documentation is hosted on Read The Docs http://mediavorus.readthedocs.org/
 #License
 
 MediaVorus is released under the [MIT license](http://opensource.org/licenses/MIT)
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/romainneutron/mediavorus/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+

@@ -269,14 +269,13 @@ class DefaultMedia implements MediaInterface
             $this->writer->reset();
             $this->writer->erase(true);
             $this->writer->write($this->file->getPathname(), new MetadataBag(), $tmpFile);
-
-            $this->temporaryFiles[] = $tmpFile;
         } catch (PHPExiftoolExceptionInterface $e) {
             /**
              * Some files can not be written by exiftool
              */
-            $tmpFile = $this->file->getPathname();
+            copy($this->file->getPathname(), $tmpFile);
         }
+        $this->temporaryFiles[] = $tmpFile;
 
         return $tmpFile;
     }
@@ -289,12 +288,10 @@ class DefaultMedia implements MediaInterface
      */
     private function removeTemporaryFile($pathfile)
     {
-        $temporayFiles = $this->temporaryFiles;
-
-        foreach ($temporayFiles as $offset => $file) {
-            if ($pathfile == $file && file_exists($file) && is_writable($file)) {
-                unlink($pathfile);
-
+        if (false !== $offset = array_search($pathfile, $this->temporaryFiles, true)) {
+            $file = $this->temporaryFiles[$offset];
+            if (file_exists($file) && is_writable($file)) {
+                unlink($file);
                 array_splice($this->temporaryFiles, $offset, 1);
             }
         }

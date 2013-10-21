@@ -1,7 +1,7 @@
 CHANGELOG
 ---------
 
-* 0.4.1 (xx-xx-2013)
+* 0.4.1 (10-21-2013)
 
   * Add compatibility with PHP-FFMpeg 0.4.
   * Fix temporary files management.

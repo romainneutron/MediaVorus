@@ -1,7 +1,7 @@
 CHANGELOG
 ---------
 
-* 0.4.2 (xx-xx-xxxx)
+* 0.4.2 (11-28-2013)
 
   * Add support for video orientation.
 

@@ -99,6 +99,33 @@ class Video extends Image
     }
 
     /**
+     * Returns one one the ORIENTATION_* constants, the degrees value of Orientation
+     *
+     * @VirtualProperty
+     *
+     * @return int
+     */
+    public function getOrientation()
+    {
+        switch ($this->findInSources(array('Composite:Rotation'))) {
+            case 90:
+                return self::ORIENTATION_90;
+                break;
+            case 270:
+                return self::ORIENTATION_270;
+                break;
+            case 0:
+                return self::ORIENTATION_0;
+                break;
+            case 180:
+                return self::ORIENTATION_180;
+                break;
+        }
+
+        return null;
+    }
+
+    /**
      * Get the duration of the video in seconds, null if unavailable
      *
      * @VirtualProperty

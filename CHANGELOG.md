@@ -1,6 +1,10 @@
 CHANGELOG
 ---------
 
+* 0.4.2 (xx-xx-xxxx)
+
+  * Add support for video orientation.
+
 * 0.4.1 (10-21-2013)
 
   * Add compatibility with PHP-FFMpeg 0.4.

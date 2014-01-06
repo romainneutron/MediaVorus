@@ -137,7 +137,7 @@ class Video extends Image
         $sources = array('Composite:Duration', 'Flash:Duration', 'QuickTime:Duration', 'Real-PROP:Duration');
 
         if (null !== $value = $this->findInSources($sources)) {
-            return (float) $value;
+            return $this->castValue($value, 'float');
         }
 
         if (null === $this->ffprobe) {
@@ -147,7 +147,7 @@ class Video extends Image
         $format = $this->ffprobe->format($this->file->getPathname());
 
         if ($format->has('duration')) {
-            return (float) $format->get('duration');
+            return $this->castValue($format->get('duration'), 'float');
         }
 
         return null;
@@ -191,7 +191,7 @@ class Video extends Image
         $sources = array('RIFF:AudioSampleRate', 'Flash:AudioSampleRate');
 
         if (null !== $value = $this->findInSources($sources)) {
-            return $this->castValue($value->asString(), 'int');
+            return $this->castValue($value, 'int');
         }
 
         if (null !== $value = $this->entity->executeQuery('Track1:AudioSampleRate')) {
@@ -217,7 +217,7 @@ class Video extends Image
         $sources = array('RIFF:AudioSampleRate', 'Flash:VideoEncoding');
 
         if (null !== $value = $this->findInSources($sources)) {
-            return $value;
+            return $this->castValue($value, 'string');
         }
 
         if (null !== $value = $this->entity->executeQuery('QuickTime:ComAppleProappsOriginalFormat')) {
@@ -273,3 +273,4 @@ class Video extends Image
         return null;
     }
 }
+

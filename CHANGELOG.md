@@ -1,6 +1,10 @@
 CHANGELOG
 ---------
 
+* 0.4.3 (01-06-2014)
+
+  * Fix video audio sample rate cast.
+
 * 0.4.2 (11-28-2013)
 
   * Add support for video orientation.

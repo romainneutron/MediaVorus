@@ -154,7 +154,6 @@ class MediaVorus
             case $mime === 'application/access':
             case $mime === 'application/pdf':
             case $mime === 'application/excel':
-            case $mime === 'application/msword':
             case $mime === 'application/powerpoint':
             case $mime === 'application/vnd.ms-powerpoint':
             case $mime === 'application/vnd.ms-excel':

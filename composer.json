@@ -34,10 +34,5 @@
         "psr-0": {
             "MediaVorus": "src"
         }
-    },
-    "extra": {
-        "branch-alias": {
-            "dev-master": "0.5.x-dev"
-        }
     }
 }

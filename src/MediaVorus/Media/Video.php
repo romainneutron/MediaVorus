@@ -45,12 +45,10 @@ class Video extends Image
      */
     public function getWidth()
     {
-        if (null !== $result = parent::getWidth()) {
-            return $result;
-        }
+        $width = parent::getWidth();
 
         if (null === $this->ffprobe) {
-            return null;
+            return $width;
         }
 
         try {
@@ -58,14 +56,13 @@ class Video extends Image
                 ->streams($this->file->getPathname())
                 ->videos()
                 ->first();
-            if ($video->has('width')) {
-                return (int) $video->get('width');
-            }
+
+            return $video->getDimensions()->getWidth();
         } catch (FFMpegException $e) {
 
         }
 
-        return null;
+        return $width;
     }
 
     /**
@@ -75,12 +72,10 @@ class Video extends Image
      */
     public function getHeight()
     {
-        if (null !== $result = parent::getHeight()) {
-            return $result;
-        }
+        $height = parent::getHeight();
 
         if (null === $this->ffprobe) {
-            return null;
+            return $height;
         }
 
         try {
@@ -88,14 +83,13 @@ class Video extends Image
                 ->streams($this->file->getPathname())
                 ->videos()
                 ->first();
-            if ($video->has('height')) {
-                return (int) $video->get('height');
-            }
+
+            return $video->getDimensions()->getHeight();
         } catch (FFMpegException $e) {
 
         }
 
-        return null;
+        return $height;
     }
 
     /**

@@ -1,6 +1,10 @@
 CHANGELOG
 ---------
 
+* 0.4.4 (08-26-2014)
+
+  * Fix width and height video extraction (@nlegoff).
+  
 * 0.4.3 (01-06-2014)
 
   * Fix video audio sample rate cast.

@@ -1,6 +1,23 @@
 CHANGELOG
 ---------
 
+* 0.4.4 (08-26-2014)
+
+  * Fix width & height video extraction (@nlegoff).
+
+* 0.4.3 (01-06-2014)
+
+  * Fix audio sample rate cast.
+
+* 0.4.2 (11-28-2013)
+
+  * Add support for video orientation.
+
+* 0.4.1 (10-21-2013)
+
+  * Add compatibility with PHP-FFmpeg 0.4.
+  * Fix temporary files management.
+
 * 0.4.0 (07-04-2013)
 
   * Add compatibility with PHP-FFMpeg 0.3.

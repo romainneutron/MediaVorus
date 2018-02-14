@@ -55,6 +55,10 @@ class Image extends DefaultMedia
      * Colorspace constant Grayscale
      */
     const COLORSPACE_GRAYSCALE = 'Grayscale';
+    /**
+     * Colorspace constant RGBA
+     */
+    const COLORSPACE_RGBA = 'RGBA';
 
     /**
      * @VirtualProperty
@@ -356,7 +360,7 @@ class Image extends DefaultMedia
      */
     public function getColorSpace()
     {
-        $regexp = '/.*:(colorspace|colormode|colorspacedata)/i';
+        $regexp = '/.*:(colorspace|colormode|colorspacedata|colortype)/i';
 
         foreach ($this->getMetadatas()->filterKeysByRegExp($regexp) as $meta) {
             switch (strtolower(trim($meta->getValue()->asString()))) {
@@ -367,10 +371,15 @@ class Image extends DefaultMedia
                     return self::COLORSPACE_SRGB;
                     break;
                 case 'rgb':
+                case '2':
                     return self::COLORSPACE_RGB;
                     break;
                 case 'grayscale':
+                case '0':
                     return self::COLORSPACE_GRAYSCALE;
+                    break;
+                case '6':
+                    return self::COLORSPACE_RGBA;
                     break;
             }
         }
